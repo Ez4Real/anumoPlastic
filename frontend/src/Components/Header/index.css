@@ -1,0 +1,26 @@
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 46px;
+}
+
+.header-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-container div {
+    width: 100%;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.textEnd {
+    text-align: end;
+}
