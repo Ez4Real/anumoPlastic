@@ -1,9 +1,12 @@
 header {
+    padding: 46px;
+}
+
+.headerAbsolute {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    padding: 46px;
 }
 
 .header-container {
@@ -34,6 +37,7 @@ header {
 .sidebarMenu {
     display: flex;
     position: fixed;
+    top: 0;
     right: -430px; 
     max-height: 100vh;
     width: 430px;

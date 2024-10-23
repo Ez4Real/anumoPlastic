@@ -8,3 +8,7 @@ body {
 .container {
   overflow: hidden;
 }
+
+.content {
+  padding: 0 46px;
+}

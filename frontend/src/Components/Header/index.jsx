@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './index.css'
 
-const Header = () => {
+const Header = ({ isWhiteTheme = false }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -10,15 +10,29 @@ const Header = () => {
 
   return (
     <>
-      <header>
+      <header className={`${isWhiteTheme && 'headerAbsolute'}`}>
         <div className='header-container'>
-          <div><img src='/logo.svg' alt='Anumo Logo'></img></div>
+          <div>
+            {/* <img src='/logo.svg' alt='Anumo Logo'></img> */}
+            <img
+              src={isWhiteTheme ? '/logo.svg' : '/logo-black.svg'}
+              alt='Anumo Logo'>
+            </img>
+          </div>
           <div className='textCenter'>
             <button className='burgerMenuButton' onClick={toggleMenu}>
-              <img src='/menu-burger.svg' alt='Burger Menu'></img>
+              <img
+                src={isWhiteTheme ? '/menu-burger.svg' : '/menu-burger-black.svg'}
+                alt='Burger Menu'>
+              </img>
             </button>
           </div>
-          <div className='textEnd'><img src='/shopping-bag.svg' alt='Anumo Logo'></img></div>
+          <div className='textEnd'>
+            <img
+              src= {isWhiteTheme ? '/shopping-bag.svg' : '/shopping-bag-black.svg'}
+              alt='Shopping Bag'>
+            </img>
+          </div>
         </div>
       </header>
 
