@@ -1,4 +1,5 @@
 import './index.css';
+import SwitchLocalization from '../../Components/SwitchLocalization';
 
 // Product cringe
 import prod1 from '../../assets/productImages/prod1.png'
@@ -9,34 +10,39 @@ import prod5 from '../../assets/productImages/prod5.png'
 import prod6 from '../../assets/productImages/prod6.png'
 
 import homepageImg from '../../assets/images/homepage.png';
+import { useTranslation } from 'react-i18next';
+
 
 const Main = () => {
+  const { t } = useTranslation();
   return (
     <>
         <div className='homepageImg-container'>
           <img src={homepageImg} alt="Homepage Img" className='homepageImg' />
         </div>
         <div className='mainContent-container'>
+            
+            {/* <SwitchLocalization/> */}
             <h1 className='homepageTitle'>ANUMO PLASIC</h1>
             <div className='homepageInfo-container'>
                 <div className='homepageInfoLeft'>
                     <>[Anúmo] — (ukr. ану́мо) a decisive and bold call to action.</>
                 </div>
                 <div className='homepageInfoRight'>
-                    <>We are a design studio of objects made from recycled plastic. Established in 2020 in Kyiv. We explore the possibilities of plastic recycling and reuse, transforming it into unique accessories and interior items.</>
+                    <>{t('HomePage.anumoAbout')}.</>
                     <div>
                         <ul>
-                            <li>MATERIAL</li>
-                            <li>PRODUCTION</li>
-                            <li>INSPIRATION</li>
-                            <li>VALUES</li>
+                            <li>{t('HomePage.materialLink')}</li>
+                            <li>{t('HomePage.productionLink')}</li>
+                            <li>{t('HomePage.inspirationLink')}</li>
+                            <li>{t('HomePage.valuesLink')}</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div>We advocate for open and honest cooperation, built on horizontal hierarchy and principles of mutual respect. We do not support exploitation or product testing on animals. We do not cooperate with terrorist countries.</div>
+            <div>{t('HomePage.aboutPolicy')}.</div>
             <div className='shopBlock-homepage'>
-                <p className='blockTitle'>SHOP</p>
+                <p className='blockTitle'>{t('HomePage.shopTitle')}</p>
                 <div className='shopBlockImage-container'>
                     <img src={prod1} alt="Product" className='shopBlockProductImage'></img>
                     <img src={prod2} alt="Product" className='shopBlockProductImage'></img>
@@ -50,50 +56,49 @@ const Main = () => {
             </div>
             <div className='homepageCategories-container'>
                 <div className='CategoriesLeft-homepage'>
-                    <>/ENJOY RESPONSIBILITY/</>
+                    <>/{t('HomePage.enjoyResponsibility')}/</>
                 </div>
                 <div className='CategoriesRight-homepage'>
-                    <p>CATEGORIES</p>
+                    <p>{t('HomePage.categoriesTitle')}</p>
                     <div>
                         <ul>
-                            <li>CARABINERS</li>
-                            <li>BOOK HOLDERS</li>
-                            <li>CHOKERS</li>
-                            <li>PLATES</li>
-                            <li>SOAP DISHES</li>
+                            <li>{t('HomePage.carabiners')}</li>
+                            <li>{t('HomePage.bookHolders')}</li>
+                            <li>{t('HomePage.chokers')}</li>
+                            <li>{t('HomePage.plates')}</li>
+                            <li>{t('HomePage.soapDishes')}</li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div className='projectsBlock-homepage'>
-                <p className='blockTitle'>PROJECTS</p>
+                <p className='blockTitle'>{t('HomePage.projectsTitle')}</p>
                 <div className='projectsInner-container'>
                     <div className='projectsInnerLeft'>
                         <img src={prod4} alt="productImage"></img>
-                        <h4>ALLTRUEEST</h4>
-                        <p>Large dining table and coffee table made of recycled plastic
-                        for Alltrueast cafe.</p>
-                        <p>Pattern made by Anumo Plastic</p>
+                        <h4>{t('HomePage.alltrueestTitle')}</h4>
+                        <p>{t('HomePage.alltrueestDesc')}.</p>
+                        <p>{t('HomePage.alltrueestFrom')}</p>
                     </div>
                     <div className='projectsInnerRight'>
                         <div className='projectSmallCard'>
                             <div className='imgContainer'>
                                 <img src={prod5} alt="productImage"></img>
                             </div>
-                            <p>TABLE TOP MOBLE “GIRAFFE”</p>
+                            <p>{t('HomePage.giraffeTitle')}</p>
                         </div>
                         <div className='projectSmallCard'>
                             <div className='imgContainer'>
                                 <img src={prod6} alt="productImage"></img>
                             </div>
-                            <p>HYPERMOBILE</p>
+                            <p>{t('HomePage.hypermobileTitle')}</p>
                         </div>
                     </div>
                 </div>
-                <p className="vievAllProjectsLink">VIEW ALL</p>
+                <p className="vievAllProjectsLink">{t('HomePage.viewAll')}</p>
             </div>
             <div className='partnershipBlock'>
-                <h3 className='blockTitle'>Partnership</h3>
+                <h3 className='blockTitle'>{t('HomePage.partnership')}</h3>
                 <div className='emailContainer'>
                     <span>anumoplastic@gmail.com</span>
                 </div>

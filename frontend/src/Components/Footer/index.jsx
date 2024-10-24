@@ -1,6 +1,8 @@
 import './index.css'
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
 
   return (
     <footer>
@@ -10,19 +12,19 @@ const Footer = () => {
             </div>
             <div className='footerContent-container'>
                 <div className='signUp-container'>
-                    <p>SIGN UP FOR OUR NEWSLETTER</p>
-                    <input type="email" placeholder='ENTER YOUR EMAIL HERE'></input>
+                    <p>{t('Footer.newsletter')}</p>
+                    <input type="email" placeholder={t('Footer.emailPlaceholder')}></input>
                 </div>
                 <div>
                     <ul>
-                        <li>Privacy Policy</li>
-                        <li>Payment and Delivery</li>
-                        <li>Returns</li>
+                        <li>{t('Footer.privacyPolicyLink')}</li>
+                        <li>{t('Footer.paymentDeliveryLink')}</li>
+                        <li>{t('Footer.returnsLink')}</li>
                     </ul>
                 </div>
                 <div className='languageCurrency-container'>
-                    <div className='language'>ENG</div>
-                    <div className='currency'>USD</div>
+                    <div className='language'>{t('Footer.lang')}</div>
+                    <div className='currency'>{t('Footer.currency')}</div>
                 </div>
             </div>
             <div className='socialLinks'>

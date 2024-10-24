@@ -1,0 +1,47 @@
+{
+    "HomePage": {
+        "anumoAbout": "Ми студія дизайну об’єктів з пере-робленого пластику. Створена в 2020 році в Києві. Ми досліджуємо можливості переробки та вторинного використання пластик, трансформуючи його в унікальні аксесуари й предмети інтер’єру",
+        "materialLink": "МАТЕРІАЛ",
+        "productionLink": "ВИРОБНИЦТВО",
+        "inspirationLink": "НАТХНЕННЯ",
+        "valuesLink": "ЦІННОСТІ",
+        "aboutPolicy": "Ми виступаємо за відкриту й чесну спів-працю, побудовану на горизонтальній ієрархії та принципах взаємоповаги. Не підтримуємо експлуатацію та тестування продукції на тваринах. Не співпрацюємо з терористичними країнами",
+        "shopTitle": "МАГАЗИН",
+        "enjoyResponsibility": "НАСОЛОДЖУЙСЯ СВОЄЮ ВІДПОВІДАЛЬНІСТЮ",
+        "categoriesTitle": "КАТЕГОРІЇ",
+        "carabiners": "КАРАБІНИ",
+        "bookHolders": "КНИЖКОВІ ПОЛИЦІ",
+        "chokers": "ЧОКЕРИ",
+        "plates": "ТАРІЛКИ",
+        "soapDishes": "МИЛЬНИЦІ",
+        "projectsTitle": "ПРОЄКТИ",
+        "alltrueestTitle": "ALLTRUEEST",
+        "alltrueestDesc": "Великий обідній та журнальний стіл із переробленого пластику для Alltrueist cafe",
+        "alltrueestFrom": "Візерунок від Anumo Plastic",
+        "giraffeTitle": "TABLE TOP MOBLE “GIRAFFE”",
+        "hypermobileTitle": "НАСТІЛЬНИЙ МОБІЛЬ «ЖИРАФ»",
+        "viewAll": "ПОДИВИТИСЬ ВСЕ",
+        "partnership": "СПІВПРАЦЯ"
+    },
+    
+    "Footer": {
+        "newsletter": "ПІДПИСКА НА НОВИНИ",
+        "emailPlaceholder": "ВВЕДІТЬ ТУТ СВОЮ ЕЛЕКТРОННУ ПОШТУ",
+        "privacyPolicyLink": "Політика конфіденційності",
+        "paymentDeliveryLink": "Оплата і доставка",
+        "returnsLink": "Повернення",
+        "lang": "UA",
+        "currency": "UAH"
+    },
+
+    "ContactUs": {
+        "pageName": "Зв'язатись з нами",
+        "nameLabel": "ІМ'Я",
+        "firstNameLabel": "Ім'я",
+        "lastNameLabel": "Прізвище",
+        "emailLabel": "ЕЛЕКТРОННА ПОШТА",
+        "subjectLabel": "ТЕМА",
+        "messageLabel": "ПОВІДОМЛЕННЯ",
+        "submitLabel": "ВІДПРАВИТИ"
+    }
+}
