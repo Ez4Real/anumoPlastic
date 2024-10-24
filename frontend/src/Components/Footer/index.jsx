@@ -1,3 +1,4 @@
+import SwitchLocalization from '../SwitchLocalization';
 import './index.css'
 import { useTranslation } from 'react-i18next';
 
@@ -15,16 +16,19 @@ const Footer = () => {
                     <p>{t('Footer.newsletter')}</p>
                     <input type="email" placeholder={t('Footer.emailPlaceholder')}></input>
                 </div>
-                <div>
-                    <ul>
-                        <li>{t('Footer.privacyPolicyLink')}</li>
-                        <li>{t('Footer.paymentDeliveryLink')}</li>
-                        <li>{t('Footer.returnsLink')}</li>
-                    </ul>
-                </div>
-                <div className='languageCurrency-container'>
-                    <div className='language'>{t('Footer.lang')}</div>
-                    <div className='currency'>{t('Footer.currency')}</div>
+                <div className='linksLocalization-container'>
+                    <div className='footerLinks-container'>
+                        <ul>
+                            <li>{t('Footer.privacyPolicyLink')}</li>
+                            <li>{t('Footer.paymentDeliveryLink')}</li>
+                            <li>{t('Footer.returnsLink')}</li>
+                        </ul>
+                    </div>
+                    {/* <div className='languageCurrency-container'>
+                        <div className='language'>{t('Footer.lang')}</div>
+                        <div className='currency'>{t('Footer.currency')}</div>
+                    </div> */}
+                    <SwitchLocalization/>
                 </div>
             </div>
             <div className='socialLinks'>

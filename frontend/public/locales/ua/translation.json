@@ -16,12 +16,21 @@
         "soapDishes": "МИЛЬНИЦІ",
         "projectsTitle": "ПРОЄКТИ",
         "alltrueestTitle": "ALLTRUEEST",
-        "alltrueestDesc": "Великий обідній та журнальний стіл із переробленого пластику для Alltrueist cafe",
+        "alltrueestDesc": "Великий обідній та журнальний стіл із переробленого пластику для Alltrueest cafe",
         "alltrueestFrom": "Візерунок від Anumo Plastic",
         "giraffeTitle": "НАСТІЛЬНИЙ МОБІЛЬ «ЖИРАФ»",
         "hypermobileTitle": "ГІПЕРМОБІЛЬНИЙ",
         "viewAll": "ПОДИВИТИСЬ ВСЕ",
-        "partnership": "СПІВПРАЦЯ"
+        "cooperation": "СПІВПРАЦЯ"
+    },
+
+    "Header": {
+        "homeLink": "ГОЛОВНА",
+        "shopLink": "МАГАЗИН",
+        "projectsLink": "ПРОЕКТИ",
+        "aboutLink": "ПРО НАС",
+        "contactUsLink": "ЗВ'ЯЗАТИСЬ З НАМИ",
+        "findUsLink": "ЗНАЙТИ НАС"
     },
     
     "Footer": {

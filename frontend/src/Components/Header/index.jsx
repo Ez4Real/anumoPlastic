@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import './index.css'
 
+import { useTranslation } from 'react-i18next';
+import SwitchLocalization from '../SwitchLocalization';
+
 const Header = ({ isWhiteTheme = false }) => {
+  const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -13,7 +17,6 @@ const Header = ({ isWhiteTheme = false }) => {
       <header className={`${isWhiteTheme && 'headerAbsolute'}`}>
         <div className='header-container'>
           <div>
-            {/* <img src='/logo.svg' alt='Anumo Logo'></img> */}
             <img
               src={isWhiteTheme ? '/logo.svg' : '/logo-black.svg'}
               alt='Anumo Logo'>
@@ -40,24 +43,25 @@ const Header = ({ isWhiteTheme = false }) => {
         <div className={'sidebarMenu-container'}>
           <div className='textEnd'><img src='/shopping-bag-black.svg' alt='Anumo Logo'></img></div>
           <ul className='menuLinks'>           
-            <li><a href='#'>HOME</a></li>
-            <li><a href='#'>SHOP</a></li>
-            <li><a href='#'>PROJECTS</a></li>
-            <li><a href='#'>ABOUT</a></li>
-            <li><a href='#'>CONTACT US</a></li>
-            <li><a href='#'>FIND US</a></li>
+            <li><a href='#'>{t('Header.homeLink')}</a></li>
+            <li><a href='#'>{t('Header.shopLink')}</a></li>
+            <li><a href='#'>{t('Header.projectsLink')}</a></li>
+            <li><a href='#'>{t('Header.aboutLink')}</a></li>
+            <li><a href='#'>{t('Header.contactUsLink')}</a></li>
+            <li><a href='#'>{t('Header.findUsLink')}</a></li>
           </ul>
           <div className='menuFooter'>
             <div className='menuFooter-container'>
               <ul>
-                <li>Privacy Policy</li>
-                <li>Payment and Delivery</li>
-                <li>Returns</li>
+                <li>{t('Footer.privacyPolicyLink')}</li>
+                <li>{t('Footer.paymentDeliveryLink')}</li>
+                <li>{t('Footer.returnsLink')}</li>
               </ul>
-              <div className='languageCurrency-container'>
-                <div className='language'>ENG</div>
-                <div className='currency'>USD</div>
-              </div>
+              {/* <div className='languageCurrency-container'>
+                <div className='language'>{t('Footer.lang')}</div>
+                <div className='currency'>{t('Footer.currency')}</div>
+              </div> */}
+              <SwitchLocalization/>
             </div>
           </div>
         </div>

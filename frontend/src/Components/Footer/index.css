@@ -7,9 +7,8 @@
 }
 
 .footerContent-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .footerContent-container ul {
@@ -22,13 +21,12 @@
 }
 
 .footerContent-container ul li {
-    padding-bottom: .375rem;
+    padding-bottom: .5rem;
 }
 
 .footerContent-container p {
     font-size: 14px;
-    line-height: 17px;
-    margin: .5rem 0;
+    margin: 0 0 .5rem 0;
 }
 
 .footerContent-container input {
@@ -45,7 +43,6 @@
 
 .footerContent-container .languageCurrency-container {
     display: flex;
-    justify-content: center;
     flex-direction: column;
 }
 
@@ -68,4 +65,13 @@
 
 .footer-container .socialLinks span {
     padding-right: 1.375rem;
+}
+
+.footerLinks-container ul {
+    margin-top: 0;
+}
+
+.linksLocalization-container {
+    display: flex;
+    justify-content: space-between;
 }

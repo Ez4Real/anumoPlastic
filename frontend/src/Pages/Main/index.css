@@ -126,6 +126,7 @@
     font-size: 16px;
     line-height: 19px;
     text-decoration-line: underline;
+    height: 1.75rem;
 }
 
 .vievAllProjectsLink {
@@ -137,7 +138,7 @@
     margin: 4rem 0;
 }
 
-.partnershipBlock .blockTitle {
+.cooperationBlock .blockTitle {
     font-style: italic;
     font-weight: 700;
     font-size: 48px;
@@ -145,14 +146,14 @@
     margin-bottom: 1rem;
 }
 
-.partnershipBlock .emailContainer {
+.cooperationBlock .emailContainer {
     width: fit-content;
     border: 4px solid black;
     border-radius: 50%;
     padding: 1.25rem 1rem;
 }
 
-.partnershipBlock .emailContainer span {
+.cooperationBlock .emailContainer span {
     font-weight: 600;
     font-size: 24px;
     line-height: 29px;

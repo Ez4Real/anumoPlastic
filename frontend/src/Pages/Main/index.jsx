@@ -1,5 +1,4 @@
 import './index.css';
-import SwitchLocalization from '../../Components/SwitchLocalization';
 
 // Product cringe
 import prod1 from '../../assets/productImages/prod1.png'
@@ -21,9 +20,7 @@ const Main = () => {
           <img src={homepageImg} alt="Homepage Img" className='homepageImg' />
         </div>
         <div className='mainContent-container'>
-            
-            {/* <SwitchLocalization/> */}
-            <h1 className='homepageTitle'>ANUMO PLASIC</h1>
+            <h1 className='homepageTitle'>ANUMO PLASTIC</h1>
             <div className='homepageInfo-container'>
                 <div className='homepageInfoLeft'>
                     <>[Anúmo] — (ukr. ану́мо) a decisive and bold call to action.</>
@@ -97,8 +94,8 @@ const Main = () => {
                 </div>
                 <p className="vievAllProjectsLink">{t('HomePage.viewAll')}</p>
             </div>
-            <div className='partnershipBlock'>
-                <h3 className='blockTitle'>{t('HomePage.partnership')}</h3>
+            <div className='cooperationBlock'>
+                <h3 className='blockTitle'>{t('HomePage.cooperation')}</h3>
                 <div className='emailContainer'>
                     <span>anumoplastic@gmail.com</span>
                 </div>

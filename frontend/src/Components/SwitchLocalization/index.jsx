@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const SwitchLocalization = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
-  const changeLanguage = (lng) => {
+  const toggleLanguage = () => {
+    const lng = i18n.language === 'en' ? 'ua' : 'en';
     i18n.changeLanguage(lng);
   };
 
 
   return (
-    <div>
-      <button onClick={() => changeLanguage('en')}>English</button>
-      <button onClick={() => changeLanguage('ua')}>Ukrainian</button>
+    <div className='languageCurrency-container' onClick={toggleLanguage}>
+      <div className='language'>{t('Footer.lang')}</div>
+      <div className='currency'>{t('Footer.currency')}</div>
     </div>
   );
 };

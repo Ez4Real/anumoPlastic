@@ -16,12 +16,21 @@
         "soapDishes": "SOAP DISHES",
         "projectsTitle": "PROJECTS",
         "alltrueestTitle": "ALLTRUEEST",
-        "alltrueestDesc": "Large dining table and coffee table made of recycled plastic for Alltrueast cafe",
+        "alltrueestDesc": "Large dining table and coffee table made of recycled plastic for Alltrueest cafe",
         "alltrueestFrom": "Pattern made by Anumo Plastic",
         "giraffeTitle": "TABLE TOP MOBLE “GIRAFFE”",
         "hypermobileTitle": "HYPERMOBILE",
         "viewAll": "VIEW ALL",
-        "partnership": "Partnership"
+        "cooperation": "COOPERATION"
+    },
+
+    "Header": {
+        "homeLink": "HOME",
+        "shopLink": "SHOP",
+        "projectsLink": "PROJECTS",
+        "aboutLink": "ABOUT",
+        "contactUsLink": "CONTACT US",
+        "findUsLink": "FIND US"
     },
 
     "Footer": {

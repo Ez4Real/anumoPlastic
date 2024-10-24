@@ -62,7 +62,7 @@ header {
 .menuLinks { 
     list-style: none;  
     text-align: right;
-    padding: 28px;
+    padding: 1.5rem;
 }
 
 .menuLinks li{ 
@@ -104,7 +104,7 @@ header {
     font-weight: 500;
     font-size: 16px;
     text-decoration-line: underline;
-    padding-bottom: .75rem;
+    padding-bottom: .375rem;
 }
 
 
@@ -114,12 +114,6 @@ header {
     justify-content: space-between;
 }
 
-
-.menuFooter-container .languageCurrency-container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
 
 .menuFooter-container .languageCurrency-container .language{
     border-bottom: 1px solid black;
