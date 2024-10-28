@@ -52,5 +52,18 @@
         "subjectLabel": "SUBJECT",
         "messageLabel": "MESSAGE",
         "submitLabel": "SUBMIT"
+    },
+
+    "ProjectsPage": {
+        "pageName": "Projects",
+
+        "projects": {
+            "sunnyBunny": {
+                "title": "SUNNY BUNNY AWARD",
+                "description": "Unique director's award made of recycled plastic by ANUMO"
+            }
+        },
+        "back": "BACK",
+        "next": "NEXT"
     }
 }

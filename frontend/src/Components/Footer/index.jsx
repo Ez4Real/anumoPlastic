@@ -24,10 +24,6 @@ const Footer = () => {
                             <li>{t('Footer.returnsLink')}</li>
                         </ul>
                     </div>
-                    {/* <div className='languageCurrency-container'>
-                        <div className='language'>{t('Footer.lang')}</div>
-                        <div className='currency'>{t('Footer.currency')}</div>
-                    </div> */}
                     <SwitchLocalization/>
                 </div>
             </div>

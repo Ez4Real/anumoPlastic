@@ -52,5 +52,17 @@
         "subjectLabel": "ТЕМА",
         "messageLabel": "ПОВІДОМЛЕННЯ",
         "submitLabel": "ВІДПРАВИТИ"
+    },
+
+    "ProjectsPage": {
+        "pageName": "Проекти",
+        "projects": {
+            "sunnyBunny": {
+                "title": "НАГОРОДА SUNNY BUNNY",
+                "description": "Унікальна режисерська нагорода для українського квір кіно-фестивалю SunnyBunny. Виготовлена з переробленого пластику HDPE, розроблена й порізана спільно з 22fworks studio."
+            }
+        },
+        "back": "НАЗАД",
+        "next": "ДАЛІ"
     }
 }

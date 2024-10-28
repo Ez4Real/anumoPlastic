@@ -4,6 +4,7 @@ import Main from './Pages/Main';
 import Header from './Components/Header';
 import ContactUs from './Pages/ContactUs';
 import Footer from './Components/Footer';
+import Projects from './Pages/Projects';
 
 const App = () => {
   const routes = [
@@ -14,6 +15,10 @@ const App = () => {
     {
       path: '/contact-us',
       element: <ContactUs />
+    },
+    {
+      path: '/projects',
+      element: <Projects/>
     },
     {
       path: '*',
