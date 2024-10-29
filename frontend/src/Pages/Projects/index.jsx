@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import SunnyBunny from '../../Components/Projects/SunnyBunny';
 import Cooperation from '../../Components/Cooperation';
 import UkrainianCeramics from '../../Components/Projects/UkrainianCeramics';
+import TabletopGiraffe from '../../Components/Projects/TabletopGiraffe';
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
@@ -22,7 +23,7 @@ const Projects = () => {
     );
   };
 
-  const projects = [<SunnyBunny />, <UkrainianCeramics/>,];
+  const projects = [<SunnyBunny />, <UkrainianCeramics/>, <TabletopGiraffe />, ];
 
   return (
     <div className='content'>

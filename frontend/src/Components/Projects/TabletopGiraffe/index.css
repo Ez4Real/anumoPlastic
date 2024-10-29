@@ -1,0 +1,29 @@
+.topLeft-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-bottom: 46px;
+}
+
+.tabletopGiraffe-container .topLeft-container .topLeftImg{
+    padding-bottom: 20px;
+}
+
+
+.tabletopGiraffe-container .bottom-container {
+    display: grid;
+    gap: 46px;
+    grid-template-columns: 46% 50%;
+    justify-items: end;
+}
+
+.p-20-12 {
+    padding: 20px 0 12px 0;
+}
+
+.tabletopGiraffe-container .bottom-container .left div {
+    text-align: end;
+}
+
+.tabletopGiraffe-container .bottom-container .left img {
+    width: 21.375rem;
+}
