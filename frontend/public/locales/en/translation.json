@@ -71,6 +71,21 @@
                 "description": "Made by @anumoplastic and @vasyadmytryk",
                 "option1": "Material: recycled plastic and metal elements\nSize: 560x650x250 mm",
                 "option2": "Material: recycled plastic and metal elements\nSize: 540x550x275 mm"
+            },
+            "chokers": {
+                "title": "CHOKERS",
+                "description": "3D art project in collaboration with Yaroslav Kozlitin"
+            },
+            "trays": {
+                "title": "TRAYS",
+                "description": "Made of recycled plastic.\nDesigned by Anumo Plastic"
+            },
+            "coffeeTables": {
+                "title": "COFFEE TABLES",
+                "description": "Made of recycled plastic and metal elements.\nDesigned by Anumo Plastic x Pab.Objects"
+            },
+            "soapHolders": {
+                "title": "SOAP HOLDERS FOR PRÊT-À-PORTER\nBRAND «THE COAT»"
             }
         },
         "back": "BACK",

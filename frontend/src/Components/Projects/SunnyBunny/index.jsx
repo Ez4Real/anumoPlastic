@@ -13,7 +13,7 @@ const SunnyBunny = () => {
         <p className='projectTitle'>{t('ProjectsPage.projects.sunnyBunny.title')}<span >/2024</span></p>
         <div className="sunnyBunny-container">
             <p className="projectDescription">{t('ProjectsPage.projects.sunnyBunny.description')}</p>
-            <img src={sunnyBunnyImage}></img>
+            <img src={sunnyBunnyImage} alt="Sunny Bunny Award"></img>
         </div>
     </div>
 

@@ -17,19 +17,27 @@ const TabletopGiraffe = () => {
         <div className="tabletopGiraffe-container">
             <div className="topLeft-container">
                 <div>
-                    <img className="topLeftImg" src={images["tabletop56x65.png"]}></img>
+                    <img className="topLeftImg"
+                         src={images["tabletop56x65.png"]}
+                         alt="TABLETOP MOBLE “GIRAFFE”">
+                    </img>
                     <p className="projectDescription">{t('ProjectsPage.projects.tabletopGiraffe.option1')}</p>
                 </div>
             </div>
             <div className="bottom-container">
                 <div className="left">
                     <div>
-                        <img src={images["tabletop54x55_1.png"]}></img>
+                        <img src={images["tabletop54x55_1.png"]} alt="TABLETOP MOBLE “GIRAFFE”"></img>
                     </div>
                     <p className="projectDescription p-20-12">{t('ProjectsPage.projects.tabletopGiraffe.option2')}</p>
                     <p className="projectDescription">{t('ProjectsPage.projects.tabletopGiraffe.description')}</p>
                 </div>
-                <div className="right"><img src={images["tabletop54x55.png"]}></img></div>
+                <div className="right">
+                    <img
+                        src={images["tabletop54x55.png"]}
+                        alt="TABLETOP MOBLE “GIRAFFE”"
+                    ></img>
+                </div>
             </div>
         </div>
     </div>

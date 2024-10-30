@@ -5,6 +5,10 @@ import SunnyBunny from '../../Components/Projects/SunnyBunny';
 import Cooperation from '../../Components/Cooperation';
 import UkrainianCeramics from '../../Components/Projects/UkrainianCeramics';
 import TabletopGiraffe from '../../Components/Projects/TabletopGiraffe';
+import Chokers from '../../Components/Projects/Chokers';
+import Trays from '../../Components/Projects/Trays';
+import CoffeeTables from '../../Components/Projects/CoffeeTables';
+import SoapHolders from '../../Components/SoapHolders';
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
@@ -23,7 +27,10 @@ const Projects = () => {
     );
   };
 
-  const projects = [<SunnyBunny />, <UkrainianCeramics/>, <TabletopGiraffe />, ];
+  const projects = [
+    <SoapHolders/>, <SunnyBunny />, <UkrainianCeramics/>,
+    <TabletopGiraffe />, <Chokers />, <Trays/>,
+    <CoffeeTables/>];
 
   return (
     <div className='content'>
