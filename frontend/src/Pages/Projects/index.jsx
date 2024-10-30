@@ -9,6 +9,7 @@ import Chokers from '../../Components/Projects/Chokers';
 import Trays from '../../Components/Projects/Trays';
 import CoffeeTables from '../../Components/Projects/CoffeeTables';
 import SoapHolders from '../../Components/SoapHolders';
+import Hypermobile from '../../Components/Projects/Hypermobile';
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
@@ -30,7 +31,7 @@ const Projects = () => {
   const projects = [
     <SoapHolders/>, <SunnyBunny />, <UkrainianCeramics/>,
     <TabletopGiraffe />, <Chokers />, <Trays/>,
-    <CoffeeTables/>];
+    <CoffeeTables/>, <Hypermobile/>, ];
 
   return (
     <div className='content'>

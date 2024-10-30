@@ -7,7 +7,7 @@ import { importAll } from "../../utils/importRecources";
 const images = importAll(require.context('../../assets/images/projects/soapHolders', false, /\.(png|jpe?g|svg)$/));
 
 
-const SoapHolders = () => {
+const Hypermobile = () => {
   const { t } = useTranslation();
 
   return (
@@ -29,4 +29,4 @@ const SoapHolders = () => {
   );
 };
 
-export default SoapHolders;
+export default Hypermobile;
