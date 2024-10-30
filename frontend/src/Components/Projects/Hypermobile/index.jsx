@@ -10,9 +10,6 @@ const images = importAll(require.context('../../../assets/images/projects/hyperm
 const Hypermobile = () => {
   const { t } = useTranslation();
 
-  console.log(images);
-  
-
   return (
     <div className='projectComponent-container'>
         <p className='projectTitle'>{t('ProjectsPage.projects.hypermobile.title')}<span >/2024</span></p>

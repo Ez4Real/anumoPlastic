@@ -10,6 +10,8 @@ import Trays from '../../Components/Projects/Trays';
 import CoffeeTables from '../../Components/Projects/CoffeeTables';
 import SoapHolders from '../../Components/SoapHolders';
 import Hypermobile from '../../Components/Projects/Hypermobile';
+import WelcomeBoards from '../../Components/Projects/WelcomeBoards';
+import Alltrueest from '../../Components/Projects/Alltrueest';
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
@@ -28,10 +30,12 @@ const Projects = () => {
     );
   };
 
-  const projects = [
-    <SoapHolders/>, <SunnyBunny />, <UkrainianCeramics/>,
-    <TabletopGiraffe />, <Chokers />, <Trays/>,
-    <CoffeeTables/>, <Hypermobile/>, ];
+  const projects = [<Alltrueest />,
+    <SunnyBunny />, <UkrainianCeramics/>, <TabletopGiraffe />,
+    <Chokers />, <Trays/>, <CoffeeTables/>,
+    <SoapHolders/>, <Hypermobile/>, <WelcomeBoards />,
+    
+  ];
 
   return (
     <div className='content'>

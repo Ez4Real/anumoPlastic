@@ -1,0 +1,20 @@
+.welcomeBoards-container {
+    display: grid;
+    grid-template-columns: 46% 50%;
+    gap: 46px;
+}
+
+.welcomeBoards-container .left img {
+    height: 100%;
+}
+.welcomeBoards-container .right {
+    display: flex;
+    flex-direction: column;
+    gap: 46px;
+}
+
+.welcomeBoards-container .right div {
+    display: grid;
+    grid-template-columns: 48% 48%;
+    gap: 24px;
+}

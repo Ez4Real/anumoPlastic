@@ -89,6 +89,15 @@
             "hypermobile": {
                 "title": "ГІПЕРМОБІЛЬНИЙ",
                 "description": "Кінетична скульптура з переробленого пластику та\nметалевих елементів.\nСтворено @anumoplastic і @vasyadmytryk для\n@bravefactoryfestival"
+            },
+            "welcomeBoards": {
+                "title": "ВІТАЛЬНІ ТАБЛИЧКИ ДЛЯ ГОТЕЛЮ BURSA",
+                "description": "Виготовлений з переробленого пластику, покритий з\nUV лазерним маркуванням.\n\nРозроблено Anumo Plastic"
+            },
+            "alltrueest": {
+                "title": "АЛЬТРУЇСТ",
+                "from": "Патерн від Anumo Plastic",
+                "description": "Великий прямокутний обідній стіл та малий круглий\nжурнальний стіл.\n\nВиготовлені для кафе Альтруїст у Києві."
             }
         },
         "back": "НАЗАД",

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './index.css'
-
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SwitchLocalization from '../SwitchLocalization';
 
@@ -43,12 +43,12 @@ const Header = ({ isWhiteTheme = false }) => {
         <div className={'sidebarMenu-container'}>
           <div className='textEnd'><img src='/shopping-bag-black.svg' alt='Anumo Logo'></img></div>
           <ul className='menuLinks'>           
-            <li><a href='#'>{t('Header.homeLink')}</a></li>
-            <li><a href='#'>{t('Header.shopLink')}</a></li>
-            <li><a href='#'>{t('Header.projectsLink')}</a></li>
-            <li><a href='#'>{t('Header.aboutLink')}</a></li>
-            <li><a href='#'>{t('Header.contactUsLink')}</a></li>
-            <li><a href='#'>{t('Header.findUsLink')}</a></li>
+            <li><Link to="/">{t('Header.homeLink')}</Link></li>
+            <li><Link to="/shop">{t('Header.shopLink')}</Link></li>
+            <li><Link to="/projects">{t('Header.projectsLink')}</Link></li>
+            <li><Link to="/about-us">{t('Header.aboutLink')}</Link></li>
+            <li><Link to="/contact-us">{t('Header.contactUsLink')}</Link></li>
+            <li><Link to="/find-us">{t('Header.findUsLink')}</Link></li>
           </ul>
           <div className='menuFooter'>
             <div className='menuFooter-container'>

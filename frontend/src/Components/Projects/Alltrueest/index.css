@@ -1,0 +1,23 @@
+.alltrueest-container {
+    display: grid;
+    grid-template-columns: 36% 60%;
+    gap: 46px;
+}
+
+.alltrueest-container .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.alltrueest-container .right {
+    display: flex;
+    gap: 46px;
+    flex-direction: column;
+}
+
+.alltrueest-container .right div {
+    display: grid;
+    grid-template-columns: 48% 48%;
+    gap: 24px;
+}
