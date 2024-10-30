@@ -2,9 +2,9 @@
 
 import "./index.css"
 import { useTranslation } from 'react-i18next';
-import { importAll } from "../../utils/importRecources";
+import { importAll } from "../../../utils/importRecources";
 
-const images = importAll(require.context('../../assets/images/projects/soapHolders', false, /\.(png|jpe?g|svg)$/));
+const images = importAll(require.context('../../../assets/images/projects/soapHolders', false, /\.(png|jpe?g|svg)$/));
 
 
 const SoapHolders = () => {

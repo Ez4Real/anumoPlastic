@@ -8,10 +8,11 @@ import TabletopGiraffe from '../../Components/Projects/TabletopGiraffe';
 import Chokers from '../../Components/Projects/Chokers';
 import Trays from '../../Components/Projects/Trays';
 import CoffeeTables from '../../Components/Projects/CoffeeTables';
-import SoapHolders from '../../Components/SoapHolders';
+import SoapHolders from '../../Components/Projects/SoapHolders';
 import Hypermobile from '../../Components/Projects/Hypermobile';
 import WelcomeBoards from '../../Components/Projects/WelcomeBoards';
 import Alltrueest from '../../Components/Projects/Alltrueest';
+import TableIvan from '../../Components/Projects/TableIvan';
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
@@ -30,10 +31,11 @@ const Projects = () => {
     );
   };
 
-  const projects = [<Alltrueest />,
+  const projects = [<TableIvan/>,
     <SunnyBunny />, <UkrainianCeramics/>, <TabletopGiraffe />,
     <Chokers />, <Trays/>, <CoffeeTables/>,
     <SoapHolders/>, <Hypermobile/>, <WelcomeBoards />,
+    <Alltrueest />, 
     
   ];
 

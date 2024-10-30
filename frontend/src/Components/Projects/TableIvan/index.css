@@ -1,0 +1,31 @@
+.tableIvan-container {
+    display: grid;
+    grid-template-columns: 40% 56%;
+    gap: 46px;
+}
+
+.projectComponent-container p.top {
+    padding-bottom: 24px;
+}
+
+.projectComponent-container p.bottom {
+    padding-top: 68px;
+}
+
+
+.tableIvan-container .left {
+    display: flex;
+    flex-direction: column;
+    gap: 46px;
+}
+
+.tableIvan-container .right {
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+    gap: 46px;
+}
+
+.tableIvan-container .right img { 
+    height: 100%;
+}
+
