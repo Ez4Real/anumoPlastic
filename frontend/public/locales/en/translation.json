@@ -108,5 +108,9 @@
         },
         "back": "BACK",
         "next": "NEXT"
+    },
+    
+    "Product": {
+        "addToCart": "ADD TO CART"
     }
 }

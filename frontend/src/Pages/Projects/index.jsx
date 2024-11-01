@@ -18,26 +18,21 @@ const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
 
   const { t } = useTranslation();
-  
-  const goToNextProject = () => {
-    setCurrentProjectIndex((prevIndex) =>
-      prevIndex === projects.length - 1 ? 0 : prevIndex + 1
-    );
-  };
 
-  const goToPreviousProject = () => {
-    setCurrentProjectIndex((prevIndex) =>
-      prevIndex === 0 ? projects.length - 1 : prevIndex - 1
-    );
-  };
-
-  const projects = [<TableIvan/>,
+  const projects = [
     <SunnyBunny />, <UkrainianCeramics/>, <TabletopGiraffe />,
     <Chokers />, <Trays/>, <CoffeeTables/>,
     <SoapHolders/>, <Hypermobile/>, <WelcomeBoards />,
-    <Alltrueest />, 
-    
+    <Alltrueest />, <TableIvan/> 
   ];
+
+  const changeProject = (direction) => {
+    setCurrentProjectIndex((prevIndex) => 
+      (prevIndex + direction + projects.length) % projects.length
+    );
+    window.scrollTo({ top: 164, behavior: 'smooth' });
+  };
+
 
   return (
     <div className='content'>
@@ -51,10 +46,10 @@ const Projects = () => {
       </div>
 
       <div className='sliderFooter-container'>
-        <div onClick={goToPreviousProject}>
+        <div onClick={() => changeProject(-1)}>
           <img src='/arrow-left.svg'></img><span>{t('ProjectsPage.back')}</span>
         </div>
-        <div onClick={goToNextProject}>
+        <div onClick={() => changeProject(1)}>
           <span>{t('ProjectsPage.next')}</span><img src='/arrow-right.svg'></img>
         </div>
       </div>

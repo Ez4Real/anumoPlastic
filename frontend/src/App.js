@@ -5,6 +5,7 @@ import Header from './Components/Header';
 import ContactUs from './Pages/ContactUs';
 import Footer from './Components/Footer';
 import Projects from './Pages/Projects';
+import Product from './Pages/Product';
 
 const App = () => {
   const routes = [
@@ -19,6 +20,10 @@ const App = () => {
     {
       path: '/projects',
       element: <Projects/>
+    },
+    {
+      path: '/product',
+      element: <Product/>
     },
     {
       path: '*',
