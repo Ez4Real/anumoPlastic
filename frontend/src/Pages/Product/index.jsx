@@ -48,6 +48,10 @@ const Product = () => {
               <div className='block-title'>Size:</div>
               <div className='sizeContent'>75x55x6mm, 75x65x6mm</div>
             </div>
+            <div className='weight'>
+              <div className='block-title'>Weight:</div>
+              <div className='sizeContent'>2.4 kg/ 5.3 lbs</div>
+            </div>
             <div className='price'>
               <div className='block-title'>Price:</div>
               <div>$24</div>

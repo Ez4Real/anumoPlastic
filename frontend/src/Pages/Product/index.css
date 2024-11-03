@@ -27,7 +27,9 @@
 }
 
 .product-container .right .material,
-.product-container .right .size .sizeContent {
+.product-container .right .tag,
+.product-container .right .size,
+.product-container .right .weight {
     padding-bottom: 12px;
 }
 
@@ -40,13 +42,11 @@
 .tagIconsContainer {
     display: flex;
     gap: 12px;
-    padding-bottom: 12px;
 }
 
 .tagIconsContainer img {
     width: 28px;
 }
-
 
 .addToCartBtn-container {
     padding-top: 24px;
