@@ -6,6 +6,7 @@ import ContactUs from './Pages/ContactUs';
 import Footer from './Components/Footer';
 import Projects from './Pages/Projects';
 import Product from './Pages/Product';
+import Checkout from './Pages/Checkout';
 
 const App = () => {
   const routes = [
@@ -24,6 +25,10 @@ const App = () => {
     {
       path: '/product',
       element: <Product/>
+    },
+    {
+      path: '/checkout',
+      element: <Checkout/>
     },
     {
       path: '*',

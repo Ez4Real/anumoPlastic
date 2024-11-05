@@ -112,5 +112,26 @@
     
     "Product": {
         "addToCart": "ADD TO CART"
+    },
+
+    "Checkout": {
+        "contactFormTitle": "Contact",
+        "firstNamePlaceholder": "First name",
+        "lastNamePlaceholder": "Last name",
+        "emailPlaceholder": "Email",
+        "emailMeCheckbox": "Email me with news and offers",
+        "phonePlaceholder": "Phone",
+        "deliveryFormTitle": "Delivery",
+        "deliveryUkraine": "Delivery across Ukraine",
+        "deliveryEurope": "Delivery across Europe",
+        "deliveryOverseas": "Delivery overseas (Northern and Southern America,\nAustralia, Africa and other Oceanic countries)",
+        "orderCommentTitle": "Add a comment to the order",
+        "paymentTitle": "Payment",
+        "cardPayment": "Payment by card online",
+        "placeOrder": "PLACE ORDER",
+        "orderSummaryTitle": "Order Summary",
+        "orderSubtotal": "Subtotal",
+        "orderShipping": "Shipping",
+        "orderTotal": "Total"
     }
-}
+}   

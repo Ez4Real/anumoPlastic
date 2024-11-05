@@ -111,5 +111,26 @@
     
     "Product": {
         "addToCart": "ДОДАТИ У КОШИК"
+    },
+
+    "Checkout": {
+        "contactFormTitle": "Контактна інформація",
+        "firstNamePlaceholder": "І’мя",
+        "lastNamePlaceholder": "Прізвище",
+        "emailPlaceholder": "Електронна пошта",
+        "emailMeCheckbox": "Повідомляти мене про новини та знижки",
+        "phonePlaceholder": "Телефон",
+        "deliveryFormTitle": "Доставка",
+        "deliveryUkraine": "Доставка по Україні",
+        "deliveryEurope": "Міжнародна доставка (Європа)",
+        "deliveryOverseas": "Міжнародна доставка (Північна й Південна Америка,\nАвстралія, Африка та інші країни заокеання)",
+        "orderCommentTitle": "Додати коментар до замовлення",
+        "paymentTitle": "Оплата",
+        "cardPayment": "Оплата карткою онлайн",
+        "placeOrder": "ЗРОБИТИ ЗАМОВЛЕННЯ",
+        "orderSummaryTitle": "Підсумок замовлення",
+        "orderSubtotal": "Проміжний підсумок",
+        "orderShipping": "Доставка",
+        "orderTotal": "Всього"
     }
 }
