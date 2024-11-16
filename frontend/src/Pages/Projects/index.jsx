@@ -13,17 +13,18 @@ import Hypermobile from '../../Components/Projects/Hypermobile';
 import WelcomeBoards from '../../Components/Projects/WelcomeBoards';
 import Alltrueest from '../../Components/Projects/Alltrueest';
 import TableIvan from '../../Components/Projects/TableIvan';
+import GlassesAndNecklace from '../../Components/Projects/Glasses&Necklace';
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
 
   const { t } = useTranslation();
 
-  const projects = [
+  const projects = [<GlassesAndNecklace />,
     <SunnyBunny />, <UkrainianCeramics/>, <TabletopGiraffe />,
     <Chokers />, <Trays/>, <CoffeeTables/>,
     <SoapHolders/>, <Hypermobile/>, <WelcomeBoards />,
-    <Alltrueest />, <TableIvan/> 
+    <Alltrueest />, <TableIvan/>
   ];
 
   const changeProject = (direction) => {

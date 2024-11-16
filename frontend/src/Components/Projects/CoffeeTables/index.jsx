@@ -1,5 +1,3 @@
-
-
 import "./index.css"
 import { useTranslation } from 'react-i18next';
 import { importAll } from "../../../utils/importRecources";
