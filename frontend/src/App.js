@@ -7,12 +7,13 @@ import Footer from './Components/Footer';
 import Projects from './Pages/Projects';
 import Product from './Pages/Product';
 import Checkout from './Pages/Checkout';
+import ThankYou from './Pages/ThankYou';
 
 const App = () => {
   const routes = [
     {
       path: '/',
-      element: <Main/>
+      element: <Main />
     },
     {
       path: '/contact-us',
@@ -20,15 +21,19 @@ const App = () => {
     },
     {
       path: '/projects',
-      element: <Projects/>
+      element: <Projects />
     },
     {
       path: '/product',
-      element: <Product/>
+      element: <Product />
     },
     {
       path: '/checkout',
-      element: <Checkout/>
+      element: <Checkout />
+    },
+    {
+      path: '/thank-you/',
+      element: <ThankYou />
     },
     {
       path: '*',

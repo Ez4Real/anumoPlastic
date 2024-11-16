@@ -133,5 +133,11 @@
         "orderShipping": "Доставка",
         "orderTotal": "Всього",
         "checkoutCurrency": "UAH"
+    },
+
+    "ThankYou": {
+        "title": "ДЯКУЄМО ЗА ПОКУПКУ",
+        "info": "Зачекайте електронного листа з\nінформацією про відстеження",
+        "mainPageLink": "ГОЛОВНА"
     }
-}
+} 

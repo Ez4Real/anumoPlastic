@@ -134,5 +134,11 @@
         "orderShipping": "Shipping",
         "orderTotal": "Total",
         "checkoutCurrency": "USD"
+    },
+
+    "ThankYou": {
+        "title": "THANK YOU FOR YOUR PURCHASE",
+        "info": "Wait for an email with tracking info",
+        "mainPageLink": "MAIN PAGE"
     }
 }   
