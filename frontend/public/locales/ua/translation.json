@@ -131,6 +131,7 @@
         "orderSummaryTitle": "Підсумок замовлення",
         "orderSubtotal": "Проміжний підсумок",
         "orderShipping": "Доставка",
-        "orderTotal": "Всього"
+        "orderTotal": "Всього",
+        "checkoutCurrency": "UAH"
     }
 }

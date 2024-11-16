@@ -52,7 +52,10 @@ form.checkout-form .emailMeCheckbox-container {
 
 form.checkout-form .emailMeCheckbox-container input.checkbox {
     width: 16px;
+    height: 16px;
     margin: 0 6px 0 4px;
+    outline: none;
+    cursor: pointer;
 }
 
 form.checkout-form .emailMeCheckbox-container label {
@@ -75,11 +78,41 @@ form.checkout-form .emailMeCheckbox-container label {
     border: 1px solid #3A3A3A;
     border-radius: 50%;
     appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
     margin: 4px 10px 4px 4px;
 }
 
-.checkout-container .delivery-container .deliveryOptions-container label,
-.checkout-container .payment-container label {
+.option input[type="checkbox"],
+.option input[type="radio"] {
+    display: none;
+}
+
+.circle-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #3A3A3A;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: block;
+    position: relative;
+}
+
+.option input[type="checkbox"]:checked + .circle-checkbox::before,
+.option input[type="radio"]:checked + .circle-checkbox::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: #3A3A3A;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.option {
     display: inline-flex;
     align-items: center;
 }
@@ -100,6 +133,7 @@ form.checkout-form .emailMeCheckbox-container label {
 
 .checkout-container form.checkout-form .placeOrderBtn-container {
     padding-top: 32px;
+    padding-bottom: 220px;
 }
 
 .checkout-container form.checkout-form .placeOrderBtn-container button {
@@ -169,9 +203,11 @@ form.checkout-form .emailMeCheckbox-container label {
 .checkout-container .right .productCheckoutSummary-container .total .currencyAmount {
     display: flex;
     gap: 4px;
+    align-items: center;
 }
 
 .checkout-container .right .productCheckoutSummary-container .total .currencyAmount span {
     font-size: 14px;
+    font-weight: 400;
     color: #BBBBBB;
 }

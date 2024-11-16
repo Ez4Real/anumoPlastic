@@ -1,7 +1,8 @@
 import './index.css'
 import { useTranslation } from 'react-i18next';
 
-import homepageImg from '../../assets/productImages/prod1.png';
+import productImage from '../../assets/productImages/prod1.png';
+import ProductCounter from '../../Components/ProductCounter';
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -49,7 +50,7 @@ const Checkout = () => {
                                     id="emailMe"
                                     name="emailMe"
                                 />
-                                <label for="emailMe">{t('Checkout.emailMeCheckbox')}</label>
+                                <label htmlFor="emailMe">{t('Checkout.emailMeCheckbox')}</label>
                             </div>
                             <div>
                                 <input
@@ -63,37 +64,37 @@ const Checkout = () => {
                     </div>
                     <div className='delivery-container'>
                         <p className='title'>{t('Checkout.deliveryFormTitle')}</p>
-                        <div class="deliveryOptions-container">                        
-                            <label class="option">
+                        <div className="deliveryOptions-container">                        
+                            <label className='option'>
                                 <input
                                     className='checkbox'
-                                    type="checkbox"
+                                    type="radio"
                                     name="delivery"
                                     value="ukraine"
-                                    onclick="selectOnlyOne(this)"
                                 />
+                                <span class="circle-checkbox"></span>
                                 <div>{t('Checkout.deliveryUkraine')}</div>
                             </label>
                             
-                            <label class="option">
+                            <label className='option'>
                                 <input
                                     className='checkbox'
-                                    type="checkbox"
+                                    type="radio"
                                     name="delivery"
-                                    value="ukraine"
-                                    onclick="selectOnlyOne(this)"
+                                    value="europe"
                                 />
+                                <span class="circle-checkbox"></span>
                                 <div>{t('Checkout.deliveryEurope')}</div>
                             </label>
                             
-                            <label class="option">
+                            <label className='option'>
                                 <input
                                     className='checkbox'
-                                    type="checkbox"
+                                    type="radio"
                                     name="delivery"
-                                    value="ukraine"
-                                    onclick="selectOnlyOne(this)"
+                                    value="overseas"
                                 />
+                                <span class="circle-checkbox"></span>
                                 <div>{t('Checkout.deliveryOverseas')}</div>
                             </label>
                         </div>
@@ -106,12 +107,13 @@ const Checkout = () => {
                         <p className='title'>{t('Checkout.paymentTitle')}</p>
                         <label class="option">
                             <input
+                                checked
                                 className='checkbox'
                                 type="checkbox"
                                 name="delivery"
                                 value="ukraine"
-                                onclick="selectOnlyOne(this)"
                             />
+                            <span class="circle-checkbox"></span>
                             <div>{t('Checkout.cardPayment')}</div>
                         </label>
                     </div>
@@ -126,13 +128,14 @@ const Checkout = () => {
                 <p className='title'>{t('Checkout.orderSummaryTitle')}</p>
                 <div className='productCheckout-container'>
                     <div className='image-container'>
-                        <img src={homepageImg} />
+                        <img src={productImage} alt='Product' />
                     </div>
                     <div className='info-container'>
                         <p className='productTitle'>CARABINER FOR KEYS WITH HEART SHAPE</p>
                         <p>75x55x6мм, 75x65x6мм</p>
                         <div className='infoFooter-container'>
-                            <div> - 1 +</div><div className='price'>$24</div>
+                            <ProductCounter />
+                            <div className='price'>$24</div>
                         </div>
                     </div>
                 </div>
@@ -145,7 +148,7 @@ const Checkout = () => {
                     </div>
                     <div className='total'>
                         <div className='totalTitle'>{t('Checkout.orderTotal')}</div>
-                        <div className='currencyAmount'><span>currency</span><div>$54</div></div>
+                        <div className='currencyAmount'><span>{t('Checkout.checkoutCurrency')}</span><div>$54</div></div>
                     </div>
                 </div>
             </div>

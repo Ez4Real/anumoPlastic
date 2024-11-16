@@ -132,6 +132,7 @@
         "orderSummaryTitle": "Order Summary",
         "orderSubtotal": "Subtotal",
         "orderShipping": "Shipping",
-        "orderTotal": "Total"
+        "orderTotal": "Total",
+        "checkoutCurrency": "USD"
     }
 }   
