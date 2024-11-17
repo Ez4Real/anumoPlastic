@@ -44,8 +44,16 @@
 .homepageInfoRight li { 
     font-weight: 600;
     font-size: 28px;
-    text-decoration-line: underline;
     padding-bottom: .75rem;
+}
+
+.homepageInfoRight div ul.dropdownList span {
+    text-decoration-line: underline;
+}
+.homepageInfoRight div ul.dropdownList div {
+    font-weight: 400;
+    font-size: 24px;
+    padding: 16px 0 24px 0;
 }
 
 .blockTitle {

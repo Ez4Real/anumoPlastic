@@ -1,10 +1,22 @@
 {
     "HomePage": {
         "anumoAbout": "We are a design studio of objects made from recycled plastic. Established in 2020 in Kyiv. We explore the possibilities of plastic recycling and reuse, transforming it into unique accessories and interior items",
-        "materialLink": "MATERIAL",
-        "productionLink": "PRODUCTION",
-        "inspirationLink": "INSPIRATION",
-        "valuesLink": "VALUES",
+        "material": {
+            "title": "MATERIAL",
+            "description": "HDPE plastic (bottles from detergents, cosmetics, or baby food)."
+        },
+        "production": {
+            "title": "PRODUCTION",
+            "description": "80% hand-made / 20% work with technical equipment: thermal press, extruder, and additional electrical tools."
+        },
+        "inspiration": {
+            "title": "INSPIRATION",
+            "description": "We draw inspiration from colors and always pay special attention to selecting materials and color combinations using collage techniques. This results in our products having unique patterns and a recognizable style."
+        },
+        "values": {
+            "title": "VALUES",
+            "description": "We demonstrate that eco-consciousness and creativity are sustainable solutions in the fight for a clean environment. Plastic recycling has great potential and allows us to create quality functional items that provide aesthetic satisfaction while conserving our planet’s resources.\n\nWe advocate for open and honest cooperation, built on horizontal hierarchy and principles of mutual respect. We do not support exploitation or product testing on animals. We do not cooperate with terrorist countries."
+        },
         "aboutPolicy": "We advocate for open and honest cooperation, built on horizontal hierarchy and principles of mutual respect. We do not support exploitation or product testing on animals. We do not cooperate with terrorist countries",
         "shopTitle": "SHOP",
         "enjoyResponsibility": "ENJOY RESPONSIBILITY",

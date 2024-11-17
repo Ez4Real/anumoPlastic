@@ -11,10 +11,21 @@ import prod6 from '../../assets/productImages/prod6.png'
 import homepageImg from '../../assets/images/homepage.png';
 import { useTranslation } from 'react-i18next';
 import Cooperation from '../../Components/Cooperation';
+import { useState } from 'react';
 
 
 const Main = () => {
   const { t } = useTranslation();
+
+  const [dropdowns, setDropdowns] = useState({});
+
+  const toggleDropdown = (dropdownName) => {
+    setDropdowns((prevState) => ({
+        ...prevState,
+        [dropdownName]: !prevState[dropdownName],
+    }));
+  };
+
   return (
     <>
         <div className='homepageImg-container'>
@@ -29,12 +40,48 @@ const Main = () => {
                 <div className='homepageInfoRight'>
                     <>{t('HomePage.anumoAbout')}.</>
                     <div>
-                        <ul>
-                            <li>{t('HomePage.materialLink')}</li>
-                            <li>{t('HomePage.productionLink')}</li>
-                            <li>{t('HomePage.inspirationLink')}</li>
-                            <li>{t('HomePage.valuesLink')}</li>
-                        </ul>
+                    <ul className="dropdownList">
+                        <li>
+                            <span onClick={() => toggleDropdown('material')}>
+                                {t('HomePage.material.title')}
+                            </span>
+                            {dropdowns.material && (
+                                <div className="dropdown-content">
+                                    {t('HomePage.material.description')}
+                                </div>
+                            )}
+                        </li>
+                        <li>
+                            <span onClick={() => toggleDropdown('production')}>
+                                {t('HomePage.production.title')}
+                            </span>
+                            {dropdowns.production && (
+                                <div className="dropdown-content">
+                                    {t('HomePage.production.description')}
+                                </div>
+                            )}
+                        </li>
+                        <li>
+                            <span onClick={() => toggleDropdown('inspiration')}>
+                                {t('HomePage.inspiration.title')}
+                            </span>
+                            {dropdowns.inspiration && (
+                                <div className="dropdown-content">
+                                    {t('HomePage.inspiration.description')}
+                                </div>
+                            )}
+                        </li>
+                        <li>
+                            <span onClick={() => toggleDropdown('values')}>
+                                {t('HomePage.values.title')}
+                            </span>
+                            {dropdowns.values && (
+                                <div className="dropdown-content">
+                                    {t('HomePage.values.description')}
+                                </div>
+                            )}
+                        </li>
+                    </ul>
                     </div>
                 </div>
             </div>
