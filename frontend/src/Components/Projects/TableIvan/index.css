@@ -29,3 +29,22 @@
     height: 100%;
 }
 
+.projectComponent-container div.characteristics-container {
+    padding-top: 24px;
+}
+
+.projectComponent-container div.characteristics-container .title {
+    margin: 0;
+    padding-bottom: 8px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.projectComponent-container div.seeAll-container {
+    font-weight: 700;
+    text-decoration: underline;
+    font-size: 16px;
+    text-align: end;
+    padding-top: 24px;
+}
+

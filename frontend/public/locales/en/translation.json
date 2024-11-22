@@ -68,7 +68,8 @@
 
     "ProjectsPage": {
         "pageName": "Projects",
-
+        "seeAll": "SEE ALL",
+        
         "projects": {
             "sunnyBunny": {
                 "title": "SUNNY BUNNY AWARD",
@@ -90,7 +91,7 @@
             },
             "trays": {
                 "title": "TRAYS",
-                "description": "Made of recycled plastic.\nDesigned by Anumo Plastic"
+                "description": "Made of recycled plastic.\n\nDesigned by Anumo Plastic"
             },
             "coffeeTables": {
                 "title": "COFFEE TABLES",
@@ -101,7 +102,7 @@
             },
             "hypermobile": {
                 "title": "HYPERMOBILE",
-                "description": "Kinetic sculpture made of recycled plastic and metal elements.\nCreated by @anumoplastic and @vasyadmytryk for @bravefactoryfestival"
+                "description": "Kinetic sculpture made of recycled plastic and metal elements.\n\nCreated by @anumoplastic and @vasyadmytryk for @bravefactoryfestival"
             },
             "welcomeBoards": {
                 "title": "WELCOME BOARDS \nFOR BURSA HOTEL",
@@ -115,7 +116,11 @@
             "tableIvan": {
                 "title": "TABLE IVAN",
                 "description": "The transformation of plastic under the influence of Ukrainian crafts",
-                "description_1": "The 'Ivan' project arose from a chance meeting with a photo of an ancient chair from the Ivan Honchar museum, which attracted our attention with its original design and natural motifs. This chair, whose authorship remains unknown, was located separately from the main collection of the museum, but its unusual shape became a source of inspiration for us.\n\nUsing the shape of this chair as the main element, we created a unique table, which was named 'Ivan' in honor of the outstanding Ukrainian ..."
+                "description_1": "The «Ivan» project was born from a chance encounter with a photograph of an antique chair from the Ivan Honchar Museum. The chair’s unique design and natural motifs caught our attention. Though its creator remains unknown, the chair, separated from the museum’s main collection, became a profound source of inspiration for us.\n\nUsing the forms of this historic chair as the foundation, we crafted a unique table named Ivan, honoring the renowned Ukrainian artist and collector Ivan Honchar. While Honchar and other craftsmen worked with traditional materials like clay and wood, at our studio, Anumo, we explore the potential of plastic bottles—typically viewed as waste. To us, this material is a contemporary resource full of possibilities.\n\nOur research focuses on pushing the boundaries of what plastic can achieve. Inspired by traditional woodcarving techniques, we adapted these methods for plastic. Using a rotary tool, we created intricate grooves on the tabletop, giving it a tactile, three-dimensional texture.\n\nThe table legs feature a monochrome color palette and echo the contours of the tabletop, embodying naive, natural motifs. In contrast to the understated legs, the tabletop is composed of numerous colorful detergent bottles, resulting in a vivid, dynamic surface.\n\nWith its form and vibrant patterns, the table bridges the gap between modernity and antiquity. We embrace eclecticism—a hallmark of our culture and everyday life—fearlessly blending diverse elements.\n\nThe Ivan project is our manifesto for sustainable design and a celebration of creative experimentation. It embodies our exploration of Ukrainian culture and plastic recycling, demonstrating how waste can be transformed into new, functional, and aesthetically pleasing objects without harming the environment.\n\nIvan The Table was developed in collaboration with 22fworks Studio.",
+                "characteristics": {
+                    "title": "Technical characteristics",
+                    "list": "Length: 675 мм\nWidth: 334 мм\nHeight: 353 мм\nWeight: 6,85 kg\nMaterial: recycled plastic type 2 (HDPE)"
+                }
             },
             "glasses&Necklace": {
                 "title": "GLASSES CHAIN AND NECKLACE",

@@ -20,11 +20,11 @@ const Projects = () => {
 
   const { t } = useTranslation();
 
-  const projects = [<GlassesAndNecklace />,
+  const projects = [
     <SunnyBunny />, <UkrainianCeramics/>, <TabletopGiraffe />,
     <Chokers />, <Trays/>, <CoffeeTables/>,
     <SoapHolders/>, <Hypermobile/>, <WelcomeBoards />,
-    <Alltrueest />, <TableIvan/>
+    <Alltrueest />, <GlassesAndNecklace />, <TableIvan/>
   ];
 
   const changeProject = (direction) => {
