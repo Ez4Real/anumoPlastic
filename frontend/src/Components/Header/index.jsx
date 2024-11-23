@@ -89,7 +89,7 @@ const Header = ({ isWhiteTheme = false }) => {
           <div className='title-container'>
             <p>{t('Header.cartTitle')}</p>
             <div
-              class="crossBtn"
+              className="crossBtn"
               onClick={toggleCart}
               aria-label="Close"
               role="button"
