@@ -72,7 +72,7 @@ const Checkout = () => {
                                     name="delivery"
                                     value="ukraine"
                                 />
-                                <span class="circle-checkbox"></span>
+                                <span className="circle-checkbox"></span>
                                 <div>{t('Checkout.deliveryUkraine')}</div>
                             </label>
                             
@@ -83,7 +83,7 @@ const Checkout = () => {
                                     name="delivery"
                                     value="europe"
                                 />
-                                <span class="circle-checkbox"></span>
+                                <span className="circle-checkbox"></span>
                                 <div>{t('Checkout.deliveryEurope')}</div>
                             </label>
                             
@@ -94,7 +94,7 @@ const Checkout = () => {
                                     name="delivery"
                                     value="overseas"
                                 />
-                                <span class="circle-checkbox"></span>
+                                <span className="circle-checkbox"></span>
                                 <div>{t('Checkout.deliveryOverseas')}</div>
                             </label>
                         </div>
@@ -105,15 +105,15 @@ const Checkout = () => {
                     </div>
                     <div className='payment-container'>
                         <p className='title'>{t('Checkout.paymentTitle')}</p>
-                        <label class="option">
+                        <label className="option">
                             <input
-                                checked
+                                defaultChecked="true"
                                 className='checkbox'
                                 type="checkbox"
                                 name="delivery"
                                 value="ukraine"
                             />
-                            <span class="circle-checkbox"></span>
+                            <span className="circle-checkbox"></span>
                             <div>{t('Checkout.cardPayment')}</div>
                         </label>
                     </div>

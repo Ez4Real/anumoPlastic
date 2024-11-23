@@ -40,9 +40,16 @@
         "homeLink": "HOME",
         "shopLink": "SHOP",
         "projectsLink": "PROJECTS",
-        "aboutLink": "ABOUT",
+        "aboutLink": "ABOUT US",
         "contactUsLink": "CONTACT US",
-        "findUsLink": "FIND US"
+        "findUsLink": "FIND US",
+        
+        "cartTitle": "YOUR CART",
+        "emptyCart": "YOUR BAG IS EMPTY",
+        "emptyCartHint": "/Item added to your bag will show up here/",
+        "cartShopLink": "SHOP",
+        "checkoutBtn": "CHECKOUT",
+        "checkoutHint": "Shopping, taxes and discount codes calculated at checkout."
     },
 
     "Footer": {

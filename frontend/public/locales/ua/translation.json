@@ -30,7 +30,14 @@
         "projectsLink": "ПРОЕКТИ",
         "aboutLink": "ПРО НАС",
         "contactUsLink": "ЗВ'ЯЗАТИСЬ З НАМИ",
-        "findUsLink": "ЗНАЙТИ НАС"
+        "findUsLink": "ЗНАЙТИ НАС",
+        
+        "cartTitle": "КОШИК",
+        "emptyCart": "ВАШ КОШИК ПОРОЖНІЙ",
+        "emptyCartHint": "/Предмет, доданий до вашого кошика, з’явиться тут/",
+        "cartShopLink": "КУПИТИ",
+        "checkoutBtn": "CHECKOUT",
+        "checkoutHint": "Покупки, податки та коди знижок розраховуються під час\nоформлення замовлення."
     },
     
     "Footer": {
