@@ -15,7 +15,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query"
 import { FiLogOut, FiMenu } from "react-icons/fi"
 
-import Logo from "/assets/images/fastapi-logo.svg"
+import Logo from "/assets/images/logo.svg"
 import type { UserPublic } from "../../client"
 import useAuth from "../../hooks/useAuth"
 import SidebarItems from "./SidebarItems"
@@ -25,6 +25,7 @@ const Sidebar = () => {
   const bgColor = useColorModeValue("ui.light", "ui.dark")
   const textColor = useColorModeValue("ui.dark", "ui.light")
   const secBgColor = useColorModeValue("ui.secondary", "ui.darkSlate")
+  const logoFilter = useColorModeValue("invert(1)", "none");
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { logout } = useAuth()
@@ -93,7 +94,14 @@ const Sidebar = () => {
           borderRadius={12}
         >
           <Box>
-            <Image src={Logo} alt="Logo" w="180px" maxW="2xs" p={6} />
+            <Image
+              src={Logo}
+              alt="Logo"
+              w="180px"
+              maxW="2xs"
+              p={6}
+              filter={logoFilter}
+            />
             <SidebarItems />
           </Box>
           {currentUser?.email && (

@@ -1,0 +1,94 @@
+.pathLink {
+    font-size: 16px;
+    margin: 0;
+    padding-bottom: 46px;
+}
+
+.homeLink {
+    font-weight: 800;
+    padding-right: .25rem;
+}
+
+.pageName {
+    font-weight: 400;
+}
+
+.contactUsGrid-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13.5rem;
+}
+
+.contact-form .nameFields-container {
+    border: 0;
+    padding: 0;
+    display: grid;
+    gap: 25px;
+    grid-template-columns: 1fr 1fr;
+}
+
+legend {
+    padding: 0;
+}
+
+form.contact-form .form-group {
+    padding-bottom: 24px;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    min-height: 41px;
+    border: 1px solid black;
+    font-family: 'Inter';
+    font-size: 18px;
+}
+
+.contact-form .form-group label {
+    display: block;
+}
+
+.contact-form textarea {
+    /* width: 487px; */
+    height: 240px;
+    resize: none;
+}
+
+.contact-form .upperLabel {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.contact-form .lowerLabel {
+    font-weight: 400;
+    font-size: 10px;
+    color: #6E6E70;
+    padding-top: 6px;
+}
+
+.contact-form .nameGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.contactUsImage-container {
+    text-align: center;
+}
+
+.contactUsImage-container img {
+    width: 13.5rem;
+}
+
+.submitBtn-container {
+    text-align: end;
+}
+
+.submitBtn-container button {
+    border: none;
+    cursor: pointer;
+    background: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration-line: underline;
+}

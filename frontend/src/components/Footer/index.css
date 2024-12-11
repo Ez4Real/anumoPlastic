@@ -1,0 +1,77 @@
+.footer-container {
+    padding: 5.625rem 2.875rem;
+}
+
+.footer-container .footerLogo-container {
+    padding-bottom: 3rem;
+}
+
+.footerContent-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.footerContent-container ul {
+    list-style: none;  
+    padding: 0;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-decoration-line: underline;
+}
+
+.footerContent-container ul li {
+    padding-bottom: .5rem;
+}
+
+.footerContent-container p {
+    font-size: 14px;
+    margin: 0 0 .5rem 0;
+}
+
+.footerContent-container input {
+    font-size: 12px;
+    padding: .5rem 0;
+    border: none;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+.footerContent-container .signUp-container {
+    width: 21.5rem;
+}
+
+/* .footerContent-container .languageCurrency-container {
+    display: flex;
+    flex-direction: column;
+} */
+
+/* .footerContent-container .languageCurrency-container .language{
+    border-bottom: 1px solid black;
+}
+
+.footerContent-container .languageCurrency-container div {
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+} */
+
+.footer-container .socialLinks {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-decoration-line: underline;
+}
+
+.footer-container .socialLinks span {
+    padding-right: 1.375rem;
+}
+
+.footerLinks-container ul {
+    margin-top: 0;
+}
+
+.linksLocalization-container {
+    display: flex;
+    justify-content: space-between;
+}

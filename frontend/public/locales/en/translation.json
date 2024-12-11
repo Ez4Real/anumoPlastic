@@ -1,0 +1,172 @@
+{
+    "HomePage": {
+        "anumoAbout": "We are a design studio of objects made from recycled plastic. Established in 2020 in Kyiv. We explore the possibilities of plastic recycling and reuse, transforming it into unique accessories and interior items",
+        "material": {
+            "title": "MATERIAL",
+            "description": "HDPE plastic (bottles from detergents, cosmetics, or baby food)."
+        },
+        "production": {
+            "title": "PRODUCTION",
+            "description": "80% hand-made / 20% work with technical equipment: thermal press, extruder, and additional electrical tools."
+        },
+        "inspiration": {
+            "title": "INSPIRATION",
+            "description": "We draw inspiration from colors and always pay special attention to selecting materials and color combinations using collage techniques. This results in our products having unique patterns and a recognizable style."
+        },
+        "values": {
+            "title": "VALUES",
+            "description": "We demonstrate that eco-consciousness and creativity are sustainable solutions in the fight for a clean environment. Plastic recycling has great potential and allows us to create quality functional items that provide aesthetic satisfaction while conserving our planet’s resources.\n\nWe advocate for open and honest cooperation, built on horizontal hierarchy and principles of mutual respect. We do not support exploitation or product testing on animals. We do not cooperate with terrorist countries."
+        },
+        "aboutPolicy": "We advocate for open and honest cooperation, built on horizontal hierarchy and principles of mutual respect. We do not support exploitation or product testing on animals. We do not cooperate with terrorist countries",
+        "shopTitle": "SHOP",
+        "enjoyResponsibility": "ENJOY RESPONSIBILITY",
+        "categoriesTitle": "CATEGORIES",
+        "carabiners": "CARABINERS",
+        "bookHolders": "BOOK HOLDERS",
+        "chokers": "CHOKERS",
+        "plates": "PLATES",
+        "soapDishes": "SOAP DISHES",
+        "projectsTitle": "PROJECTS",
+        "alltrueestTitle": "ALLTRUEEST",
+        "alltrueestDesc": "Large dining table and coffee table made of recycled plastic for Alltrueest cafe",
+        "alltrueestFrom": "Pattern made by Anumo Plastic",
+        "giraffeTitle": "TABLE TOP MOBLE “GIRAFFE”",
+        "hypermobileTitle": "HYPERMOBILE",
+        "viewAll": "VIEW ALL",
+        "cooperation": "COOPERATION"
+    },
+
+    "Header": {
+        "homeLink": "HOME",
+        "shopLink": "SHOP",
+        "projectsLink": "PROJECTS",
+        "aboutLink": "ABOUT US",
+        "contactUsLink": "CONTACT US",
+        "findUsLink": "FIND US",
+        
+        "cartTitle": "YOUR CART",
+        "emptyCart": "YOUR BAG IS EMPTY",
+        "emptyCartHint": "/Item added to your bag will show up here/",
+        "cartShopLink": "SHOP",
+        "checkoutBtn": "CHECKOUT",
+        "checkoutHint": "Shopping, taxes and discount codes calculated at checkout."
+    },
+
+    "Footer": {
+        "newsletter": "SIGN UP FOR OUR NEWSLETTER",
+        "emailPlaceholder": "ENTER YOUR EMAIL HERE",
+        "privacyPolicyLink": "Privacy Policy",
+        "paymentDeliveryLink": "Payment and Delivery",
+        "returnsLink": "Returns",
+        "lang": "ENG",
+        "currency": "USD"
+    },
+
+    "ContactUs": {
+        "pageName": "Contact Us",
+        "nameLabel": "NAME",
+        "firstNameLabel": "First Name",
+        "lastNameLabel": "Last Name",
+        "emailLabel": "EMAIL",
+        "subjectLabel": "SUBJECT",
+        "messageLabel": "MESSAGE",
+        "submitLabel": "SUBMIT"
+    },
+
+    "ProjectsPage": {
+        "pageName": "Projects",
+        "seeAll": "SEE ALL",
+        
+        "projects": {
+            "sunnyBunny": {
+                "title": "SUNNY BUNNY AWARD",
+                "description": "Unique director's award made of recycled plastic by ANUMO"
+            },
+            "ukrainianCeramics": {
+                "title": "UKRAINIAN CERAMICS:JUG AND POTS FROM BIOMATERIAL",
+                "description": "These jug and pots are the result of research into the history of Ukrainian ceramics and the development of its technologies.\n\nIn this project we rethink the technology of ceramics, using 3D printing technology and materials of natural origin: starch, miscanthus, and vegetable wax. This combination gives space for reflection on the possibilities of using uncommon materials in everyday life, as well as recycling materials for a more ecological and harmonious existence in the world.\n\nVases appear in sustained pastel colors that remind us of the colors of Ukraine -  the color of clay and the mown grass.\n\nPatterns on jugs and pots have natural motifs: flowers, a sown field (a sign of fertility), and wicker reeds.\n\nThe project is designed to explore Ukrainian culture and introduce it to the audience.\n\nDuring the Russian-Ukrainian full-scale war, when people from other countries learn about Ukraine from photos of destroyed cities and killed people, it is vital to show the other side of Ukraine - its culture. "
+            },
+            "tabletopGiraffe": {
+                "title": "TABLETOP MOBLE “GIRAFFE”\n& KINETIC SCULPTURE “FRACTAL”",
+                "description": "Made by @anumoplastic and @vasyadmytryk",
+                "option1": "Material: recycled plastic and metal elements\nSize: 560x650x250 mm",
+                "option2": "Material: recycled plastic and metal elements\nSize: 540x550x275 mm"
+            },
+            "chokers": {
+                "title": "CHOKERS",
+                "description": "3D art project in collaboration with Yaroslav Kozlitin"
+            },
+            "trays": {
+                "title": "TRAYS",
+                "description": "Made of recycled plastic.\n\nDesigned by Anumo Plastic"
+            },
+            "coffeeTables": {
+                "title": "COFFEE TABLES",
+                "description": "Made of recycled plastic and metal elements.\nDesigned by Anumo Plastic x Pab.Objects"
+            },
+            "soapHolders": {
+                "title": "SOAP HOLDERS FOR PRÊT-À-PORTER\nBRAND «THE COAT»"
+            },
+            "hypermobile": {
+                "title": "HYPERMOBILE",
+                "description": "Kinetic sculpture made of recycled plastic and metal elements.\n\nCreated by @anumoplastic and @vasyadmytryk for @bravefactoryfestival"
+            },
+            "welcomeBoards": {
+                "title": "WELCOME BOARDS \nFOR BURSA HOTEL",
+                "description": "Made of recycled plastic, covered with UV laser marking.\n\nDesigned by Anumo Plastic"
+            },
+            "alltrueest": {
+                "title": "ALLTRUEEST",
+                "from": "Pattern made by Anumo Plastic",
+                "description": "A large rectangular dining table and a small round coffee table.\n\nMade for the Alltrueest café in Kyiv."
+            },
+            "tableIvan": {
+                "title": "TABLE IVAN",
+                "description": "The transformation of plastic under the influence of Ukrainian crafts",
+                "description_1": "The «Ivan» project was born from a chance encounter with a photograph of an antique chair from the Ivan Honchar Museum. The chair’s unique design and natural motifs caught our attention. Though its creator remains unknown, the chair, separated from the museum’s main collection, became a profound source of inspiration for us.\n\nUsing the forms of this historic chair as the foundation, we crafted a unique table named Ivan, honoring the renowned Ukrainian artist and collector Ivan Honchar. While Honchar and other craftsmen worked with traditional materials like clay and wood, at our studio, Anumo, we explore the potential of plastic bottles—typically viewed as waste. To us, this material is a contemporary resource full of possibilities.\n\nOur research focuses on pushing the boundaries of what plastic can achieve. Inspired by traditional woodcarving techniques, we adapted these methods for plastic. Using a rotary tool, we created intricate grooves on the tabletop, giving it a tactile, three-dimensional texture.\n\nThe table legs feature a monochrome color palette and echo the contours of the tabletop, embodying naive, natural motifs. In contrast to the understated legs, the tabletop is composed of numerous colorful detergent bottles, resulting in a vivid, dynamic surface.\n\nWith its form and vibrant patterns, the table bridges the gap between modernity and antiquity. We embrace eclecticism—a hallmark of our culture and everyday life—fearlessly blending diverse elements.\n\nThe Ivan project is our manifesto for sustainable design and a celebration of creative experimentation. It embodies our exploration of Ukrainian culture and plastic recycling, demonstrating how waste can be transformed into new, functional, and aesthetically pleasing objects without harming the environment.\n\nIvan The Table was developed in collaboration with 22fworks Studio.",
+                "characteristics": {
+                    "title": "Technical characteristics",
+                    "list": "Length: 675 мм\nWidth: 334 мм\nHeight: 353 мм\nWeight: 6,85 kg\nMaterial: recycled plastic type 2 (HDPE)"
+                }
+            },
+            "glasses&Necklace": {
+                "title": "GLASSES CHAIN AND NECKLACE",
+                "description": "Designed by Anumo Plastic\n\nMade of recycled plastic and nylon thread."
+            }
+        },
+        "back": "BACK",
+        "next": "NEXT"
+    },
+    
+    "Product": {
+        "addToCart": "ADD TO CART"
+    },
+
+    "Checkout": {
+        "contactFormTitle": "Contact",
+        "firstNamePlaceholder": "First name",
+        "lastNamePlaceholder": "Last name",
+        "emailPlaceholder": "Email",
+        "emailMeCheckbox": "Email me with news and offers",
+        "phonePlaceholder": "Phone",
+        "deliveryFormTitle": "Delivery",
+        "deliveryUkraine": "Delivery across Ukraine",
+        "deliveryEurope": "Delivery across Europe",
+        "deliveryOverseas": "Delivery overseas (Northern and Southern America,\nAustralia, Africa and other Oceanic countries)",
+        "orderCommentTitle": "Add a comment to the order",
+        "paymentTitle": "Payment",
+        "cardPayment": "Payment by card online",
+        "placeOrder": "PLACE ORDER",
+        "orderSummaryTitle": "Order Summary",
+        "orderSubtotal": "Subtotal",
+        "orderShipping": "Shipping",
+        "orderTotal": "Total",
+        "checkoutCurrency": "USD"
+    },
+
+    "ThankYou": {
+        "title": "THANK YOU FOR YOUR PURCHASE",
+        "info": "Wait for an email with tracking info",
+        "mainPageLink": "MAIN PAGE"
+    }
+}   

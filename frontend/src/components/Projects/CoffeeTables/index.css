@@ -1,0 +1,13 @@
+
+
+.coffeeTables-container {
+    display: grid;
+    grid-template-columns: 594px 369px;
+    gap: 46px;
+}
+
+.coffeeTables-container .leftBottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px;
+}

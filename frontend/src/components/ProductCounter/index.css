@@ -1,0 +1,19 @@
+.productCounter-container {
+    display: flex;
+    width: 75px;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.productCounter-container div {
+    width: 2rem;
+    text-align: center;
+}
+
+.productCounter-container .amount {
+    padding: 0 1rem;
+}
+
+.productCounter-container .adjust {
+    cursor: pointer;
+}

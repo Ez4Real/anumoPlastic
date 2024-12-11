@@ -1,0 +1,17 @@
+.glassesAndNecklace-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 46px;
+}
+
+.glassesAndNecklace-container .left {
+    display: flex;
+    gap: 46px;
+    flex-direction: column;
+}
+
+.glassesAndNecklace-container .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

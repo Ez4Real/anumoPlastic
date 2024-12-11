@@ -418,7 +418,7 @@ export type TDataDeleteItem = {
   id: string
 }
 
-export class ItemsService {
+export class ProductsService {
   /**
    * Read Items
    * Retrieve items.

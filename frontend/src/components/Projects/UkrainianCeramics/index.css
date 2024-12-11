@@ -1,0 +1,30 @@
+.ukrainianCeramics-container {
+    display: grid;
+    grid-template-columns: 44% 52%;
+    gap: 46px;
+}
+
+.ukrainianCeramics-container img {
+    width: 100%;
+}
+
+.ukrainianCeramics-container .rightColumn {
+    display: flex;
+    gap: 46px;
+    flex-direction: column;
+}
+
+.ukrainianCeramics-container .rightColumn .grid2x2Row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 46px;
+}
+
+.ukrainianCeramics-container .rightColumn .grid2x2Row img {
+    height: 100%;
+}
+
+.leftImage-container {
+    padding-bottom: 46px;
+}
+

@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+}
+
+#root {
+    white-space: pre-line;
+}
+
+button {
+    font-family: 'Inter' ,sans-serif;
+}
+
+.main-layout {
+    font-family: 'Inter' ,sans-serif;
+    font-size: 2rem;
+}
+
+.container {
+    overflow: hidden;
+}
+
+.content {
+    padding: 0 46px;
+}
+
+.Link {
+    color: black;
+}
+

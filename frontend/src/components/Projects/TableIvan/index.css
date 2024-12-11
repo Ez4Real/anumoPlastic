@@ -1,0 +1,50 @@
+.tableIvan-container {
+    display: grid;
+    grid-template-columns: 40% 56%;
+    gap: 46px;
+}
+
+.projectComponent-container p.top {
+    padding-bottom: 24px;
+}
+
+.projectComponent-container p.bottom {
+    padding-top: 68px;
+}
+
+
+.tableIvan-container .left {
+    display: flex;
+    flex-direction: column;
+    gap: 46px;
+}
+
+.tableIvan-container .right {
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+    gap: 46px;
+}
+
+.tableIvan-container .right img { 
+    height: 100%;
+}
+
+.projectComponent-container div.characteristics-container {
+    padding-top: 24px;
+}
+
+.projectComponent-container div.characteristics-container .title {
+    margin: 0;
+    padding-bottom: 8px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.projectComponent-container div.seeAll-container {
+    font-weight: 700;
+    text-decoration: underline;
+    font-size: 16px;
+    text-align: end;
+    padding-top: 24px;
+}
+

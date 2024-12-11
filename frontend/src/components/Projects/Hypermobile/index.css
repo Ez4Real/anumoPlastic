@@ -1,0 +1,18 @@
+.hypermobile-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+    padding-bottom: 24px;
+}
+
+.hypermobile-container .left {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.hypermobile-container .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

@@ -1,4 +1,5 @@
-import { Flex, Spinner } from "@chakra-ui/react"
+import theme from "../theme"
+import { ChakraProvider, Flex, Spinner } from "@chakra-ui/react"
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router"
 
 import Sidebar from "../components/Common/Sidebar"
@@ -20,16 +21,18 @@ function Layout() {
   const { isLoading } = useAuth()
 
   return (
-    <Flex maxW="large" h="auto" position="relative">
-      <Sidebar />
-      {isLoading ? (
-        <Flex justify="center" align="center" height="100vh" width="full">
-          <Spinner size="xl" color="ui.main" />
-        </Flex>
-      ) : (
-        <Outlet />
-      )}
-      <UserMenu />
-    </Flex>
+    <ChakraProvider theme={theme}>
+      <Flex maxW="large" h="auto" position="relative">
+        <Sidebar />
+        {isLoading ? (
+          <Flex justify="center" align="center" height="100vh" width="full">
+            <Spinner size="xl" color="ui.main" />
+          </Flex>
+        ) : (
+          <Outlet />
+        )}
+        <UserMenu />
+      </Flex>
+    </ChakraProvider>
   )
 }
