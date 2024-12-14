@@ -2,7 +2,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any
+from typing import Optional, Any, List
 
 import emails  # type: ignore
 import jwt
@@ -25,7 +25,7 @@ class EmailData:
 def render_email_template(*, template_name: str, context: dict[str, Any]) -> str:
     template_str = (
         Path(__file__).parent / "email-templates" / "build" / template_name
-    ).read_text()
+    ).read_text(encoding="utf-8")
     html_content = Template(template_str).render(context)
     return html_content
 
@@ -35,6 +35,7 @@ def send_email(
     email_to: str,
     subject: str = "",
     html_content: str = "",
+    attachments: Optional[List[dict]] = None
 ) -> None:
     assert settings.emails_enabled, "no provided configuration for email variables"
     message = emails.Message(
@@ -42,6 +43,16 @@ def send_email(
         html=html_content,
         mail_from=(settings.EMAILS_FROM_NAME, settings.EMAILS_FROM_EMAIL),
     )
+    
+    if attachments:
+        for attachment in attachments:
+            message.attach(
+                filename=attachment['filename'],
+                content_disposition=attachment['content_disposition'],
+                data=open(attachment['file_path'], "rb"),
+                cid=attachment['cid']
+            )
+    
     smtp_options = {"host": settings.SMTP_HOST, "port": settings.SMTP_PORT}
     if settings.SMTP_TLS:
         smtp_options["tls"] = True
@@ -96,6 +107,15 @@ def generate_new_account_email(
             "email": email_to,
             "link": settings.FRONTEND_HOST,
         },
+    )
+    return EmailData(html_content=html_content, subject=subject)
+
+
+def generate_newsletter_subscription_email(email_to: str) -> EmailData:
+    subject = "Anumo Plastic: Activate Your Subscription"
+    html_content = render_email_template(
+        template_name="newsletter_subscription.html",
+        context={"email": email_to},
     )
     return EmailData(html_content=html_content, subject=subject)
 
