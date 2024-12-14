@@ -92,6 +92,7 @@
 
 .CategoriesRight-homepage li{
     text-decoration-line: underline;
+    cursor: pointer;
     padding-bottom: .75rem;
 }
 
