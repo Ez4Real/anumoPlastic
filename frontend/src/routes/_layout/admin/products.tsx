@@ -18,7 +18,7 @@ import { z } from "zod"
 import { ProductsService } from "../../../client/index.ts"
 import ActionsMenu from "../../../components/Common/ActionsMenu.tsx"
 import Navbar from "../../../components/Common/Navbar.tsx"
-import AddItem from "../../../components/Items/AddItem.tsx"
+import AddProduct from "../../../components/Products/AddProduct.tsx"
 import { PaginationFooter } from "../../../components/Common/PaginationFooter.tsx"
 
 const productsSearchSchema = z.object({
@@ -35,8 +35,8 @@ const PER_PAGE = 5
 function getProductsQueryOptions({ page }: { page: number }) {
   return {
     queryFn: () =>
-      ProductsService.readItems({ skip: (page - 1) * PER_PAGE, limit: PER_PAGE }),
-    queryKey: ["items", { page }],
+      ProductsService.readProducts({ skip: (page - 1) * PER_PAGE, limit: PER_PAGE }),
+    queryKey: ["products", { page }],
   }
 }
 
@@ -103,7 +103,7 @@ function ProductsTable() {
                     {product.description || "N/A"}
                   </Td>
                   <Td>
-                    <ActionsMenu type={"Item"} value={product} />
+                    <ActionsMenu type={"Product"} value={product} />
                   </Td>
                 </Tr>
               ))}
@@ -128,7 +128,7 @@ function Products() {
         Products Management
       </Heading>
 
-      <Navbar type={"Item"} addModalAs={AddItem} />
+      <Navbar type={"Product"} addModalAs={AddProduct} />
       <ProductsTable />
     </Container>
   )

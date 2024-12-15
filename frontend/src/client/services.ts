@@ -14,10 +14,10 @@ import type {
   UsersPublic,
   UserUpdate,
   UserUpdateMe,
-  ItemCreate,
-  ItemPublic,
-  ItemsPublic,
-  ItemUpdate,
+  ProductCreate,
+  ProductPublic,
+  ProductsPublic,
+  ProductUpdate,
 } from "./models"
 
 export type TDataLoginAccessToken = {
@@ -400,38 +400,38 @@ export class UtilsService {
   }
 }
 
-export type TDataReadItems = {
+export type TDataReadProducts = {
   limit?: number
   skip?: number
 }
-export type TDataCreateItem = {
-  requestBody: ItemCreate
+export type TDataCreateProduct = {
+  requestBody: ProductCreate
 }
-export type TDataReadItem = {
+export type TDataReadProduct = {
   id: string
 }
-export type TDataUpdateItem = {
+export type TDataUpdateProduct = {
   id: string
-  requestBody: ItemUpdate
+  requestBody: ProductUpdate
 }
-export type TDataDeleteItem = {
+export type TDataDeleteProduct = {
   id: string
 }
 
 export class ProductsService {
   /**
-   * Read Items
-   * Retrieve items.
-   * @returns ItemsPublic Successful Response
+   * Read Products
+   * Retrieve products.
+   * @returns ProductsPublic Successful Response
    * @throws ApiError
    */
-  public static readItems(
-    data: TDataReadItems = {},
-  ): CancelablePromise<ItemsPublic> {
+  public static readProducts(
+    data: TDataReadProducts = {},
+  ): CancelablePromise<ProductsPublic> {
     const { limit = 100, skip = 0 } = data
     return __request(OpenAPI, {
       method: "GET",
-      url: "/api/v1/items/",
+      url: "/api/v1/products/",
       query: {
         skip,
         limit,
@@ -443,18 +443,18 @@ export class ProductsService {
   }
 
   /**
-   * Create Item
-   * Create new item.
-   * @returns ItemPublic Successful Response
+   * Create Product
+   * Create new product.
+   * @returns ProductPublic Successful Response
    * @throws ApiError
    */
-  public static createItem(
-    data: TDataCreateItem,
-  ): CancelablePromise<ItemPublic> {
+  public static createProduct(
+    data: TDataCreateProduct,
+  ): CancelablePromise<ProductPublic> {
     const { requestBody } = data
     return __request(OpenAPI, {
       method: "POST",
-      url: "/api/v1/items/",
+      url: "/api/v1/products/",
       body: requestBody,
       mediaType: "application/json",
       errors: {
@@ -464,16 +464,16 @@ export class ProductsService {
   }
 
   /**
-   * Read Item
-   * Get item by ID.
-   * @returns ItemPublic Successful Response
+   * Read Product
+   * Get product by ID.
+   * @returns ProductPublic Successful Response
    * @throws ApiError
    */
-  public static readItem(data: TDataReadItem): CancelablePromise<ItemPublic> {
+  public static readProduct(data: TDataReadProduct): CancelablePromise<ProductPublic> {
     const { id } = data
     return __request(OpenAPI, {
       method: "GET",
-      url: "/api/v1/items/{id}",
+      url: "/api/v1/products/{id}",
       path: {
         id,
       },
@@ -484,18 +484,18 @@ export class ProductsService {
   }
 
   /**
-   * Update Item
-   * Update an item.
-   * @returns ItemPublic Successful Response
+   * Update Product
+   * Update an product.
+   * @returns ProductPublic Successful Response
    * @throws ApiError
    */
-  public static updateItem(
-    data: TDataUpdateItem,
-  ): CancelablePromise<ItemPublic> {
+  public static updateProduct(
+    data: TDataUpdateProduct,
+  ): CancelablePromise<ProductPublic> {
     const { id, requestBody } = data
     return __request(OpenAPI, {
       method: "PUT",
-      url: "/api/v1/items/{id}",
+      url: "/api/v1/products/{id}",
       path: {
         id,
       },
@@ -508,16 +508,16 @@ export class ProductsService {
   }
 
   /**
-   * Delete Item
-   * Delete an item.
+   * Delete Product
+   * Delete an product.
    * @returns Message Successful Response
    * @throws ApiError
    */
-  public static deleteItem(data: TDataDeleteItem): CancelablePromise<Message> {
+  public static deleteProduct(data: TDataDeleteProduct): CancelablePromise<Message> {
     const { id } = data
     return __request(OpenAPI, {
       method: "DELETE",
-      url: "/api/v1/items/{id}",
+      url: "/api/v1/products/{id}",
       path: {
         id,
       },

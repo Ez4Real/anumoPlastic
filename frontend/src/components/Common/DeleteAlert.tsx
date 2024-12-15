@@ -31,8 +31,8 @@ const Delete = ({ type, id, isOpen, onClose }: DeleteProps) => {
   } = useForm()
 
   const deleteEntity = async (id: string) => {
-    if (type === "Item") {
-      await ProductsService.deleteItem({ id: id })
+    if (type === "Product") {
+      await ProductsService.deleteProduct({ id: id })
     } else if (type === "User") {
       await UsersService.deleteUser({ userId: id })
     } else {
@@ -59,7 +59,7 @@ const Delete = ({ type, id, isOpen, onClose }: DeleteProps) => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [type === "Item" ? "items" : "users"],
+        queryKey: [type === "Product" ? "products" : "users"],
       })
     },
   })
@@ -84,7 +84,7 @@ const Delete = ({ type, id, isOpen, onClose }: DeleteProps) => {
             <AlertDialogBody>
               {type === "User" && (
                 <span>
-                  All items associated with this user will also be{" "}
+                  All products associated with this user will also be{" "}
                   <strong>permantly deleted. </strong>
                 </span>
               )}

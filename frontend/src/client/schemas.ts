@@ -60,7 +60,7 @@ export const $HTTPValidationError = {
   },
 } as const
 
-export const $ItemCreate = {
+export const $ProductCreate = {
   properties: {
     title: {
       type: "string",
@@ -83,7 +83,7 @@ export const $ItemCreate = {
   },
 } as const
 
-export const $ItemPublic = {
+export const $ProductPublic = {
   properties: {
     title: {
       type: "string",
@@ -116,7 +116,7 @@ export const $ItemPublic = {
   },
 } as const
 
-export const $ItemUpdate = {
+export const $ProductUpdate = {
   properties: {
     title: {
       type: "any-of",
@@ -146,12 +146,12 @@ export const $ItemUpdate = {
   },
 } as const
 
-export const $ItemsPublic = {
+export const $ProductsPublic = {
   properties: {
     data: {
       type: "array",
       contains: {
-        type: "ItemPublic",
+        type: "ProductPublic",
       },
       isRequired: true,
     },
