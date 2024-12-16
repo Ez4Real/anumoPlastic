@@ -1,6 +1,9 @@
 import uuid
 
+from enum import Enum
+from sqlmodel import SQLModel, Field
 from pydantic import EmailStr
+from typing import Optional
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -58,7 +61,6 @@ class UsersPublic(SQLModel):
 
 # Shared properties
 class ProductBase(SQLModel):
-    __tablename__ = "product"
     title: str = Field(min_length=1, max_length=255)
     description: str | None = Field(default=None, max_length=255)
 
@@ -75,7 +77,6 @@ class ProductUpdate(ProductBase):
 
 # Database model, database table inferred from class name
 class Product(ProductBase, table=True):
-    __tablename__ = "product"
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     title: str = Field(max_length=255)
     owner_id: uuid.UUID = Field(
@@ -95,11 +96,6 @@ class ProductsPublic(SQLModel):
     count: int
 
 
-# Generic message
-class Message(SQLModel):
-    message: str
-
-
 # JSON payload containing access token
 class Token(SQLModel):
     access_token: str
@@ -114,23 +110,41 @@ class TokenPayload(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=40)
-
-
-# class SubscriberBase(SQLModel):
-#     email: EmailStr = Field(unique=True, index=True, max_length=255)
-#     is_active: bool = Field(default=False)
-#     mailing_language: str | None = Field(default=None, max_length=2)
     
-# # Properties to receive via API on creation
-# class SubscriberCreate(SubscriberBase):
-#     pass
 
-# # Properties to receive via API on update, all are optional
-# class SubscriberUpdate(SubscriberBase):
-#     # email: EmailStr | None = Field(default=None, max_length=255)  # type: ignore
-#     is_active: bool | None = Field(default=None)
-#     mailing_language: str | None = Field(default=None, max_length=2)
-    
-# # Database model, database table inferred from class name
-# class Subscriber(SubscriberBase, table=True):
-#     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+class MailingLanguage(str, Enum):
+    EN = "en"
+    UK = "uk"
+
+
+class SubscriberBase(SQLModel):
+    email: EmailStr = Field(unique=True, index=True, max_length=255)
+    is_active: bool = Field(default=False)
+    mailing_language: Optional[MailingLanguage] = Field(default=None)
+
+
+class SubscriberCreate(SubscriberBase):
+    pass
+
+
+class SubscriberUpdate(SubscriberBase):
+    is_active: bool | None = Field(default=None)
+    mailing_language: Optional[MailingLanguage] = Field(default=None)
+
+
+class Subscriber(SubscriberBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+
+
+class SubscriberPublic(SubscriberBase):
+    id: uuid.UUID
+
+
+class SubscribersPublic(SQLModel):
+    data: list[SubscriberPublic]
+    count: int
+
+
+# Generic message
+class Message(SQLModel):
+    message: str

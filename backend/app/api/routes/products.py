@@ -77,7 +77,7 @@ def update_product(
     product_in: ProductUpdate,
 ) -> Any:
     """
-    Update an product.
+    Update a product.
     """
     product = session.get(Product, id)
     if not product:
@@ -97,7 +97,7 @@ def delete_product(
     session: SessionDep, current_user: CurrentUser, id: uuid.UUID
 ) -> Message:
     """
-    Delete an product.
+    Delete a product.
     """
     product = session.get(Product, id)
     if not product:
