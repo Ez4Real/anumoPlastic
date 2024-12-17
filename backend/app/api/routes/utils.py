@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic.networks import EmailStr
 
-from app.api.deps import get_current_active_superuser
-from app.models import Message
+from app import crud
+from app.api.deps import get_current_active_superuser, SessionDep
+from app.models import Message, SubscriberCreate
 from app.utils import generate_test_email, send_email, \
     generate_newsletter_subscription_email
 
@@ -31,10 +32,17 @@ def test_email(email_to: EmailStr) -> Message:
     "/newsletter-subscription/",
     status_code=201,
 )
-def newsletter_subscription(email_to: EmailStr) -> Message:
+def newsletter_subscription(email_to: EmailStr, session: SessionDep) -> Message:
     """
     Newsletter subscription emails
     """
+    subscriber = crud.get_subscriber_by_email(session=session, email=email_to)
+    if not subscriber:
+        subscriber_in = SubscriberCreate(email=email_to)
+        subscriber = crud.create_subscriber(session=session, subscriber_in=subscriber_in)
+    if subscriber.is_active:
+        raise HTTPException(status_code=400, detail="Subscriber already exists.")
+    
     email_data = generate_newsletter_subscription_email(email_to=email_to)
     
     logo_filename = 'logo-black.png'
