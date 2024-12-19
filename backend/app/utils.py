@@ -111,11 +111,11 @@ def generate_new_account_email(
     return EmailData(html_content=html_content, subject=subject)
 
 
-def generate_newsletter_subscription_email(email_to: str) -> EmailData:
+def generate_newsletter_subscription_email(email_to: str, activation_link: str) -> EmailData:
     subject = "Anumo Plastic: Activate Your Subscription"
     html_content = render_email_template(
         template_name="newsletter_subscription.html",
-        context={"email": email_to},
+        context={"email": email_to, "activation_link": activation_link},
     )
     return EmailData(html_content=html_content, subject=subject)
 

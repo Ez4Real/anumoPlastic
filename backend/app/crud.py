@@ -4,7 +4,7 @@ from typing import Any
 from sqlmodel import Session, select
 
 from app.core.security import get_password_hash, verify_password
-from app.models import Product, ProductCreate, User, UserCreate, UserUpdate, Subscriber, SubscriberCreate
+from app.models import Product, ProductCreate, User, UserCreate, UserUpdate, Subscriber, SubscriberCreate, SubscriberUpdate
 
 
 def create_user(*, session: Session, user_create: UserCreate) -> User:
@@ -66,3 +66,17 @@ def get_subscriber_by_email(*, session: Session, email: str) -> Subscriber | Non
     statement = select(Subscriber).where(Subscriber.email == email)
     session_subscriber = session.exec(statement).first()
     return session_subscriber
+
+
+def update_subscriber(
+        *,
+        session: Session,
+        db_subscriber: Subscriber,
+        subscriber_in: SubscriberUpdate
+    ) -> Any:
+    subscriber_data = subscriber_in.model_dump(exclude_unset=True)
+    db_subscriber.sqlmodel_update(subscriber_data)
+    session.add(db_subscriber)
+    session.commit()
+    session.refresh(db_subscriber)
+    return db_subscriber

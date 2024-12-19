@@ -128,6 +128,7 @@ class SubscriberCreate(SubscriberBase):
 
 
 class SubscriberUpdate(SubscriberBase):
+    email: Optional[EmailStr] = None
     is_active: bool | None = Field(default=None)
     mailing_language: Optional[MailingLanguage] = Field(default=None)
 
