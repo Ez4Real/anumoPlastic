@@ -1,12 +1,13 @@
 import { Box, Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
-import { FiBriefcase, FiSettings, FiUsers } from "react-icons/fi"
+import { FiBriefcase, FiSettings, FiUsers, FiMail } from "react-icons/fi"
 
 import type { UserPublic } from "../../client"
 
 const items = [
   { icon: FiBriefcase, title: "Products", path: "/products" },
+  { icon: FiMail, title: "Subscribers", path: "/subscribers" },
   { icon: FiSettings, title: "User Settings", path: "/settings" },
 ]
 

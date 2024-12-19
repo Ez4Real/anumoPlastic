@@ -162,6 +162,55 @@ export const $ProductsPublic = {
   },
 } as const
 
+export const $SubscriberPublic = {
+  properties: {
+    email: {
+      type: "string",
+      isRequired: true,
+      format: "email",
+      maxLength: 255,
+    },
+    is_active: {
+      type: "boolean",
+      isRequired: true,
+    },
+    mailing_language: {
+      type: "any-of",
+      contains: [
+        {
+          type: "string",
+          maxLength: 2,
+        },
+        {
+          type: "null",
+        },
+      ],
+      isRequired: false,
+    },
+    id: {
+      type: "string",
+      isRequired: true,
+      format: "uuid",
+    },
+  },
+} as const;
+
+export const $SubscribersPublic = {
+  properties: {
+    data: {
+      type: "array",
+      contains: {
+        type: "SubscriberPublic",
+      },
+      isRequired: true,
+    },
+    count: {
+      type: "number",
+      isRequired: true,
+    },
+  },
+} as const
+
 export const $Message = {
   properties: {
     message: {

@@ -33,6 +33,18 @@ export type ProductsPublic = {
   count: number
 }
 
+export type SubscriberPublic = {
+  email: string
+  is_active?: boolean
+  mailing_language?: string | null
+  id: string
+}
+
+export type SubscribersPublic = {
+  data: Array<SubscriberPublic>
+  count: number
+}
+
 export type Message = {
   message: string
 }

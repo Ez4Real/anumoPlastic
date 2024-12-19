@@ -18,6 +18,8 @@ import type {
   ProductPublic,
   ProductsPublic,
   ProductUpdate,
+  SubscribersPublic,
+  SubscriberPublic
 } from "./models"
 
 export type TDataLoginAccessToken = {
@@ -517,6 +519,59 @@ export class ProductsService {
     const { id } = data
     return __request(OpenAPI, {
       method: "DELETE",
+      url: "/api/v1/products/{id}",
+      path: {
+        id,
+      },
+      errors: {
+        422: `Validation Error`,
+      },
+    })
+  }
+}
+
+export type TDataReadSubscribers = {
+  limit?: number
+  skip?: number
+}
+export type TDataReadSubscriber = {
+  id: string
+}
+
+export class SubscribersService {
+  /**
+   * Read Subscribers
+   * Retrieve products.
+   * @returns SubscribersPublic Successful Response
+   * @throws ApiError
+   */
+  public static readSubscribers(
+    data: TDataReadSubscribers = {},
+  ): CancelablePromise<SubscribersPublic> {
+    const { limit = 100, skip = 0 } = data
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/subscribers/",
+      query: {
+        skip,
+        limit,
+      },
+      errors: {
+        422: `Validation Error`,
+      },
+    })
+  }
+
+  /**
+   * Read Subscriber
+   * Get product by ID.
+   * @returns SubscriberPublic Successful Response
+   * @throws ApiError
+   */
+  public static readSubscriber(data: TDataReadSubscriber): CancelablePromise<SubscriberPublic> {
+    const { id } = data
+    return __request(OpenAPI, {
+      method: "GET",
       url: "/api/v1/products/{id}",
       path: {
         id,
