@@ -137,7 +137,7 @@ import {
   function Subscribers() {
     return (
       <Container maxW="full">
-        <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
+        <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12} pb={2}>
           Subscribers
         </Heading>
   
