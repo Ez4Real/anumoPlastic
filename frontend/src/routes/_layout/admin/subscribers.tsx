@@ -103,7 +103,7 @@ import {
                       maxWidth="150px"
                     >
                     {subscriber.mailing_language
-                      ? { en: "English", uk: "Ukrainian" }[subscriber.mailing_language] || "Unknown"
+                      ? { en: "English", uk: "Ukrainian" }[subscriber.mailing_language]
                       : "N/A"}
                     </Td>
                     <Td>
