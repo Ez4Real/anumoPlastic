@@ -1,11 +1,11 @@
 import uuid
-
+from datetime import datetime, timezone
 from enum import Enum
-from sqlmodel import SQLModel, Field
-from pydantic import EmailStr
-from typing import Optional
-from sqlmodel import Field, Relationship, SQLModel
 
+from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy import UniqueConstraint
+from pydantic import EmailStr
+from typing import List
 
 # Shared properties
 class UserBase(SQLModel):
@@ -14,87 +14,126 @@ class UserBase(SQLModel):
     is_superuser: bool = False
     full_name: str | None = Field(default=None, max_length=255)
 
-
 # Properties to receive via API on creation
 class UserCreate(UserBase):
     password: str = Field(min_length=8, max_length=40)
-
 
 class UserRegister(SQLModel):
     email: EmailStr = Field(max_length=255)
     password: str = Field(min_length=8, max_length=40)
     full_name: str | None = Field(default=None, max_length=255)
 
-
 # Properties to receive via API on update, all are optional
 class UserUpdate(UserBase):
     email: EmailStr | None = Field(default=None, max_length=255)  # type: ignore
     password: str | None = Field(default=None, min_length=8, max_length=40)
 
-
 class UserUpdateMe(SQLModel):
     full_name: str | None = Field(default=None, max_length=255)
     email: EmailStr | None = Field(default=None, max_length=255)
-
 
 class UpdatePassword(SQLModel):
     current_password: str = Field(min_length=8, max_length=40)
     new_password: str = Field(min_length=8, max_length=40)
 
-
 # Database model, database table inferred from class name
 class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     hashed_password: str
-    products: list["Product"] = Relationship(back_populates="owner", cascade_delete=True)
-
+    products: List["Product"] = Relationship(back_populates="owner", cascade_delete=True)
 
 # Properties to return via API, id is always required
 class UserPublic(UserBase):
     id: uuid.UUID
 
-
 class UsersPublic(SQLModel):
-    data: list[UserPublic]
+    data: List[UserPublic]
     count: int
 
 
-# Shared properties
+class ProductCategory(str, Enum):
+    CARABINER = "Carabiner"
+    BOOK_HOLDER = "Book holder"
+    CHOKER = "Choker"
+    PLATE = "Plate"
+    SOAP_HOLDER = "Soap holder"
+
+class CarabinerTags(str, Enum):
+    BUNNY = "bunny"
+    HEART = "heart"
+    SHURIKEN = "shuriken"
+    SPIKELET = "spikelet"
+
+
 class ProductBase(SQLModel):
-    title: str = Field(min_length=1, max_length=255)
-    description: str | None = Field(default=None, max_length=255)
-
-
-# Properties to receive on product creation
+    # Generic Product fields:
+    category: ProductCategory = Field(nullable=False)
+    title_en: str = Field(min_length=5, max_length=255)
+    title_uk: str = Field(min_length=5, max_length=255)
+    material_en: str = Field(min_length=5, max_length=255)
+    material_uk: str = Field(min_length=5, max_length=255)
+    price_usd: float = Field(ge=0.9, le=10000.0)
+    price_uah: float = Field(ge=0.9, le=10000.0)
+    size: str = Field(max_length=50)
+    # Optional Product fields:
+    weight: str | None = Field(max_length=50, default=None)
+    tag: CarabinerTags | None = Field(default=None)
+    
 class ProductCreate(ProductBase):
-    pass
+    images: List["ProductImageCreate"] | None = Field(default=None)
 
-
-# Properties to receive on product update
 class ProductUpdate(ProductBase):
-    title: str | None = Field(default=None, min_length=1, max_length=255)  # type: ignore
+    category: ProductCategory | None = Field(default=None)
+    title_en: str | None = Field(default=None, min_length=5, max_length=255)
+    title_uk: str | None = Field(default=None, min_length=5, max_length=255)
+    material_en: str | None = Field(default=None, min_length=5, max_length=255)
+    material_uk: str | None = Field(default=None, min_length=5, max_length=255)
+    size: str | None = Field(default=None, max_length=50)
+    price_usd: float | None = Field(default=None, ge=0.9, le=10000.0)
+    price_uah: float | None = Field(default=None, ge=0.9, le=10000.0)
+    images: List["ProductImageCreate"] | None = Field(default=None)
 
-
-# Database model, database table inferred from class name
 class Product(ProductBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    title: str = Field(max_length=255)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     owner_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     owner: User | None = Relationship(back_populates="products")
+    images: list["ProductImage"] = Relationship(back_populates="product", cascade_delete=True)
 
-
-# Properties to return via API, id is always required
 class ProductPublic(ProductBase):
     id: uuid.UUID
     owner_id: uuid.UUID
-
+    images: list["ProductImage"]
 
 class ProductsPublic(SQLModel):
-    data: list[ProductPublic]
+    data: List[ProductPublic]
     count: int
 
+
+class ProductImageBase(SQLModel):
+    url: str
+    alt_text: str | None = None
+    
+class ProductImageCreate(ProductImageBase):
+    order: int | None = Field(default=None)
+    
+class ProductImageUpdate(ProductImageBase):
+    id: uuid.UUID
+    order: int | None = None
+
+class ProductImage(ProductImageBase, table=True):
+    __tablename__ = "product_image"
+    __table_args__ = (UniqueConstraint("product_id", "order", name="unique_product_image_order"),)
+    
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    product_id: uuid.UUID = Field(
+        foreign_key="product.id", nullable=False, ondelete="CASCADE"
+    )
+    product: Product | None = Relationship(back_populates="images")
+    order: int = Field(default=None)
+    
 
 # JSON payload containing access token
 class Token(SQLModel):
@@ -120,29 +159,24 @@ class MailingLanguage(str, Enum):
 class SubscriberBase(SQLModel):
     email: EmailStr = Field(unique=True, index=True, max_length=255)
     is_active: bool = Field(default=False)
-    mailing_language: Optional[MailingLanguage] = Field(default=None)
-
+    mailing_language: MailingLanguage | None = Field(default=None)
 
 class SubscriberCreate(SubscriberBase):
     pass
 
-
 class SubscriberUpdate(SubscriberBase):
-    email: Optional[EmailStr] = None
+    email: EmailStr | None = None
     is_active: bool | None = Field(default=None)
-    mailing_language: Optional[MailingLanguage] = Field(default=None)
-
+    mailing_language: MailingLanguage | None = Field(default=None)
 
 class Subscriber(SubscriberBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
 
-
 class SubscriberPublic(SubscriberBase):
     id: uuid.UUID
 
-
 class SubscribersPublic(SQLModel):
-    data: list[SubscriberPublic]
+    data: List[SubscriberPublic]
     count: int
 
 
