@@ -168,5 +168,77 @@
         "title": "THANK YOU FOR YOUR PURCHASE",
         "info": "Wait for an email with tracking info",
         "mainPageLink": "MAIN PAGE"
+    },
+
+    "AdminPanel": {
+        "products": {
+            "categories": {
+                "carabiner": "Carabiner",
+                "bookHolder": "Book holder",
+                "choker": "Choker",
+                "plate": "Plate",
+                "soapHolder": "Soap holder"
+            },
+            "tags": {
+                "bunny": "Bunny",
+                "heart": "Heart",
+                "shuriken": "Shuriken",
+                "spikelet": "Spikelet"
+            },
+            "addProduct": {
+                "onSuccessCreateToast": {
+                    "success": "Success!",
+                    "created": "Product created successfully."
+                },
+                "fields": {
+                    "category": {
+                        "title": "Category", 
+                        "placeholder": "Select category"
+                    },
+                    "title_en": {
+                        "title": "English title", 
+                        "placeholder": "English title",
+                        "required": "English title is required."
+                    },
+                    "title_uk": {
+                        "title": "Ukrainian title", 
+                        "placeholder": "Ukrainian title",
+                        "required": "Ukrainian title is required."
+                    },
+                    "material_en": {
+                        "title": "English material", 
+                        "placeholder": "English material",
+                        "required": "English material is required."
+                    },
+                    "material_uk": {
+                        "title": "Ukrainian material", 
+                        "placeholder": "Ukrainian material",
+                        "required": "Ukrainian material is required."
+                    },
+                    "price_usd": {
+                        "title": "USD price",
+                        "required": "USD price is required."
+                    },
+                    "price_uah": {
+                        "title": "UAH price",
+                        "required": "UAH price is required."
+                    },
+                    "size": {
+                        "title": "Size", 
+                        "placeholder": "Size",
+                        "required": "Product size is required."
+                    },
+                    "weight": {
+                        "title": "Weight", 
+                        "placeholder": "Weight"
+                    },
+                    "tag": {
+                        "title": "Тег", 
+                        "placeholder": "Оберіть тег"
+                    }
+                }
+
+            }
+        }
     }
 }   
