@@ -128,7 +128,8 @@ export const $ProductBase = {
   },
 } as const;
 
-const $ProductImage = {
+//@ts-ignore
+const $ProductImage = { 
   properties: {
     url: { type: "string", isRequired: true },
     alt_text: { type: "string", maxLength: 255 },
