@@ -60,91 +60,150 @@ export const $HTTPValidationError = {
   },
 } as const
 
-export const $ProductCreate = {
+export const $ProductBase = {
   properties: {
-    title: {
+    category: {
+      type: "string",
+      enum: ["Carabiner", "Book holder", "Choker", "Plate", "Soap holder"],
+      isRequired: true,
+    },
+    title_en: {
       type: "string",
       isRequired: true,
       maxLength: 255,
-      minLength: 1,
+      minLength: 5,
     },
-    description: {
+    title_uk: {
+      type: "string",
+      isRequired: true,
+      maxLength: 255,
+      minLength: 5,
+    },
+    material_en: {
+      type: "string",
+      isRequired: true,
+      maxLength: 255,
+      minLength: 5,
+    },
+    material_uk: {
+      type: "string",
+      isRequired: true,
+      maxLength: 255,
+      minLength: 5,
+    },
+    price_usd: {
+      type: "number",
+      isRequired: true,
+      minimum: 0.9,
+      maximum: 10000.0,
+    },
+    price_uah: {
+      type: "number",
+      isRequired: true,
+      minimum: 0.9,
+      maximum: 10000.0,
+    },
+    size: {
+      type: "string",
+      isRequired: true,
+      maxLength: 50,
+    },
+    weight: {
+      type: "any-of",
+      contains: [
+        { type: "string", maxLength: 50 },
+        { type: "null" },
+      ],
+    },
+    tag: {
       type: "any-of",
       contains: [
         {
           type: "string",
-          maxLength: 255,
+          enum: ["bunny", "heart", "shuriken", "spikelet"],
         },
-        {
-          type: "null",
-        },
+        { type: "null" },
       ],
     },
   },
-} as const
+} as const;
+
+const $ProductImage = {
+  properties: {
+    url: { type: "string", isRequired: true },
+    alt_text: { type: "string", maxLength: 255 },
+    order: { type: "number", isRequired: true },
+  },
+} as const;
+
+export const $ProductCreate = {
+  allOf: [
+    { $ref: "#/$ProductBase" },
+    {
+      properties: {
+        images: {
+          type: "array",
+          contains: {
+            type: "ProductImage",
+          },
+          isRequired: true,
+        },
+      },
+    },
+  ],
+} as const;
 
 export const $ProductPublic = {
-  properties: {
-    title: {
-      type: "string",
-      isRequired: true,
-      maxLength: 255,
-      minLength: 1,
-    },
-    description: {
-      type: "any-of",
-      contains: [
-        {
-          type: "string",
-          maxLength: 255,
+  allOf: [
+    { $ref: "#/$ProductBase" },
+    {
+      properties: {
+        id: { type: "string", isRequired: true, format: "uuid" },
+        created_at: { type: "string", isRequired: true, format: "date-time" },
+        owner_id: { type: "string", isRequired: true, format: "uuid" },
+        images: {
+          type: "array",
+          contains: {
+            type: "ProductImage",
+          },
+          isRequired: true,
         },
-        {
-          type: "null",
-        },
-      ],
+      },
     },
-    id: {
-      type: "string",
-      isRequired: true,
-      format: "uuid",
-    },
-    owner_id: {
-      type: "string",
-      isRequired: true,
-      format: "uuid",
-    },
-  },
-} as const
+  ],
+} as const;
 
 export const $ProductUpdate = {
-  properties: {
-    title: {
-      type: "any-of",
-      contains: [
-        {
-          type: "string",
-          maxLength: 255,
-          minLength: 1,
-        },
-        {
-          type: "null",
-        },
-      ],
+  allOf: [
+    {
+      properties: Object.fromEntries(
+        Object.entries($ProductBase.properties).map(([key, value]) => [
+          key,
+          { ...value, isRequired: false },
+        ])
+      ),
     },
-    description: {
-      type: "any-of",
-      contains: [
-        {
-          type: "string",
-          maxLength: 255,
+    {
+      properties: {
+        images: {
+          type: "any-of",
+          contains: [
+            {
+              type: "array",
+              contains: {
+                type: "ProductImage",
+              },
+            },
+            {
+              type: "null",
+            },
+          ],
+          isRequired: false,
         },
-        {
-          type: "null",
-        },
-      ],
+      },
     },
-  },
-} as const
+  ],
+} as const;
 
 export const $ProductsPublic = {
   properties: {
@@ -161,6 +220,7 @@ export const $ProductsPublic = {
     },
   },
 } as const
+
 
 export const $SubscriberPublic = {
   properties: {

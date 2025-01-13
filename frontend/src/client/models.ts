@@ -11,27 +11,68 @@ export type HTTPValidationError = {
   detail?: Array<ValidationError>
 }
 
-export type ProductCreate = {
-  title: string
-  description?: string | null
+
+enum ProductCategory {
+  CARABINER = "Carabiner",
+  BOOK_HOLDER = "Book holder",
+  CHOKER = "Choker",
+  PLATE = "Plate",
+  SOAP_HOLDER = "Soap holder",
 }
 
-export type ProductPublic = {
-  title: string
-  description?: string | null
+enum CarabinerTags {
+  BUNNY = "bunny",
+  HEART = "heart",
+  SHURIKEN = "shuriken",
+  SPIKELET = "spikelet",
+}
+
+type ProductImageCreate = {
+  url: string;
+  alt_text?: string | null; 
+  order: number;   
+}
+
+type ProductBase = {
+  category: ProductCategory;
+  title_en: string;
+  title_uk: string;
+  material_en: string;
+  material_uk: string;
+  price_usd: number;
+  price_uah: number;
+  size: string;
+  weight?: string | null;       
+  tag?: CarabinerTags | null;      
+}
+
+export type ProductCreate = ProductBase & {
+  images?: ProductImageCreate[] | null; 
+};
+
+export type ProductPublic = ProductBase & {
   id: string
   owner_id: string
+  images?: ProductImageCreate[];
 }
 
-export type ProductUpdate = {
-  title?: string | null
-  description?: string | null
+export type ProductUpdate = ProductBase & {
+  category?: ProductCategory | null;
+  title_en?: string | null;
+  title_uk?: string | null;
+  material_en?: string | null;
+  material_uk?: string | null;
+  size?: string | null;
+  price_usd?: number | null;
+  price_uah?: number | null;
+  images?: ProductImageCreate[] | null;
 }
 
 export type ProductsPublic = {
   data: Array<ProductPublic>
   count: number
 }
+
 
 export type SubscriberPublic = {
   email: string
