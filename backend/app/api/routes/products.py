@@ -5,7 +5,8 @@ from fastapi import APIRouter, HTTPException
 from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Product, ProductCreate, ProductPublic, ProductsPublic, ProductUpdate, Message
+from app.models import Product, ProductCreate, ProductUpdate, \
+    ProductImage, ProductPublic, ProductsPublic, Message
 
 router = APIRouter()
 
@@ -61,9 +62,18 @@ def create_product(
     """
     Create new product.
     """
-    product = Product.model_validate(product_in, update={"owner_id": current_user.id})
+    product = Product.model_validate(
+        product_in.dict(exclude={"images"}),
+        update={"owner_id": current_user.id}
+    )
     session.add(product)
-    session.commit()
+
+    if product_in.images:
+        for image_in in product_in.images:
+            image = ProductImage.model_validate(image_in, update={"product_id": product.id})
+            session.add(image)
+
+    session.commit() 
     session.refresh(product)
     return product
 
@@ -84,8 +94,16 @@ def update_product(
         raise HTTPException(status_code=404, detail="Product not found")
     if not current_user.is_superuser and (product.owner_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
+    
     update_dict = product_in.model_dump(exclude_unset=True)
     product.sqlmodel_update(update_dict)
+    
+    if product_in.images:
+        session.query(ProductImage).filter(ProductImage.product_id == id).delete()
+        for image_in in product_in.images:
+            image = ProductImage.model_validate(image_in, update={"product_id": product.id})
+            session.add(image)
+    
     session.add(product)
     session.commit()
     session.refresh(product)
