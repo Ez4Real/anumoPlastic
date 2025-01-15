@@ -1,11 +1,8 @@
+import { useRef, useState } from "react";
 import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  InputLeftAddon,
-  InputGroup,
+  Grid,
+  GridItem,
+  Box,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,20 +10,34 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Grid,
-  GridItem,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  InputLeftAddon,
+  InputLeftElement,
+  InputGroup,
   Select,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-
+  Image,
+  VStack,
+  IconButton,
 } from "@chakra-ui/react"
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { type SubmitHandler, useForm } from "react-hook-form"
-
+import {
+  type SubmitHandler,
+  useForm,
+  useController,
+} from "react-hook-form"
+import { DragDropContext, Droppable, Draggable, ResponderProvided } from "react-beautiful-dnd";
+import { DeleteIcon } from '@chakra-ui/icons'
+import { FiImage } from "react-icons/fi";
 import { type ApiError, type ProductCreate, ProductsService } from "../../client"
 import useCustomToast from "../../hooks/useCustomToast"
 import { handleError } from "../../utils"
@@ -38,12 +49,15 @@ interface AddProductProps {
 
 const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
   const { t } = useTranslation();
-  
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
+
   const {
     register,
     handleSubmit,
+    control,
+    setError,
+    clearErrors,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<ProductCreate>({
@@ -69,7 +83,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
       ProductsService.createProduct({ requestBody: data }),
     onSuccess: () => {
       showToast(
-        t('AdminPanel.products.addProduct.onSuccessCreateToast.Success'),
+        t('AdminPanel.products.addProduct.onSuccessCreateToast.success'),
         t('AdminPanel.products.addProduct.onSuccessCreateToast.created'),
         "success")
       reset()
@@ -83,10 +97,72 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
     },
   })
 
+  const [images, setImages] = useState<Array<{ id: string; file: File; url: string }>>([]);
+
+  const { field: imagesField } = useController({
+    name: "images",
+    control,
+  });
+
+  const validateFile = (
+    file: File,
+    index: number,
+    allowedFormats: string[]
+  ): { id: string; file: File; url: string } | null => {
+    if (allowedFormats.includes(file.type)) {
+      return {
+        id: `${Date.now()}-${index}`,
+        file,
+        url: URL.createObjectURL(file),
+      };
+    }
+    return null;
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    const allowedFormats = ["image/png", "image/jpg", "image/jpeg", "image/jfif"]
+
+    if (files) {
+      const newImages = Array.from(files)
+        .map((file, index) => validateFile(file, index, allowedFormats))
+        .filter((image) => image !== null);
+
+      if (newImages.length < files.length) {
+        setError("images", {
+          type: "manual",
+          message: t("AdminPanel.products.addProduct.fields.images.invalidFormatMsg"),
+        });
+      } else {
+        clearErrors("images");
+      }
+
+      setImages((prev) => [...prev, ...newImages]);
+      imagesField.onChange(newImages.map((img) => img.file));
+    }
+  };
+
+  // Hangle Change Order
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const onSubmit: SubmitHandler<ProductCreate> = (data) => {
-    mutation.mutate(data)
+    const imageFiles = images.map((img, index) => ({
+      url: img.url,
+      alt_text: data.category || "",
+      order: index + 1,
+    }));
+
+    mutation.mutate({
+      ...data,
+      images: imageFiles,
+    })
+
+    setImages([])
   }
-  
+
+
+
 
   return (
     <>
@@ -97,12 +173,12 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
         motionPreset='slideInBottom'
         scrollBehavior='outside'
       >
-        <ModalOverlay 
+        <ModalOverlay
           backdropFilter='auto'
           backdropBlur='2px'
         />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)} maxW='95%'
-          // top='2rem' mb='4rem'
+        // top='2rem' mb='4rem'
         >
           <ModalHeader>{t('AdminPanel.actions.addProduct')}</ModalHeader>
           <ModalCloseButton />
@@ -113,7 +189,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                   <FormLabel htmlFor="category">
                     {t('AdminPanel.products.addProduct.fields.category.title')}
                   </FormLabel>
-                  <Select 
+                  <Select
                     {...register("category", {
                       required: t('AdminPanel.products.addProduct.fields.category.required')
                     })}
@@ -238,7 +314,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                   </FormLabel>
                   <InputGroup>
                     <InputLeftAddon>$</InputLeftAddon>
-                    <NumberInput 
+                    <NumberInput
                       precision={2}
                       step={0.2}
                       min={0.9}
@@ -263,13 +339,13 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                 </FormControl>
               </GridItem>
               <GridItem>
-              <FormControl isInvalid={!!errors.price_uah}>
+                <FormControl isInvalid={!!errors.price_uah}>
                   <FormLabel htmlFor="price_uah">
                     {t('AdminPanel.products.addProduct.fields.price_uah.title')}
                   </FormLabel>
                   <InputGroup>
                     <InputLeftAddon>₴</InputLeftAddon>
-                    <NumberInput 
+                    <NumberInput
                       precision={2}
                       step={0.2}
                       min={0.9}
@@ -303,7 +379,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                     {...register("weight")}
                     placeholder={t('AdminPanel.products.addProduct.fields.weight.placeholder')}
                     type="text"
-                    />
+                  />
                   {errors.weight && (
                     <FormErrorMessage>{errors.weight.message}</FormErrorMessage>
                   )}
@@ -337,24 +413,40 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                 </FormControl>
               </GridItem>
 
-              {/* <GridItem>
-                <FormControl>
-                  <FormLabel htmlFor="images">
-                    {t('AdminPanel.products.addProduct.fields.images.title')}
-                  </FormLabel>
-                  <Input
-                    id="images"
-                    {...register("images")}
-                    placeholder={t('AdminPanel.products.addProduct.fields.images.placeholder')}
-                    type="image"
+              <GridItem>
+                <FormControl isInvalid={!!errors.images}>
+                  <FormLabel>{t("AdminPanel.products.addProduct.fields.images.title")}</FormLabel>
+                  <InputGroup >
+                    <InputLeftElement pointerEvents="none">
+                      <FiImage />
+                    </InputLeftElement>
+                    <Input
+                      {...register("images")}
+                      type='file'
+                      accept=".jpg, .jpeg, .jfif, .png"
+                      multiple
+                      hidden
+                      ref={inputRef}
+                      onChange={handleImageUpload}
                     />
-                  {errors.images && (
-                    <FormErrorMessage>{errors.images.message}</FormErrorMessage>
-                  )}
+                    <Input
+                      readOnly
+                      placeholder={t("AdminPanel.products.addProduct.fields.images.placeholder")}
+                      onClick={() => inputRef.current?.click()}
+                      value={images.map((img) => img.file.name).join(", ")}
+                      fontSize="sm"
+                      color='rgba(255, 255, 255, 0.5)'
+                    />
+                  </InputGroup>
+                  <FormErrorMessage>
+                    {errors.images && errors?.images.message}
+                  </FormErrorMessage>
                 </FormControl>
-              </GridItem> */}
-
+              </GridItem>
             </Grid>
+
+            {/* Images array ... */}
+
           </ModalBody>
           <ModalFooter gap={3} pt={0}>
             <Button variant="primary" type="submit" isLoading={isSubmitting}>

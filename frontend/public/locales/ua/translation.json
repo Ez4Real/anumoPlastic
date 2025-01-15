@@ -240,6 +240,15 @@
                     "weight": {
                         "title": "Вага", 
                         "placeholder": "Вага"
+                    },
+                    "tag": {
+                        "title": "Тег", 
+                        "placeholder": "Оберіть тег"
+                    },
+                    "images": {
+                        "title": "Зображення",
+                        "placeholder": "Завантажте зображення",
+                        "invalidFormatMsg": "Неправильний формат зображення. Допустимі формати: PNG, JPG, JPEG, JFIF."
                     }
                 }
             }

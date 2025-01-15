@@ -242,8 +242,13 @@
                         "placeholder": "Weight"
                     },
                     "tag": {
-                        "title": "Тег", 
-                        "placeholder": "Оберіть тег"
+                        "title": "Tag", 
+                        "placeholder": "Select tag"
+                    },
+                    "images": {
+                        "title": "Images",
+                        "placeholder": "Upload image(s)",
+                        "invalidFormatMsg": "Invalid image format. Valid formats: PNG, JPG, JPEG, JFIF."
                     }
                 }
 
