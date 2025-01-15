@@ -171,6 +171,14 @@
     },
 
     "AdminPanel": {
+        "title": {
+            "products": "Products Management"
+        },
+        "actions": {
+            "addProduct": "Add Product",
+            "save": "Save",
+            "cancel": "Cancel"
+        },
         "products": {
             "categories": {
                 "carabiner": "Carabiner",
@@ -193,7 +201,8 @@
                 "fields": {
                     "category": {
                         "title": "Category", 
-                        "placeholder": "Select category"
+                        "placeholder": "Select category",
+                        "required": "Category is required."
                     },
                     "title_en": {
                         "title": "English title", 
@@ -224,9 +233,9 @@
                         "required": "UAH price is required."
                     },
                     "size": {
-                        "title": "Size", 
-                        "placeholder": "Size",
-                        "required": "Product size is required."
+                        "title": "Size(s)", 
+                        "placeholder": "Size(s)",
+                        "required": "Product size(s) is required."
                     },
                     "weight": {
                         "title": "Weight", 

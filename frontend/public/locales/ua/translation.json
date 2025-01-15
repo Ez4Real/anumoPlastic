@@ -171,6 +171,14 @@
     },
 
     "AdminPanel": {
+        "title": {
+            "products": "Менеджмент Продуктів"
+        },
+        "actions": {
+            "addProduct": "Додати Продукт",
+            "save": "Зберегти",
+            "cancel": "Скасувати"
+        },
         "products": {
             "categories": {
                 "carabiner": "Карабін",
@@ -193,7 +201,8 @@
                 "fields": {
                     "category": {
                         "title": "Категорія", 
-                        "placeholder": "Оберіть категорію"
+                        "placeholder": "Оберіть категорію",
+                        "required": "Категорія обов'язкова."
                     },
                     "title_en": {
                         "title": "Назва англійською", 
@@ -224,9 +233,9 @@
                         "required": "Ціна в гривнях обов'язкова."
                     },
                     "size": {
-                        "title": "Розмір", 
-                        "placeholder": "Розмір",
-                        "required": "Розмір продукту обов'язковий."
+                        "title": "Розмір(и)", 
+                        "placeholder": "Розмір(и)",
+                        "required": "Розмір(и) продукту є обов'язковим(-и)."
                     },
                     "weight": {
                         "title": "Вага", 
