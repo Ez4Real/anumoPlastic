@@ -54,9 +54,6 @@ import {
       ...getSubscribersQueryOptions({ page }),
       placeholderData: (prevData) => prevData,
     })
-
-    console.log("Subscribers: ", subscribers);
-    
   
     const hasNextPage = !isPlaceholderData && subscribers?.data.length === PER_PAGE
     const hasPreviousPage = page > 1

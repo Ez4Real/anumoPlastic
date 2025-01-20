@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import {
   Grid,
   GridItem,
-  Box,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -24,23 +23,19 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  Image,
-  VStack,
-  IconButton,
+  useColorModeValue,
 } from "@chakra-ui/react"
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import {
   type SubmitHandler,
   useForm,
-  useController,
 } from "react-hook-form"
-import { DragDropContext, Droppable, Draggable, ResponderProvided } from "react-beautiful-dnd";
-import { DeleteIcon } from '@chakra-ui/icons'
 import { FiImage } from "react-icons/fi";
 import { type ApiError, type ProductCreate, ProductsService } from "../../client"
 import useCustomToast from "../../hooks/useCustomToast"
 import { handleError } from "../../utils"
+import ImagesOrderingContainer from './ImageOrderingContainer';
 
 interface AddProductProps {
   isOpen: boolean
@@ -49,13 +44,13 @@ interface AddProductProps {
 
 const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
   const { t } = useTranslation();
+  const scrollbarColor = useColorModeValue("ui.main", 'ui.dim')
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
 
   const {
     register,
     handleSubmit,
-    control,
     setError,
     clearErrors,
     reset,
@@ -97,12 +92,23 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
     },
   })
 
-  const [images, setImages] = useState<Array<{ id: string; file: File; url: string }>>([]);
+  const onSubmit: SubmitHandler<ProductCreate> = (data) => {
+    const imageFiles = images.map((img, index) => ({
+      url: img.url,
+      alt_text: data.category || "",
+      order: index + 1,
+    }));
 
-  const { field: imagesField } = useController({
-    name: "images",
-    control,
-  });
+    mutation.mutate({
+      ...data,
+      images: imageFiles,
+    })
+  }
+
+  
+  const [images, setImages] = useState<Array<{ id: string; file: File; url: string }>>([]);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+
 
   const validateFile = (
     file: File,
@@ -138,38 +144,19 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
       }
 
       setImages((prev) => [...prev, ...newImages]);
-      imagesField.onChange(newImages.map((img) => img.file));
     }
   };
 
-  // Hangle Change Order
-
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const onSubmit: SubmitHandler<ProductCreate> = (data) => {
-    const imageFiles = images.map((img, index) => ({
-      url: img.url,
-      alt_text: data.category || "",
-      order: index + 1,
-    }));
-
-    mutation.mutate({
-      ...data,
-      images: imageFiles,
-    })
-
-    setImages([])
-  }
-
-
-
+  const handleRemoveImage = (id: string) => {
+    const filtered = images.filter((img) => img.id !== id);
+    setImages(filtered);
+  };
 
   return (
     <>
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        isCentered
         motionPreset='slideInBottom'
         scrollBehavior='outside'
       >
@@ -177,15 +164,27 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
           backdropFilter='auto'
           backdropBlur='2px'
         />
-        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)} maxW='95%'
-        // top='2rem' mb='4rem'
+        <ModalContent
+          as="form"
+          onSubmit={handleSubmit(onSubmit)}
+          maxW='95%'
+          my='2rem'
+          containerProps={{
+            sx: { 
+              '::-webkit-scrollbar-thumb':{
+                background: scrollbarColor,
+              },               
+            }
+          }}
+          
+          
         >
           <ModalHeader>{t('AdminPanel.actions.addProduct')}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody pb={6} >
             <Grid templateColumns='repeat(2, 1fr)' gap='1rem'>
               <GridItem>
-                <FormControl isRequired isInvalid={!!errors.category} variant="floatingLabel">
+                <FormControl isRequired isInvalid={!!errors.category} >
                   <FormLabel htmlFor="category">
                     {t('AdminPanel.products.addProduct.fields.category.title')}
                   </FormLabel>
@@ -308,7 +307,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                 </FormControl>
               </GridItem>
               <GridItem>
-                <FormControl isInvalid={!!errors.price_usd}>
+                <FormControl isRequired isInvalid={!!errors.price_usd}>
                   <FormLabel htmlFor="price_usd">
                     {t('AdminPanel.products.addProduct.fields.price_usd.title')}
                   </FormLabel>
@@ -320,12 +319,17 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                       min={0.9}
                       max={10000}
                       w='100%'
+                      allowMouseWheel
                     >
                       <NumberInputField
+                        id="price_usd"
                         {...register("price_usd", {
-                          required: t('AdminPanel.products.addProduct.fields.price_usd.required')
+                          required: t('AdminPanel.products.addProduct.fields.price_usd.required'),
+                          min: 0.9,
+                          max: 10000,
                         })}
                         borderLeftRadius={0}
+                        borderLeftWidth={0}
                       />
                       <NumberInputStepper>
                         <NumberIncrementStepper />
@@ -339,7 +343,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                 </FormControl>
               </GridItem>
               <GridItem>
-                <FormControl isInvalid={!!errors.price_uah}>
+                <FormControl isRequired isInvalid={!!errors.price_uah}>
                   <FormLabel htmlFor="price_uah">
                     {t('AdminPanel.products.addProduct.fields.price_uah.title')}
                   </FormLabel>
@@ -351,12 +355,17 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                       min={0.9}
                       max={10000}
                       w='100%'
+                      allowMouseWheel
                     >
                       <NumberInputField
+                        id="price_uah"
                         {...register("price_uah", {
-                          required: t('AdminPanel.products.addProduct.fields.price_uah.required')
+                          required: t('AdminPanel.products.addProduct.fields.price_uah.required'),
+                          min: 0.9,
+                          max: 10000,
                         })}
                         borderLeftRadius={0}
+                        borderLeftWidth={0}
                       />
                       <NumberInputStepper>
                         <NumberIncrementStepper />
@@ -412,43 +421,47 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                   )}
                 </FormControl>
               </GridItem>
-
-              <GridItem>
-                <FormControl isInvalid={!!errors.images}>
-                  <FormLabel>{t("AdminPanel.products.addProduct.fields.images.title")}</FormLabel>
-                  <InputGroup >
-                    <InputLeftElement pointerEvents="none">
-                      <FiImage />
-                    </InputLeftElement>
-                    <Input
-                      {...register("images")}
-                      type='file'
-                      accept=".jpg, .jpeg, .jfif, .png"
-                      multiple
-                      hidden
-                      ref={inputRef}
-                      onChange={handleImageUpload}
-                    />
-                    <Input
-                      readOnly
-                      placeholder={t("AdminPanel.products.addProduct.fields.images.placeholder")}
-                      onClick={() => inputRef.current?.click()}
-                      value={images.map((img) => img.file.name).join(", ")}
-                      fontSize="sm"
-                      color='rgba(255, 255, 255, 0.5)'
-                    />
-                  </InputGroup>
-                  <FormErrorMessage>
-                    {errors.images && errors?.images.message}
-                  </FormErrorMessage>
-                </FormControl>
-              </GridItem>
             </Grid>
 
-            {/* Images array ... */}
+            <FormControl isInvalid={!!errors.images} mt="1rem">
+              <FormLabel>{t("AdminPanel.products.addProduct.fields.images.title")}</FormLabel>
+              <InputGroup >
+                <InputLeftElement pointerEvents="none">
+                  <FiImage />
+                </InputLeftElement>
+                <Input
+                  {...register("images")}
+                  type='file'
+                  accept=".jpg, .jpeg, .jfif, .png"
+                  multiple
+                  hidden
+                  ref={imageInputRef}
+                  onChange={handleImageUpload}
+                />
+                <Input
+                  readOnly
+                  placeholder={t("AdminPanel.products.addProduct.fields.images.placeholder")}
+                  onClick={() => imageInputRef.current?.click()}
+                  value={images.map((img) => img.file.name).join(", ")}
+                  fontSize="sm"
+                />
+              </InputGroup>
+              <FormErrorMessage>
+                {errors.images && errors?.images.message}
+              </FormErrorMessage>
+            </FormControl>
 
+            {images.length > 0 && (
+              <ImagesOrderingContainer
+                images={images}
+                onRemove={handleRemoveImage}
+                scrollbarColor={scrollbarColor}
+                isOpen={isOpen}
+              />
+            )}
+            
           </ModalBody>
-          <ModalFooter gap={3} pt={0}>
+          <ModalFooter gap={3} pt={1}>
             <Button variant="primary" type="submit" isLoading={isSubmitting}>
               {t('AdminPanel.actions.save')}
             </Button>

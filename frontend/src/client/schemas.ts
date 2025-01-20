@@ -95,13 +95,13 @@ export const $ProductBase = {
       type: "number",
       isRequired: true,
       minimum: 0.9,
-      maximum: 10000.0,
+      maximum: 10000,
     },
     price_uah: {
       type: "number",
       isRequired: true,
       minimum: 0.9,
-      maximum: 10000.0,
+      maximum: 10000,
     },
     size: {
       type: "string",
