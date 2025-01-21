@@ -2,11 +2,11 @@
     cursor: pointer;
 }
 
-.languageCurrency-container .language{
-    border-bottom: 1px solid;
+.languageCurrency-container div {
+    line-height: 20px;
+    text-align: center;
 }
 
-.languageCurrency-container div {
-    line-height: 19px;
-    text-align: center;
+.languageCurrency-container .language{
+    border-bottom: 1px solid;
 }
