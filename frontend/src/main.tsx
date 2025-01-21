@@ -4,7 +4,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router"
 import ReactDOM from "react-dom/client"
 import { routeTree } from "./routeTree.gen"
 
-import { StrictMode } from "react"
+// import { StrictMode } from "react"
 import { OpenAPI } from "./client"
 import './i18n';
 
@@ -23,9 +23,9 @@ declare module "@tanstack/react-router" {
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+  // <StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
-  </StrictMode>
+  // </StrictMode>
 )

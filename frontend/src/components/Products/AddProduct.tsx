@@ -454,6 +454,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
             {images.length > 0 && (
               <ImagesOrderingContainer
                 images={images}
+                setImages={setImages}
                 onRemove={handleRemoveImage}
                 scrollbarColor={scrollbarColor}
                 isOpen={isOpen}

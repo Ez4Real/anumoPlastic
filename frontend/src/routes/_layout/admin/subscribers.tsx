@@ -90,7 +90,7 @@ import {
               <Tbody>
                 {subscribers?.data.map((subscriber) => (
                   <Tr key={subscriber.id} opacity={isPlaceholderData ? 0.5 : 1}>
-                    <Td maxWidth="250px">{subscriber.id}</Td>
+                    <Td>{subscriber.id}</Td>
                     <Td isTruncated maxWidth="200px">
                       {subscriber.email}
                     </Td>

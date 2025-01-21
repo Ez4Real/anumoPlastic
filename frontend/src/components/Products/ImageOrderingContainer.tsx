@@ -1,9 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 import { HStack, Box, Image, IconButton } from "@chakra-ui/react";
+import { DragDropContext,
+         Droppable,
+         Draggable,
+         DroppableProvided,
+         DraggableProvided
+       } from "react-beautiful-dnd";
 import { DeleteIcon } from "@chakra-ui/icons";
 
+type ImageItem = { id: string; file: File; url: string };
+
 interface ImagesContainerProps {
-  images: Array<{ id: string; file: File; url: string }>;
+  images: Array<ImageItem>;
+  setImages: React.Dispatch<React.SetStateAction<Array<ImageItem>>>;
   onRemove: (id: string) => void;
   scrollbarColor: string;
   isOpen: boolean;
@@ -11,6 +20,7 @@ interface ImagesContainerProps {
 
 const ImagesOrderingContainer = ({
     images,
+    setImages,
     onRemove,
     scrollbarColor,
     isOpen
@@ -42,43 +52,77 @@ const ImagesOrderingContainer = ({
     };
   }, [isOpen, scrollContainer, images.length]);
 
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return;
+
+    const reordered = Array.from(images);
+    const [moved] = reordered.splice(result.source.index, 1);
+    reordered.splice(result.destination.index, 0, moved);
+    setImages(reordered);
+  };
+
   return (
-    <HStack
-      ref={imagesScrollContainerRef}
-      spacing={2}
-      mt={4}
-      pb=".5rem"
-      overflowX="auto"
-      sx={{
-        "::-webkit-scrollbar-thumb": {
-          background: scrollbarColor,
-        },
-      }}
-    >
-      {images.map((img, index) => (
-        <Box position="relative" key={index}>
-          <Image
-            src={img.url}
-            alt={`Uploaded image ${index + 1}`}
-            boxSize="100px"
-            minW="100px"
-            objectFit="cover"
-            borderRadius="md"
-          />
-          <IconButton
-            aria-label="Remove image"
-            icon={<DeleteIcon color="red.500" />}
-            size="xs"
-            onClick={() => onRemove(img.id)}
-            position="absolute"
-            top="2px"
-            right="2px"
-            bg="transparent"
-            _hover={{ bg: "whiteAlpha.500" }}
-          />
-        </Box>
-      ))}
-    </HStack>
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <Droppable droppableId="droppable" direction="horizontal">
+        {(provided: DroppableProvided) => (
+          <HStack
+            ref={(node) => {
+              imagesScrollContainerRef(node);
+              provided.innerRef(node);
+            }}
+            mt={4}
+            pb=".5rem"
+            overflowX="auto"
+            spacing={0}
+            sx={{
+              "::-webkit-scrollbar-thumb": {
+                background: scrollbarColor,
+              },
+            }}
+            {...provided.droppableProps}
+          >
+            {images.map((img, index) => (
+              <Draggable
+                key={img.id}
+                draggableId={img.id}
+                index={index}
+              >
+                {(draggableProvided: DraggableProvided) => (
+                  <Box
+                    ref={draggableProvided.innerRef}
+                    {...draggableProvided.draggableProps}
+                    {...draggableProvided.dragHandleProps}
+                    position="relative"
+                    mr={2}
+                  >
+                    <Image
+                      src={img.url}
+                      alt={`Uploaded image ${index + 1}`}
+                      boxSize="100px"
+                      minW="100px"
+                      objectFit="cover"
+                      borderRadius="md"
+                    />
+                    <IconButton
+                      aria-label="Remove image"
+                      icon={<DeleteIcon color="red.500" />}
+                      size="xs"
+                      onClick={() => onRemove(img.id)}
+                      position="absolute"
+                      top="2px"
+                      right="2px"
+                      bg="transparent"
+                      _hover={{ bg: "whiteAlpha.500" }}
+                    />
+                  </Box>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </HStack>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
 
