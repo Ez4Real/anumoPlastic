@@ -1,5 +1,6 @@
 .languageCurrency-container {
     cursor: pointer;
+    height: fit-content;
 }
 
 .languageCurrency-container div {
