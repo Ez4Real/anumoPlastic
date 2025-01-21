@@ -180,6 +180,10 @@
             "cancel": "Скасувати"
         },
         "products": {
+            "tableHeads": {
+                "category": "Категорія",
+                "title": "Назва"
+            },
             "categories": {
                 "carabiner": "Карабін",
                 "bookHolder": "Книжкова полиця",

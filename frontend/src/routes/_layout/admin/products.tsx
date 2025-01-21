@@ -13,6 +13,7 @@ import {
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useEffect } from "react"
+import { useTranslation } from 'react-i18next';
 import { z } from "zod"
 
 import { ProductsService } from "../../../client/index.ts"
@@ -41,11 +42,15 @@ function getProductsQueryOptions({ page }: { page: number }) {
 }
 
 function ProductsTable() {
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language;
+  
   const queryClient = useQueryClient()
   const { page } = Route.useSearch()
   const navigate = useNavigate({ from: Route.fullPath })
   const setPage = (page: number) =>
-    navigate({ search: (prev: {[key: string]: string}) => ({ ...prev, page }) })
+    navigate({search: (prev: { [key: number]: string }) => ({...prev, page: page }),
+  });
 
   const {
     data: products,
@@ -71,10 +76,11 @@ function ProductsTable() {
         <Table size={{ base: "sm", md: "md" }}>
           <Thead>
             <Tr>
+              <Th>{t('AdminPanel.products.tableHeads.category')}</Th>
+              <Th>{t('AdminPanel.products.tableHeads.title')}</Th>
+              <Th>USD</Th>
+              <Th>UAH</Th>
               <Th>ID</Th>
-              <Th>Title</Th>
-              <Th>Description</Th>
-              <Th>Actions</Th>
             </Tr>
           </Thead>
           {isPending ? (
@@ -91,20 +97,35 @@ function ProductsTable() {
             <Tbody>
               {products?.data.map((product) => (
                 <Tr key={product.id} opacity={isPlaceholderData ? 0.5 : 1}>
-                  <Td>{product.id}</Td>
-                  <Td isTruncated maxWidth="150px">
-                    {product.title}
+                  <Td isTruncated maxWidth="135px">
+                    {product.category}
                   </Td>
+                  <Td isTruncated maxWidth="255px">
+                    {currentLang === 'en' && product.title_en}
+                    {currentLang === 'ua' && product.title_uk}
+                  </Td>
+
+                  <Td maxWidth="125px">
+                    ${product.price_usd.toFixed(2)}
+                  </Td>
+                  <Td maxWidth="125px">
+                    ₴{product.price_uah.toFixed(2)}
+                  </Td>
+                  <Td>{product.id}</Td>
+                  <Td>
+                    <ActionsMenu type={"Product"} value={product} />
+                  </Td>
+                  
+
+
+                  {/* Not Required Field!!!
                   <Td
                     color={!product.description ? "ui.dim" : "inherit"}
                     isTruncated
                     maxWidth="150px"
                   >
                     {product.description || "N/A"}
-                  </Td>
-                  <Td>
-                    <ActionsMenu type={"Product"} value={product} />
-                  </Td>
+                  </Td> */}
                 </Tr>
               ))}
             </Tbody>
@@ -122,10 +143,12 @@ function ProductsTable() {
 }
 
 function Products() {
+  const { t } = useTranslation();
+
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
-        Products Management
+        {t('AdminPanel.title.products')}
       </Heading>
 
       <Navbar type={"Product"} addModalAs={AddProduct} />

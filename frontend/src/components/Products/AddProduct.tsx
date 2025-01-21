@@ -27,10 +27,7 @@ import {
 } from "@chakra-ui/react"
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import {
-  type SubmitHandler,
-  useForm,
-} from "react-hook-form"
+import { type SubmitHandler, useForm } from "react-hook-form"
 import { FiImage } from "react-icons/fi";
 import { type ApiError, type ProductCreate, ProductsService } from "../../client"
 import useCustomToast from "../../hooks/useCustomToast"
@@ -176,8 +173,6 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
               },               
             }
           }}
-          
-          
         >
           <ModalHeader>{t('AdminPanel.actions.addProduct')}</ModalHeader>
           <ModalCloseButton />

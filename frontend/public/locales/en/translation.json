@@ -180,6 +180,10 @@
             "cancel": "Cancel"
         },
         "products": {
+            "tableHeads": {
+                "category": "Category",
+                "title": "Title"
+            },
             "categories": {
                 "carabiner": "Carabiner",
                 "bookHolder": "Book holder",
