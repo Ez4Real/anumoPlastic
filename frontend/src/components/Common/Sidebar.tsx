@@ -10,7 +10,7 @@ import {
   Image,
   Text,
   useColorModeValue,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { FiLogOut, FiMenu } from "react-icons/fi"
@@ -19,6 +19,7 @@ import Logo from "/assets/images/logo.svg"
 import type { UserPublic } from "../../client"
 import useAuth from "../../hooks/useAuth"
 import SidebarItems from "./SidebarItems"
+import SwitchLocalization from "../SwitchLocalization"
 
 const Sidebar = () => {
   const queryClient = useQueryClient()
@@ -26,6 +27,7 @@ const Sidebar = () => {
   const textColor = useColorModeValue("ui.dark", "ui.light")
   const secBgColor = useColorModeValue("ui.secondary", "ui.darkSlate")
   const logoFilter = useColorModeValue("invert(1)", "none");
+  const languageSeparatorColor = useColorModeValue("ui.dark", "ui.light");
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { logout } = useAuth()
@@ -67,11 +69,28 @@ const Sidebar = () => {
                   <Text ml={2}>Log out</Text>
                 </Flex>
               </Box>
-              {currentUser?.email && (
-                <Text color={textColor} noOfLines={2} fontSize="sm" p={2}>
-                  Logged in as: {currentUser.email}
-                </Text>
-              )}
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                {currentUser?.email && (
+                  <Text
+                    color={textColor}
+                    noOfLines={2}
+                    fontSize="sm"
+                    p={2}
+                    maxW="180px"
+                  >
+                    Logged in as: {currentUser.email}
+                  </Text>
+                )}
+                <SwitchLocalization
+                  separatorLineColor={languageSeparatorColor}
+                  fontSize=".875rem"
+                />
+              </Box>
+              
             </Flex>
           </DrawerBody>
         </DrawerContent>
@@ -80,7 +99,7 @@ const Sidebar = () => {
       {/* Desktop */}
       <Box
         bg={bgColor}
-        p={3}
+        p={2}
         h="100vh"
         position="sticky"
         top="0"
@@ -104,17 +123,27 @@ const Sidebar = () => {
             />
             <SidebarItems />
           </Box>
-          {currentUser?.email && (
-            <Text
-              color={textColor}
-              noOfLines={2}
-              fontSize="sm"
-              p={2}
-              maxW="180px"
-            >
-              Logged in as: {currentUser.email}
-            </Text>
-          )}
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            {currentUser?.email && (
+              <Text
+                color={textColor}
+                noOfLines={2}
+                fontSize="sm"
+                maxW="180px"
+              >
+                Logged in as: {currentUser.email}
+              </Text>
+            )}
+            <SwitchLocalization
+              containerWidth="1.775rem"
+              separatorLineColor={languageSeparatorColor}
+              fontSize=".875rem"
+            />
+          </Box>
         </Flex>
       </Box>
     </>
