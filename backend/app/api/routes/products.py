@@ -10,6 +10,11 @@ from app.models import Product, ProductCreate, ProductUpdate, \
 
 router = APIRouter()
 
+# !!!!!!!
+from pathlib import Path
+UPLOAD_DIR = Path("uploads/productImages")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
 
 @router.get("/", response_model=ProductsPublic)
 def read_products(
@@ -76,6 +81,32 @@ def create_product(
     session.commit() 
     session.refresh(product)
     return product
+
+
+# !!!!!!!
+from fastapi import APIRouter, UploadFile, File
+from typing import List
+import os
+@router.post("/upload-images")
+async def upload_images(images: List[UploadFile] = File(...)):
+    """
+    Upload multiple product images and save them to local storage.
+    """
+    print('\n\nImage ROUTE START\n\n')
+    image_urls = []
+
+    for image in images:
+        extension = os.path.splitext(image.filename)[1]
+        filename = f"{uuid.uuid4().hex}{extension}"
+        image_path = UPLOAD_DIR / filename
+        
+        with open(image_path, "wb") as f:
+            f.write(await image.read())
+
+        file_url = f"/{UPLOAD_DIR}/{filename}"
+        image_urls.append(file_url)
+
+    return { "urls": image_urls }
 
 
 @router.put("/{id}", response_model=ProductPublic)

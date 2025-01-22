@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { HStack, Box, Image, IconButton } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { type ImageItem } from "../../client"
 import { DragDropContext,
          Droppable,
          Draggable,
          DroppableProvided,
          DraggableProvided
        } from "react-beautiful-dnd";
-import { DeleteIcon } from "@chakra-ui/icons";
-
-type ImageItem = { id: string; file: File; url: string };
 
 interface ImagesContainerProps {
   images: Array<ImageItem>;

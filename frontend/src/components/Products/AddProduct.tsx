@@ -29,7 +29,7 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { FiImage } from "react-icons/fi";
-import { type ApiError, type ProductCreate, ProductsService } from "../../client"
+import { type ApiError, type ProductCreate, type ImageItem, ProductsService } from "../../client"
 import useCustomToast from "../../hooks/useCustomToast"
 import { handleError } from "../../utils"
 import ImagesOrderingContainer from './ImageOrderingContainer';
@@ -88,31 +88,18 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
       queryClient.invalidateQueries({ queryKey: ["products"] })
     },
   })
-
-  const onSubmit: SubmitHandler<ProductCreate> = (data) => {
-    const imageFiles = images.map((img, index) => ({
-      url: img.url,
-      alt_text: data.category || "",
-      order: index + 1,
-    }));
-
-    mutation.mutate({
-      ...data,
-      images: imageFiles,
-    })
-  }
-
   
-  const [images, setImages] = useState<Array<{ id: string; file: File; url: string }>>([]);
+  const [images, setImages] = useState<Array<ImageItem>>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-
-  const validateFile = (
+  const validateImage = (
     file: File,
     index: number,
-    allowedFormats: string[]
-  ): { id: string; file: File; url: string } | null => {
-    if (allowedFormats.includes(file.type)) {
+    allowedFormats: string[],
+    maxSizeMB: number = 5
+  ): ImageItem | null => {
+    // !!!!!!!
+    if (allowedFormats.includes(file.type) && file.size <= maxSizeMB * 1024 * 1024) {
       return {
         id: `${Date.now()}-${index}`,
         file,
@@ -124,12 +111,12 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    const allowedFormats = ["image/png", "image/jpg", "image/jpeg", "image/jfif"]
+    const allowedFormats = ["image/png", "image/jpg", "image/jpeg"]
 
     if (files) {
       const newImages = Array.from(files)
-        .map((file, index) => validateFile(file, index, allowedFormats))
-        .filter((image) => image !== null);
+        .map((file, index) => validateImage(file, index, allowedFormats))
+        .filter((image) => image !== null) as Array<ImageItem>;
 
       if (newImages.length < files.length) {
         setError("images", {
@@ -148,6 +135,41 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
     const filtered = images.filter((img) => img.id !== id);
     setImages(filtered);
   };
+  
+  // !!!!!!!
+  const saveImagesToLocalStorage = async (
+    images: Array<{ id: string; file: File }>
+  ): Promise<Array<{ url: string }>> => {
+    const formData = new FormData();
+    images.forEach((image) => {
+      formData.append("images", image.file); 
+    });
+  
+    const response = await ProductsService.uploadImages(formData);
+    return response.urls.map((url: string) => ({ url }));
+  };
+
+  const onSubmit: SubmitHandler<ProductCreate> = async (data) => {
+    try {
+      const uploadedImages = await saveImagesToLocalStorage(images);
+      const imageFiles = uploadedImages.map((img, index) => ({
+        url: img.url,
+        alt_text: data.category || "",
+        order: index + 1,
+      }));
+
+      mutation.mutate({
+        ...data,
+        images: imageFiles,
+      });
+    } catch (error) {
+      showToast(
+        t("AdminPanel.products.addProduct.onErrorUploadToast.title"),
+        t("AdminPanel.products.addProduct.onErrorUploadToast.description"),
+        "error"
+      );
+    }
+  }
 
   return (
     <>
@@ -427,7 +449,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                 <Input
                   {...register("images")}
                   type='file'
-                  accept=".jpg, .jpeg, .jfif, .png"
+                  accept=".jpg, .jpeg, .png"
                   multiple
                   hidden
                   ref={imageInputRef}

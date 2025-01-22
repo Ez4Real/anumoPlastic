@@ -466,6 +466,26 @@ export class ProductsService {
   }
 
   /**
+   * Upload Product Images
+   * Upload new product images.
+   * @returns Array of image URLs
+   * @throws ApiError
+   */
+  public static uploadImages(
+    formData: FormData
+  ): CancelablePromise<{ urls: string[] }> {    
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/products/upload-images",
+      body: formData,
+      mediaType: "multipart/form-data",
+      errors: {
+        422: `Validation Error`,
+      },
+    });
+  }
+
+  /**
    * Read Product
    * Get product by ID.
    * @returns ProductPublic Successful Response
