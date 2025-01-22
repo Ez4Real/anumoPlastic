@@ -1,7 +1,7 @@
+from pathlib import Path
 import secrets
 import warnings
 from typing import Annotated, Any, Literal
-
 from pydantic import (
     AnyUrl,
     BeforeValidator,
@@ -117,6 +117,14 @@ class Settings(BaseSettings):
             "FIRST_SUPERUSER_PASSWORD", self.FIRST_SUPERUSER_PASSWORD
         )
 
+        return self
+    
+    UPLOAD_DIR: Path = Path("uploads/productImages")
+
+    @model_validator(mode="after")
+    def _ensure_upload_dir_exists(self) -> Self:
+        """Ensure the upload directory exists."""
+        self.UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
         return self
 
 

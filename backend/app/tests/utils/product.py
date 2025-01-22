@@ -23,6 +23,7 @@ def create_random_product(db: Session) -> Product:
     weight = f"{round(uniform(0.5, 5.0), 2)} kg" if choice([True, False]) else None
     tag = choice(list(CarabinerTags)) if category=="Carabiner" else None
     
+    # !!!
     images = [
         ProductImageCreate(
             url=f"https://example.com/image_{i}.jpg",

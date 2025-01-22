@@ -1,19 +1,16 @@
-import uuid
-from typing import Any
+from uuid import UUID
+from typing import Any, List
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, UploadFile, File
 from sqlmodel import func, select
 
+from app.core.config import settings
 from app.api.deps import CurrentUser, SessionDep
 from app.models import Product, ProductCreate, ProductUpdate, \
-    ProductImage, ProductPublic, ProductsPublic, Message
+    ProductImage, ProductPublic, ProductsPublic, ImagesUpload, Message
+from app.utils import save_image_to_local
 
 router = APIRouter()
-
-# !!!!!!!
-from pathlib import Path
-UPLOAD_DIR = Path("uploads/productImages")
-UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 
 @router.get("/", response_model=ProductsPublic)
@@ -48,7 +45,7 @@ def read_products(
 
 
 @router.get("/{id}", response_model=ProductPublic)
-def read_product(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
+def read_product(session: SessionDep, current_user: CurrentUser, id: UUID) -> Any:
     """
     Get product by ID.
     """
@@ -68,7 +65,7 @@ def create_product(
     Create new product.
     """
     product = Product.model_validate(
-        product_in.dict(exclude={"images"}),
+        product_in.model_dump(exclude={"images"}),
         update={"owner_id": current_user.id}
     )
     session.add(product)
@@ -83,29 +80,15 @@ def create_product(
     return product
 
 
-# !!!!!!!
-from fastapi import APIRouter, UploadFile, File
-from typing import List
-import os
 @router.post("/upload-images")
-async def upload_images(images: List[UploadFile] = File(...)):
+async def upload_images(images: List[UploadFile] = File(...)) -> dict:
     """
     Upload multiple product images and save them to local storage.
     """
-    print('\n\nImage ROUTE START\n\n')
-    image_urls = []
-
-    for image in images:
-        extension = os.path.splitext(image.filename)[1]
-        filename = f"{uuid.uuid4().hex}{extension}"
-        image_path = UPLOAD_DIR / filename
-        
-        with open(image_path, "wb") as f:
-            f.write(await image.read())
-
-        file_url = f"/{UPLOAD_DIR}/{filename}"
-        image_urls.append(file_url)
-
+    image_urls = [
+        save_image_to_local(image, settings.UPLOAD_DIR) for image in images
+    ]
+    
     return { "urls": image_urls }
 
 
@@ -114,7 +97,7 @@ def update_product(
     *,
     session: SessionDep,
     current_user: CurrentUser,
-    id: uuid.UUID,
+    id: UUID,
     product_in: ProductUpdate,
 ) -> Any:
     """
@@ -130,6 +113,7 @@ def update_product(
     product.sqlmodel_update(update_dict)
     
     if product_in.images:
+        # !!!!!!!
         session.query(ProductImage).filter(ProductImage.product_id == id).delete()
         for image_in in product_in.images:
             image = ProductImage.model_validate(image_in, update={"product_id": product.id})
@@ -143,7 +127,7 @@ def update_product(
 
 @router.delete("/{id}")
 def delete_product(
-    session: SessionDep, current_user: CurrentUser, id: uuid.UUID
+    session: SessionDep, current_user: CurrentUser, id: UUID
 ) -> Message:
     """
     Delete a product.

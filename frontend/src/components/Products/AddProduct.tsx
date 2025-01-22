@@ -79,6 +79,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
         t('AdminPanel.products.addProduct.onSuccessCreateToast.created'),
         "success")
       reset()
+      setImages([])
       onClose()
     },
     onError: (err: ApiError) => {
@@ -92,42 +93,64 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
   const [images, setImages] = useState<Array<ImageItem>>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
+
   const validateImage = (
     file: File,
     index: number,
     allowedFormats: string[],
     maxSizeMB: number = 5
-  ): ImageItem | null => {
-    // !!!!!!!
-    if (allowedFormats.includes(file.type) && file.size <= maxSizeMB * 1024 * 1024) {
+  ): { image: ImageItem | null; error: string | null } => {
+
+    if (!allowedFormats.includes(file.type)) {
       return {
+        image: null,
+        error: t("AdminPanel.products.addProduct.fields.images.invalidFormatMsg"),
+      };
+    }
+  
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      return {
+        image: null,
+        error: t("AdminPanel.products.addProduct.fields.images.invalidFileSizeMsg", {
+          size: maxSizeMB,
+        }),
+      };
+    }
+
+    return {
+      image: {
         id: `${Date.now()}-${index}`,
         file,
         url: URL.createObjectURL(file),
-      };
-    }
-    return null;
+      },
+      error: null,
+    };
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    const allowedFormats = ["image/png", "image/jpg", "image/jpeg"]
-
+    const allowedFormats = ["image/png", "image/jpg", "image/jpeg"];
+  
     if (files) {
-      const newImages = Array.from(files)
-        .map((file, index) => validateImage(file, index, allowedFormats))
-        .filter((image) => image !== null) as Array<ImageItem>;
-
-      if (newImages.length < files.length) {
+      const validationResults = Array.from(files).map((file, index) =>
+        validateImage(file, index, allowedFormats)
+      );
+      const error = validationResults.find((result) => result.error !== null)?.error;
+  
+      if (error) {
         setError("images", {
           type: "manual",
-          message: t("AdminPanel.products.addProduct.fields.images.invalidFormatMsg"),
+          message: error,
         });
       } else {
         clearErrors("images");
       }
-
-      setImages((prev) => [...prev, ...newImages]);
+  
+      const validImages = validationResults
+        .map((result) => result.image)
+        .filter((image) => image !== null) as Array<ImageItem>;
+  
+      setImages((prev) => [...prev, ...validImages]);
     }
   };
 
@@ -136,7 +159,6 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
     setImages(filtered);
   };
   
-  // !!!!!!!
   const saveImagesToLocalStorage = async (
     images: Array<{ id: string; file: File }>
   ): Promise<Array<{ url: string }>> => {
@@ -150,25 +172,17 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
   };
 
   const onSubmit: SubmitHandler<ProductCreate> = async (data) => {
-    try {
-      const uploadedImages = await saveImagesToLocalStorage(images);
-      const imageFiles = uploadedImages.map((img, index) => ({
-        url: img.url,
-        alt_text: data.category || "",
-        order: index + 1,
-      }));
+    const uploadedImages = await saveImagesToLocalStorage(images);
+    const imageFiles = uploadedImages.map((img, index) => ({
+      url: img.url,
+      alt_text: data.category || "",
+      order: index + 1,
+    }));
 
-      mutation.mutate({
-        ...data,
-        images: imageFiles,
-      });
-    } catch (error) {
-      showToast(
-        t("AdminPanel.products.addProduct.onErrorUploadToast.title"),
-        t("AdminPanel.products.addProduct.onErrorUploadToast.description"),
-        "error"
-      );
-    }
+    mutation.mutate({
+      ...data,
+      images: imageFiles,
+    });
   }
 
   return (

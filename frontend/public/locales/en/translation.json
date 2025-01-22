@@ -252,7 +252,8 @@
                     "images": {
                         "title": "Images",
                         "placeholder": "Upload image(s)",
-                        "invalidFormatMsg": "Invalid image format. Valid formats: PNG, JPG, JPEG."
+                        "invalidFormatMsg": "Invalid image format. Valid formats: PNG, JPG, JPEG.",
+                        "invalidFileSizeMsg": "Invalid file size. Max size allowed limit is 5 MB."
                     }
                 }
 

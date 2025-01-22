@@ -1,11 +1,11 @@
 import uuid
 from datetime import datetime, timezone
+from typing import List
 from enum import Enum
-
 from sqlmodel import SQLModel, Field, Relationship
 from sqlalchemy import UniqueConstraint
-from pydantic import EmailStr
-from typing import List
+from pydantic import BaseModel, EmailStr
+from fastapi import UploadFile, File
 
 # Shared properties
 class UserBase(SQLModel):
@@ -115,6 +115,9 @@ class ProductsPublic(SQLModel):
 class ProductImageBase(SQLModel):
     url: str
     alt_text: str | None = None
+
+class ImagesUpload(BaseModel):
+    images: List[UploadFile] = File(...)
     
 class ProductImageCreate(ProductImageBase):
     order: int | None = Field(default=None)
