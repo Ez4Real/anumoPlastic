@@ -27,7 +27,8 @@ enum CarabinerTags {
   SPIKELET = "spikelet",
 }
 
-type ProductImageCreate = {
+// !!!
+type ProductImage = {
   url: string;
   alt_text?: string | null; 
   order: number;   
@@ -47,13 +48,13 @@ type ProductBase = {
 }
 
 export type ProductCreate = ProductBase & {
-  images?: ProductImageCreate[] | null; 
+  images?: File[] | null; 
 };
 
 export type ProductPublic = ProductBase & {
   id: string
   owner_id: string
-  images?: ProductImageCreate[];
+  images?: ProductImage[];
 }
 
 export type ProductUpdate = ProductBase & {
@@ -65,7 +66,7 @@ export type ProductUpdate = ProductBase & {
   size?: string | null;
   price_usd?: number | null;
   price_uah?: number | null;
-  images?: ProductImageCreate[] | null;
+  images?: File[] | null;
 }
 
 export type ProductsPublic = {

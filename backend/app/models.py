@@ -5,6 +5,7 @@ from enum import Enum
 from sqlmodel import SQLModel, Field, Relationship
 from sqlalchemy import UniqueConstraint
 from pydantic import EmailStr
+from fastapi import UploadFile
 from typing import List
 
 # Shared properties
@@ -80,7 +81,7 @@ class ProductBase(SQLModel):
     tag: CarabinerTags | None = Field(default=None)
     
 class ProductCreate(ProductBase):
-    images: List["ProductImageCreate"] | None = Field(default=None)
+    images: List[UploadFile] | None = Field(default=None)
 
 class ProductUpdate(ProductBase):
     category: ProductCategory | None = Field(default=None)
@@ -91,7 +92,7 @@ class ProductUpdate(ProductBase):
     size: str | None = Field(default=None, max_length=50)
     price_usd: float | None = Field(default=None, ge=0.9, le=10000.0)
     price_uah: float | None = Field(default=None, ge=0.9, le=10000.0)
-    images: List["ProductImageCreate"] | None = Field(default=None)
+    images: List[UploadFile] | None = Field(default=None)
 
 class Product(ProductBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)

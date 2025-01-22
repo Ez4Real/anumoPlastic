@@ -407,7 +407,9 @@ export type TDataReadProducts = {
   skip?: number
 }
 export type TDataCreateProduct = {
-  requestBody: ProductCreate
+  // requestBody: ProductCreate
+  requestBody: FormData
+  headers: Record<string, string>;
 }
 export type TDataReadProduct = {
   id: string
@@ -453,12 +455,14 @@ export class ProductsService {
   public static createProduct(
     data: TDataCreateProduct,
   ): CancelablePromise<ProductPublic> {
-    const { requestBody } = data
+    const { requestBody, headers } = data;
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/v1/products/",
       body: requestBody,
-      mediaType: "application/json",
+      headers,
+      // mediaType: "application/json",
+      mediaType: "multipart/form-data",
       errors: {
         422: `Validation Error`,
       },

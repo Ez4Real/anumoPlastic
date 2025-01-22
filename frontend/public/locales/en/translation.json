@@ -252,7 +252,7 @@
                     "images": {
                         "title": "Images",
                         "placeholder": "Upload image(s)",
-                        "invalidFormatMsg": "Invalid image format. Valid formats: PNG, JPG, JPEG, JFIF."
+                        "invalidFormatMsg": "Invalid image format. Valid formats: PNG, JPG, JPEG."
                     }
                 }
 

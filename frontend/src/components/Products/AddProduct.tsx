@@ -71,8 +71,13 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
   })
 
   const mutation = useMutation({
-    mutationFn: (data: ProductCreate) =>
-      ProductsService.createProduct({ requestBody: data }),
+    // mutationFn: (data: ProductCreate) =>
+    //   ProductsService.createProduct({ requestBody: data }),
+    mutationFn: (formData: FormData) =>
+      ProductsService.createProduct({
+        requestBody: formData,
+        headers: { "Content-Type": "multipart/form-data" }, 
+      }),
     onSuccess: () => {
       showToast(
         t('AdminPanel.products.addProduct.onSuccessCreateToast.success'),
@@ -90,16 +95,29 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
   })
 
   const onSubmit: SubmitHandler<ProductCreate> = (data) => {
-    const imageFiles = images.map((img, index) => ({
-      url: img.url,
-      alt_text: data.category || "",
-      order: index + 1,
-    }));
+    const formData = new FormData();
 
-    mutation.mutate({
-      ...data,
-      images: imageFiles,
-    })
+    Object.entries(data).forEach(([key, value]) => {
+      if (key !== "images") {
+        formData.append(key, value as string);
+      }
+    });
+    
+    images.forEach((img) => {
+      formData.append("images", img.file);
+    });
+
+    mutation.mutate(formData);
+    // const imageFiles = images.map((img, index) => ({
+    //   url: img.url,
+    //   alt_text: data.category || "",
+    //   order: index + 1,
+    // }));
+
+    // mutation.mutate({
+    //   ...data,
+    //   images: imageFiles,
+    // })
   }
 
   
@@ -107,12 +125,13 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
 
-  const validateFile = (
+  const validateImage = (
     file: File,
     index: number,
-    allowedFormats: string[]
+    allowedFormats: string[],
+    maxSizeMB: number = 5
   ): { id: string; file: File; url: string } | null => {
-    if (allowedFormats.includes(file.type)) {
+    if (allowedFormats.includes(file.type) && file.size <= maxSizeMB * 1024 * 1024) {
       return {
         id: `${Date.now()}-${index}`,
         file,
@@ -124,11 +143,11 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    const allowedFormats = ["image/png", "image/jpg", "image/jpeg", "image/jfif"]
+    const allowedFormats = ["image/png", "image/jpg", "image/jpeg"]
 
     if (files) {
       const newImages = Array.from(files)
-        .map((file, index) => validateFile(file, index, allowedFormats))
+        .map((file, index) => validateImage(file, index, allowedFormats))
         .filter((image) => image !== null);
 
       if (newImages.length < files.length) {
@@ -427,7 +446,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                 <Input
                   {...register("images")}
                   type='file'
-                  accept=".jpg, .jpeg, .jfif, .png"
+                  accept=".jpg, .jpeg, .png"
                   multiple
                   hidden
                   ref={imageInputRef}

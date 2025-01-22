@@ -1,7 +1,8 @@
 import uuid
-from typing import Any
+from typing import Any, List
+from pathlib import Path
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, UploadFile, File, Form
 from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
@@ -10,6 +11,9 @@ from app.models import Product, ProductCreate, ProductUpdate, \
 
 router = APIRouter()
 
+
+UPLOAD_DIR = Path("uploads/productImages")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 @router.get("/", response_model=ProductsPublic)
 def read_products(
@@ -56,22 +60,79 @@ def read_product(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) 
 
 
 @router.post("/", response_model=ProductPublic)
-def create_product(
-    *, session: SessionDep, current_user: CurrentUser, product_in: ProductCreate
+async def create_product(
+    *, session: SessionDep, current_user: CurrentUser,
+    # product_in: ProductCreate
+    category: str = Form(...),
+    title_en: str = Form(...),
+    title_uk: str = Form(...),
+    price_usd: str = Form(...),
+    price_uah: str = Form(...),
+    size: str = Form(...),
+    material_en: str = Form(...),
+    material_uk: str = Form(...),
+    images: List[UploadFile] | None = File(None)
 ) -> Any:
     """
     Create new product.
     """
-    product = Product.model_validate(
-        product_in.dict(exclude={"images"}),
-        update={"owner_id": current_user.id}
-    )
+    product_data = {
+        "category": category,
+        "title_en": title_en,
+        "title_uk": title_uk,
+        "title_uk": title_uk,
+        "price_usd": price_usd,
+        "price_uah": price_uah,
+        "size": size,
+        "material_en": material_en,
+        "material_uk": material_uk,
+        "owner_id": current_user.id,
+    }
+    product = Product.model_validate(product_data)
+    
+    
+    # product = Product.model_validate(
+    #     product_in.dict(exclude={"images"}),
+    #     update={"owner_id": current_user.id}
+    # )
     session.add(product)
+    session.commit()
+    
+    if images:
+        for index, image in enumerate(images):
+            file_extension = image.filename.split(".")[-1]
+            unique_filename = f"{uuid.uuid4().hex}.{file_extension}"
+            file_path = UPLOAD_DIR / unique_filename
 
-    if product_in.images:
-        for image_in in product_in.images:
-            image = ProductImage.model_validate(image_in, update={"product_id": product.id})
-            session.add(image)
+            # Write the uploaded file to disk
+            with open(file_path, "wb") as f:
+                f.write(await image.read())
+
+            # Create and associate image to product
+            image_data = ProductImage.model_validate(
+                {"product_id": product.id,
+                 "url": str(file_path),
+                 "order": index + 1,
+                 "alt_text": title_en
+                }
+            )
+            session.add(image_data)
+    # if product_in.images:
+    #     for image_in in product_in.images:
+    #         # print("\n\nImage IN: ", image_in)
+            
+    #         file_extension = image_in.filename.split(".")[-1]
+    #         unique_filename = f"{uuid.uuid4().hex}.{file_extension}"
+    #         file_path = UPLOAD_DIR / unique_filename
+            
+    #         with open(file_path, "wb") as f:
+    #             f.write(image_in.file.read())
+            
+    #         image = ProductImage.model_validate(
+    #             image_in,
+    #             update={"product_id": product.id, "url": str(file_path),}
+    #         )
+    #         session.add(image)
 
     session.commit() 
     session.refresh(product)
