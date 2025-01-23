@@ -31,5 +31,5 @@ if settings.all_cors_origins:
         allow_headers=["*"],
     )
 
-app.mount("/jopa", StaticFiles(directory="uploads"), name="uploads")
+app.mount("/media", StaticFiles(directory="uploads"), name="media")
 app.include_router(api_router, prefix=settings.API_V1_STR)
