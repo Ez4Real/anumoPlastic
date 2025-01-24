@@ -1,5 +1,5 @@
 import theme from "../theme"
-import { ChakraProvider, Flex, Spinner } from "@chakra-ui/react"
+import { Box, ChakraProvider, Flex, Spinner } from "@chakra-ui/react"
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router"
 
 import Sidebar from "../components/Common/Sidebar"
@@ -22,15 +22,17 @@ function Layout() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Flex maxW="large" h="auto" position="relative">
+      <Flex maxW="large" h="auto" position="relative" >
         <Sidebar />
-        {isLoading ? (
-          <Flex justify="center" align="center" height="100vh" width="full">
-            <Spinner size="xl" color="ui.main" />
-          </Flex>
-        ) : (
-          <Outlet />
-        )}
+        <Box flex="1" h="100%" overflowX="hidden">
+          {isLoading ? (
+            <Flex justify="center" align="center" height="100vh" width="full">
+              <Spinner size="xl" color="ui.main" />
+            </Flex>
+          ) : (
+            <Outlet />
+          )}
+        </Box>
         <UserMenu />
       </Flex>
     </ChakraProvider>
