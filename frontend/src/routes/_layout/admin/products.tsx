@@ -1,6 +1,10 @@
+import { useEffect, useRef } from "react"
 import {
+  Box,
   Container,
   Heading,
+  HStack,
+  Image,
   SkeletonText,
   Table,
   TableContainer,
@@ -9,10 +13,10 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
 } from "@chakra-ui/react"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
-import { useEffect } from "react"
 import { useTranslation } from 'react-i18next';
 import { z } from "zod"
 
@@ -21,6 +25,7 @@ import ActionsMenu from "../../../components/Common/ActionsMenu.tsx"
 import Navbar from "../../../components/Common/Navbar.tsx"
 import AddProduct from "../../../components/Products/AddProduct.tsx"
 import { PaginationFooter } from "../../../components/Common/PaginationFooter.tsx"
+import { OpenAPI } from "../../../client"
 
 const productsSearchSchema = z.object({
   page: z.number().catch(1),
@@ -31,7 +36,7 @@ export const Route = createFileRoute("/_layout/admin/products")({
   validateSearch: (search) => productsSearchSchema.parse(search),
 })
 
-const PER_PAGE = 5
+const PER_PAGE = 10
 
 function getProductsQueryOptions({ page }: { page: number }) {
   return {
@@ -47,10 +52,13 @@ function ProductsTable() {
   
   const queryClient = useQueryClient()
   const { page } = Route.useSearch()
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const scrollbarColor = useColorModeValue("ui.main", 'ui.dim')
   const navigate = useNavigate({ from: Route.fullPath })
   const setPage = (page: number) =>
     navigate({search: (prev: { [key: number]: string }) => ({...prev, page: page }),
   });
+  
 
   const {
     data: products,
@@ -61,6 +69,7 @@ function ProductsTable() {
     placeholderData: (prevData) => prevData,
   })
 
+  
   const hasNextPage = !isPlaceholderData && products?.data.length === PER_PAGE
   const hasPreviousPage = page > 1
 
@@ -70,17 +79,44 @@ function ProductsTable() {
     }
   }, [page, queryClient, hasNextPage])
 
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleWheel = (evt: WheelEvent) => {
+      evt.preventDefault();
+      container.scrollLeft += evt.deltaY / 3;
+    };
+
+    container.addEventListener("wheel", handleWheel);
+    return () => container.removeEventListener("wheel", handleWheel);
+  }, []);
+
   return (
     <>
-      <TableContainer>
-        <Table size={{ base: "sm", md: "md" }}>
+      <TableContainer ref={scrollContainerRef} 
+        sx={{
+          "::-webkit-scrollbar-thumb": {
+            background: scrollbarColor,
+          },
+        }}
+      >
+        <Table size={{ base: "sm", md: "md" }}
+          sx={{
+            "th, td": { padding: "1rem 1rem" },
+            "td.imagesHStack": { padding: "0 1rem"}
+          }}
+        >
           <Thead>
             <Tr>
+              <Th></Th>
+              <Th>ID</Th>
               <Th>{t('AdminPanel.products.tableHeads.category')}</Th>
               <Th>{t('AdminPanel.products.tableHeads.title')}</Th>
+              <Th>Images</Th>
               <Th>USD</Th>
               <Th>UAH</Th>
-              <Th>ID</Th>
             </Tr>
           </Thead>
           {isPending ? (
@@ -97,26 +133,42 @@ function ProductsTable() {
             <Tbody>
               {products?.data.map((product) => (
                 <Tr key={product.id} opacity={isPlaceholderData ? 0.5 : 1}>
+                  <Td sx={{ padding: '1rem .25rem !important' }}>
+                    <ActionsMenu type={"Product"} value={product} />
+                  </Td>
+                  <Td>{product.id}</Td>
                   <Td isTruncated maxWidth="135px">
                     {product.category}
                   </Td>
-                  <Td isTruncated maxWidth="255px">
+                  <Td isTruncated maxWidth="225px">
                     {currentLang === 'en' && product.title_en}
                     {currentLang === 'ua' && product.title_uk}
                   </Td>
-
+                  <Td className="imagesHStack">
+                    <HStack spacing={1} >
+                      {product.images && product.images.length > 0 ? (
+                        product.images.slice(0, 4).map((img, index) => (
+                          <Box key={index}>
+                            <Image
+                              src={`${OpenAPI.BASE}${img.url}`}
+                              boxSize="60px"
+                              minW="60px"
+                              objectFit="cover"
+                              borderRadius="md"
+                            />
+                          </Box>
+                        ))
+                      ) : (
+                        "N/A"
+                      )}
+                    </HStack>
+                  </Td>
                   <Td maxWidth="125px">
                     ${product.price_usd.toFixed(2)}
                   </Td>
                   <Td maxWidth="125px">
                     ₴{product.price_uah.toFixed(2)}
                   </Td>
-                  <Td>{product.id}</Td>
-                  <Td>
-                    <ActionsMenu type={"Product"} value={product} />
-                  </Td>
-                  
-
 
                   {/* Not Required Field!!!
                   <Td
@@ -147,7 +199,7 @@ function Products() {
 
   return (
     <Container maxW="full">
-      <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
+      <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={6}>
         {t('AdminPanel.title.products')}
       </Heading>
 
