@@ -100,6 +100,7 @@ const Sidebar = () => {
       <Box
         bg={bgColor}
         p={2}
+        minHeight="330px"
         h="100vh"
         position="sticky"
         top="0"
