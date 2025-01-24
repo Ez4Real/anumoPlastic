@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { HStack, Box, Image, IconButton } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { type ImageItem } from "../../client"
@@ -21,35 +21,22 @@ const ImagesOrderingContainer = ({
     images,
     setImages,
     onRemove,
-    scrollbarColor,
-    isOpen
+    scrollbarColor
 }: ImagesContainerProps) => {
-  const [scrollContainer, setScrollContainer] = useState<HTMLDivElement | null>(null);
-
-  const imagesScrollContainerRef = useCallback((node: HTMLDivElement | null) => {
-    if (node) {
-      setScrollContainer(node);
-    }
-  }, []);
-
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+ 
   useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
     const handleWheel = (evt: WheelEvent) => {
-      if (scrollContainer) {
-        evt.preventDefault();
-        scrollContainer.scrollLeft += evt.deltaY / 3;
-      }
+      evt.preventDefault();
+      container.scrollLeft += evt.deltaY / 3;
     };
 
-    if (isOpen && scrollContainer) {
-      scrollContainer.addEventListener("wheel", handleWheel);
-    }
-
-    return () => {
-      if (scrollContainer) {
-        scrollContainer.removeEventListener("wheel", handleWheel);
-      }
-    };
-  }, [isOpen, scrollContainer, images.length]);
+    container.addEventListener("wheel", handleWheel);
+    return () => container.removeEventListener("wheel", handleWheel);
+  }, []);
 
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
@@ -66,7 +53,7 @@ const ImagesOrderingContainer = ({
         {(provided: DroppableProvided) => (
           <HStack
             ref={(node) => {
-              imagesScrollContainerRef(node);
+              scrollContainerRef.current = node;
               provided.innerRef(node);
             }}
             mt={4}
