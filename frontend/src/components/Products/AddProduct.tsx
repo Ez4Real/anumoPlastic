@@ -431,6 +431,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                     {t('AdminPanel.products.addProduct.fields.tag.title')}
                   </FormLabel>
                   <Select
+                    {...register("tag")}
                     variant='outline'
                     placeholder={t('AdminPanel.products.addProduct.fields.tag.placeholder')}
                   >
