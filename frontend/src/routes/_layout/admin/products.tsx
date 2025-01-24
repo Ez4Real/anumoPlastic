@@ -36,7 +36,7 @@ export const Route = createFileRoute("/_layout/admin/products")({
   validateSearch: (search) => productsSearchSchema.parse(search),
 })
 
-const PER_PAGE = 10
+const PER_PAGE = 4
 
 function getProductsQueryOptions({ page }: { page: number }) {
   return {

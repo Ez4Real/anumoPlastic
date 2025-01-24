@@ -51,3 +51,19 @@ export const handleError = (err: ApiError, showToast: any) => {
   }
   showToast("Error", errorMessage, "error")
 }
+
+export const customSmoothScroll = (targetPosition: number, duration: number): void => {
+  const startPosition = window.scrollY;
+  const distance = targetPosition - startPosition;
+
+  const scrollStep = (timestamp: number, startTime: number = timestamp): void => {
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    window.scrollTo(0, startPosition + distance * progress);
+
+    if (progress < 1) {
+      requestAnimationFrame((timestamp) => scrollStep(timestamp, startTime));
+    }
+  };
+
+  requestAnimationFrame(scrollStep);
+};

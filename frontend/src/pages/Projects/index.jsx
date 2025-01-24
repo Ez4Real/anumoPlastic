@@ -2,18 +2,6 @@ import React, { useState } from 'react';
 import "./index.css"
 import { useTranslation } from 'react-i18next';
 import Cooperation from '../../components/Cooperation';
-// import SunnyBunny from '../../components/Projects/SunnyBunny';
-// import UkrainianCeramics from '../../Components/Projects/UkrainianCeramics';
-// import TabletopGiraffe from '../../Components/Projects/TabletopGiraffe';
-// import Chokers from '../../Components/Projects/Chokers';
-// import Trays from '../../Components/Projects/Trays';
-// import CoffeeTables from '../../Components/Projects/CoffeeTables';
-// import SoapHolders from '../../Components/Projects/SoapHolders';
-// import Hypermobile from '../../Components/Projects/Hypermobile';
-// import WelcomeBoards from '../../Components/Projects/WelcomeBoards';
-// import Alltrueest from '../../Components/Projects/Alltrueest';
-// import TableIvan from '../../Components/Projects/TableIvan';
-// import GlassesAndNecklace from '../../Components/Projects/Glasses&Necklace';
 
 import { 
   SunnyBunny, 
@@ -29,10 +17,11 @@ import {
   TableIvan, 
   GlassesAndNecklace 
 } from '../../components/Projects';
+import { customSmoothScroll } from '../../utils';
+import BreadCrumb from '../../components/BreadCrumb';
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
-
   const { t } = useTranslation();
 
   const projects = [
@@ -46,17 +35,13 @@ const Projects = () => {
     setCurrentProjectIndex((prevIndex) => 
       (prevIndex + direction + projects.length) % projects.length
     );
-    window.scrollTo({ top: 164, behavior: 'smooth' });
+    customSmoothScroll(164, 350);
   };
 
 
   return (
     <div className='content'>
-      <p className='pathLink'>
-        <span className='homeLink'>/HOME/</span>
-        <span className='pageName'>{t('ProjectsPage.pageName')}</span>
-      </p>
-
+      <BreadCrumb pageName={t('ProjectsPage.pageName')} />
       <div className="projectsSlider">
         {projects[currentProjectIndex]}
       </div>

@@ -6,6 +6,7 @@ import prod1_1 from "/assets/productImages/prod1_1.png"
 import prod1_2 from "/assets/productImages/prod1_2.png"
 import prod1_3 from "/assets/productImages/prod1_3.png"
 import prod1_4 from "/assets/productImages/prod1_4.png"
+import BreadCrumb from '../../components/BreadCrumb';
 
 
 const Product = () => {
@@ -13,10 +14,7 @@ const Product = () => {
 
   return (
     <div className='content'>
-        <p className='pathLink'>
-            <span className='homeLink'>/HOME/</span>
-            <span className='pageName'>Carabiners</span>
-        </p>
+        <BreadCrumb pageName={'Carabiners'} />
         <div className='product-container'>
           <div className='left'>
             <img src={prod1_1} alt='Carabiner'></img>

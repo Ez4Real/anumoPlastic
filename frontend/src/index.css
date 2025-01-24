@@ -23,7 +23,7 @@ button {
     padding: 0 46px;
 }
 
-.Link {
+.Link, .homeLink {
     color: black;
 }
 

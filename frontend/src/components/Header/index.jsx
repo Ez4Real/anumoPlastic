@@ -28,6 +28,10 @@ const Header = ({ isWhiteTheme = false }) => {
     setIsCartOpen(false);
   };
 
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <>
       <header className={`${isWhiteTheme && 'headerAbsolute'}`}>
@@ -71,31 +75,37 @@ const Header = ({ isWhiteTheme = false }) => {
               className='Link'
               as={RouterLink}
               to="/"
+              onClick={handleLinkClick}
             ><li>{t('Header.homeLink')}</li></Link>
             <Link
               className='Link'
               as={RouterLink}
               to="/shop"
+              onClick={handleLinkClick}
             ><li>{t('Header.shopLink')}</li></Link>
             <Link
               className='Link'
               as={RouterLink}
               to="/projects"
+              onClick={handleLinkClick}
             ><li>{t('Header.projectsLink')}</li></Link>
             <Link
               className='Link'
               as={RouterLink}
               to="/about-us"
+              onClick={handleLinkClick}
             ><li>{t('Header.aboutLink')}</li></Link>
             <Link
               className='Link'
               as={RouterLink}
               to="/contact-us"
+              onClick={handleLinkClick}
             ><li>{t('Header.contactUsLink')}</li></Link>
             <Link
               className='Link'
               as={RouterLink}
               to="/find-us"
+              onClick={handleLinkClick}
             ><li>{t('Header.findUsLink')}</li></Link>
           </ul>
           <div className='menuFooter'>

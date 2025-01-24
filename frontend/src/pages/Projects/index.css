@@ -38,5 +38,6 @@
     font-weight: 700;
     font-size: 24px;
     text-decoration: underline;
+    text-underline-position: under;
     padding: 0 1rem;
 }

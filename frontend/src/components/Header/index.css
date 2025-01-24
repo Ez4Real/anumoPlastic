@@ -44,7 +44,7 @@ header {
     width: 430px;
     height: 700px;
     background-color: #fff;
-    transition: right 0.3s ease;
+    transition: right 0.5s ease;
     z-index: 1000;
 }
   
@@ -227,11 +227,11 @@ header {
     font-weight: 700;
     font-size: 26px;
     text-decoration-line: underline;
+    text-underline-position: under;
     padding-bottom: .75rem;
 }
 
 .menuLinks a {
-    color: black; 
     text-decoration: none; 
     transition: none;
   }
