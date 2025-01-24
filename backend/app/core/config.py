@@ -120,6 +120,7 @@ class Settings(BaseSettings):
         return self
     
     UPLOAD_DIR: Path = Path("uploads/productImages")
+    MEDIA_DIR: Path = Path("media/productImages")
 
     @model_validator(mode="after")
     def _ensure_upload_dir_exists(self) -> Self:

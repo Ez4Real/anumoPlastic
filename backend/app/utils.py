@@ -152,10 +152,10 @@ def save_image_to_local(image: UploadFile, upload_dir: Path) -> str:
     """
     extension = os.path.splitext(image.filename)[1]
     filename = f"{uuid4().hex}{extension}"
-    image_path = upload_dir / filename
     
-    with open(image_path, "wb") as f:
+    upload_path = upload_dir / filename
+    with open(upload_path, "wb") as f:
         f.write(image.file.read())
     
-    image_url = image_path.as_posix()
-    return f"/{image_url}"
+    media_path = settings.MEDIA_DIR / filename
+    return f"/{media_path.as_posix()}"
