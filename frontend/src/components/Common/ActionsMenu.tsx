@@ -1,12 +1,13 @@
 import {
   Button,
+  IconButton,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   useDisclosure,
 } from "@chakra-ui/react"
-import { BsThreeDotsVertical } from "react-icons/bs"
+import { FiMoreVertical } from "react-icons/fi";
 import { FiEdit, FiTrash } from "react-icons/fi"
 
 import type { ProductPublic, UserPublic } from "../../client"
@@ -29,10 +30,11 @@ const ActionsMenu = ({ type, value, disabled }: ActionsMenuProps) => {
       <Menu>
         <MenuButton
           isDisabled={disabled}
-          as={Button}
-          rightIcon={<BsThreeDotsVertical />}
+          as={IconButton}
+          icon={<FiMoreVertical />}
           variant="unstyled"
-        />
+          display="flex"
+          />
         <MenuList>
           <MenuItem
             onClick={editUserModal.onOpen}
