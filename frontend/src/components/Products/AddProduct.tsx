@@ -24,6 +24,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   useColorModeValue,
+  Textarea,
 } from "@chakra-ui/react"
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -63,9 +64,11 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
       material_uk: "",
       price_usd: 0.9,
       price_uah: 0.9,
-      size: "",
-      weight: null,
-      tag: null,
+      size_en: "",
+      size_uk: "",
+      weight_en: "",
+      weight_uk: "",
+      tag: undefined,
       images: []
     },
   })
@@ -172,18 +175,25 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
   };
 
   const onSubmit: SubmitHandler<ProductCreate> = async (data) => {
-    const uploadedImages = await saveImagesToLocalStorage(images);
-    const imageFiles = uploadedImages.map((img, index) => ({
-      url: img.url,
-      alt_text: data.category || "",
-      order: index + 1,
-    }));
-
-    mutation.mutate({
+    let imageFiles;
+    if (images && images.length > 0) {
+      const uploadedImages = await saveImagesToLocalStorage(images);
+      imageFiles = uploadedImages.map((img, index) => ({
+        url: img.url,
+        alt_text: data.category || "",
+        order: index + 1,
+      }));
+    }
+  
+    const processedData = {
       ...data,
-      images: imageFiles,
-    });
-  }
+      tag: data.tag || null,
+      weight_en: data.weight_en || null,
+      weight_uk: data.weight_uk || null,
+      ...(imageFiles ? { images: imageFiles } : {}),
+    };
+    mutation.mutate(processedData);
+  };
 
   return (
     <>
@@ -248,23 +258,34 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                 </FormControl>
               </GridItem>
               <GridItem>
-                <FormControl isRequired isInvalid={!!errors.size}>
-                  <FormLabel htmlFor="size">
-                    {t('AdminPanel.products.addProduct.fields.size.title')}
+                <FormControl isInvalid={!!errors.tag} variant="floatingLabel">
+                  <FormLabel htmlFor="tag">
+                    {t('AdminPanel.products.addProduct.fields.tag.title')}
                   </FormLabel>
-                  <Input
-                    id="size"
-                    {...register("size", {
-                      required: t('AdminPanel.products.addProduct.fields.size.required')
-                    })}
-                    placeholder={t('AdminPanel.products.addProduct.fields.size.placeholder')}
-                    type="text"
-                  />
-                  {errors.size && (
-                    <FormErrorMessage>{errors.size.message}</FormErrorMessage>
+                  <Select
+                    {...register("tag")}
+                    variant='outline'
+                    placeholder={t('AdminPanel.products.addProduct.fields.tag.placeholder')}
+                  >
+                    <option value='bunny'>
+                      {t('AdminPanel.products.tags.bunny')}
+                    </option>
+                    <option value='heart'>
+                      {t('AdminPanel.products.tags.heart')}
+                    </option>
+                    <option value='shuriken'>
+                      {t('AdminPanel.products.tags.shuriken')}
+                    </option>
+                    <option value='spikelet'>
+                      {t('AdminPanel.products.tags.spikelet')}
+                    </option>
+                  </Select>
+                  {errors.tag && (
+                    <FormErrorMessage>{errors.tag.message}</FormErrorMessage>
                   )}
                 </FormControl>
               </GridItem>
+              
               <GridItem>
                 <FormControl isRequired isInvalid={!!errors.title_en}>
                   <FormLabel htmlFor="title_en">
@@ -273,7 +294,8 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                   <Input
                     id="title_en"
                     {...register("title_en", {
-                      required: t('AdminPanel.products.addProduct.fields.title_en.required')
+                      required: t('AdminPanel.products.addProduct.fields.title_en.required'),
+                      setValueAs: (value: string) => value.trim(),
                     })}
                     placeholder={t('AdminPanel.products.addProduct.fields.title_en.placeholder')}
                     type="text"
@@ -291,7 +313,8 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                   <Input
                     id="title_uk"
                     {...register("title_uk", {
-                      required: t('AdminPanel.products.addProduct.fields.title_uk.required')
+                      required: t('AdminPanel.products.addProduct.fields.title_uk.required'),
+                      setValueAs: (value: string) => value.trim(),
                     })}
                     placeholder={t('AdminPanel.products.addProduct.fields.title_uk.placeholder')}
                     type="text"
@@ -306,13 +329,16 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                   <FormLabel htmlFor="material_en">
                     {t('AdminPanel.products.addProduct.fields.material_en.title')}
                   </FormLabel>
-                  <Input
+                  <Textarea
                     id="material_en"
                     {...register("material_en", {
-                      required: t('AdminPanel.products.addProduct.fields.material_en.required')
+                      required: t('AdminPanel.products.addProduct.fields.material_en.required'),
+                      setValueAs: (value: string) => value.trim(),
                     })}
                     placeholder={t('AdminPanel.products.addProduct.fields.material_en.placeholder')}
-                    type="text"
+                    resize="vertical"
+                    minHeight="2.5rem"
+                    maxHeight="8rem"
                   />
                   {errors.material_en && (
                     <FormErrorMessage>{errors.material_en.message}</FormErrorMessage>
@@ -324,13 +350,16 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                   <FormLabel htmlFor="material_uk">
                     {t('AdminPanel.products.addProduct.fields.material_uk.title')}
                   </FormLabel>
-                  <Input
+                  <Textarea
                     id="material_uk"
                     {...register("material_uk", {
-                      required: t('AdminPanel.products.addProduct.fields.material_uk.required')
+                      required: t('AdminPanel.products.addProduct.fields.material_uk.required'),
+                      setValueAs: (value: string) => value.trim(),
                     })}
                     placeholder={t('AdminPanel.products.addProduct.fields.material_uk.placeholder')}
-                    type="text"
+                    resize="vertical"
+                    minHeight="2.5rem"
+                    maxHeight="8rem"
                   />
                   {errors.material_uk && (
                     <FormErrorMessage>{errors.material_uk.message}</FormErrorMessage>
@@ -410,49 +439,82 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                 </FormControl>
               </GridItem>
               <GridItem>
-                <FormControl isInvalid={!!errors.weight}>
-                  <FormLabel htmlFor="weight">
-                    {t('AdminPanel.products.addProduct.fields.weight.title')}
+                <FormControl isRequired isInvalid={!!errors.size_en}>
+                  <FormLabel htmlFor="size_en">
+                    {t('AdminPanel.products.addProduct.fields.size_en.title')}
                   </FormLabel>
                   <Input
-                    id="weight"
-                    {...register("weight")}
-                    placeholder={t('AdminPanel.products.addProduct.fields.weight.placeholder')}
+                    id="size_en"
+                    {...register("size_en", {
+                      required: t('AdminPanel.products.addProduct.fields.size_en.required'),
+                      setValueAs: (value: string) => value.trim(),
+                    })}
+                    placeholder={t('AdminPanel.products.addProduct.fields.size_en.placeholder')}
                     type="text"
                   />
-                  {errors.weight && (
-                    <FormErrorMessage>{errors.weight.message}</FormErrorMessage>
+                  {errors.size_en && (
+                    <FormErrorMessage>{errors.size_en.message}</FormErrorMessage>
                   )}
                 </FormControl>
               </GridItem>
               <GridItem>
-                <FormControl isInvalid={!!errors.tag} variant="floatingLabel">
-                  <FormLabel htmlFor="tag">
-                    {t('AdminPanel.products.addProduct.fields.tag.title')}
+                <FormControl isRequired isInvalid={!!errors.size_uk}>
+                  <FormLabel htmlFor="size_uk">
+                    {t('AdminPanel.products.addProduct.fields.size_uk.title')}
                   </FormLabel>
-                  <Select
-                    {...register("tag")}
-                    variant='outline'
-                    placeholder={t('AdminPanel.products.addProduct.fields.tag.placeholder')}
-                  >
-                    <option value='bunny'>
-                      {t('AdminPanel.products.tags.bunny')}
-                    </option>
-                    <option value='heart'>
-                      {t('AdminPanel.products.tags.heart')}
-                    </option>
-                    <option value='shuriken'>
-                      {t('AdminPanel.products.tags.shuriken')}
-                    </option>
-                    <option value='spikelet'>
-                      {t('AdminPanel.products.tags.spikelet')}
-                    </option>
-                  </Select>
-                  {errors.tag && (
-                    <FormErrorMessage>{errors.tag.message}</FormErrorMessage>
+                  <Input
+                    id="size_uk"
+                    {...register("size_uk", {
+                      required: t('AdminPanel.products.addProduct.fields.size_uk.required'),
+                      setValueAs: (value: string) => value.trim(),
+                    })}
+                    placeholder={t('AdminPanel.products.addProduct.fields.size_uk.placeholder')}
+                    type="text"
+                  />
+                  {errors.size_uk && (
+                    <FormErrorMessage>{errors.size_uk.message}</FormErrorMessage>
                   )}
                 </FormControl>
               </GridItem>
+              <GridItem>
+                <FormControl isInvalid={!!errors.weight_en}>
+                  <FormLabel htmlFor="weight_en">
+                    {t('AdminPanel.products.addProduct.fields.weight_en.title')}
+                  </FormLabel>
+                  <Input
+                    id="weight_en"
+                    {...register("weight_en", {
+                      setValueAs: (value: string) => value.trim()
+                    })
+                      
+                    }
+                    placeholder={t('AdminPanel.products.addProduct.fields.weight_en.placeholder')}
+                    type="text"
+                  />
+                  {errors.weight_en && (
+                    <FormErrorMessage>{errors.weight_en.message}</FormErrorMessage>
+                  )}
+                </FormControl>
+              </GridItem>
+              <GridItem>
+                <FormControl isInvalid={!!errors.weight_uk}>
+                  <FormLabel htmlFor="weight_uk">
+                    {t('AdminPanel.products.addProduct.fields.weight_uk.title')}
+                  </FormLabel>
+                  <Input
+                    id="weight_uk"
+                    {...register("weight_uk", {
+                      setValueAs: (value: string) => value.trim()
+                    })}
+                    placeholder={t('AdminPanel.products.addProduct.fields.weight_uk.placeholder')}
+                    type="text"
+                  />
+                  {errors.weight_uk && (
+                    <FormErrorMessage>{errors.weight_uk.message}</FormErrorMessage>
+                  )}
+                </FormControl>
+              </GridItem>
+              
             </Grid>
 
             <FormControl isInvalid={!!errors.images} mt="1rem">
