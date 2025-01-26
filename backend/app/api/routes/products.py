@@ -44,6 +44,28 @@ def read_products(
     return ProductsPublic(data=products, count=count)
 
 
+@router.get("/{category}", response_model=ProductsPublic)
+def read_products_by_category(
+    session: SessionDep, category: str
+) -> Any:
+    """
+    Retrieve products by category.
+    """
+    count_statement = (
+        select(func.count())
+        .select_from(Product)
+        .where(Product.category == category)
+    )
+    count = session.exec(count_statement).one()
+    statement = (
+        select(Product)
+        .where(Product.category == category)
+    )
+    products = session.exec(statement).all()
+
+    return ProductsPublic(data=products, count=count)
+
+
 @router.get("/{id}", response_model=ProductPublic)
 def read_product(session: SessionDep, current_user: CurrentUser, id: UUID) -> Any:
     """

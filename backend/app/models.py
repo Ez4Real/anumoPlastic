@@ -1,10 +1,10 @@
 import uuid
 from datetime import datetime, timezone
-from typing import List
+from typing import List, Optional
 from enum import Enum
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field, Relationship, JSON
 from sqlalchemy import UniqueConstraint
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_validator
 from fastapi import UploadFile, File
 
 # Shared properties
@@ -67,17 +67,33 @@ class CarabinerTags(str, Enum):
 
 class ProductBase(SQLModel):
     # Generic Product fields:
-    category: ProductCategory = Field(nullable=False)
+    category: ProductCategory = Field(index=True)
     title_en: str = Field(min_length=5, max_length=255)
     title_uk: str = Field(min_length=5, max_length=255)
     material_en: str = Field(min_length=5, max_length=255)
     material_uk: str = Field(min_length=5, max_length=255)
     price_usd: float = Field(ge=0.9, le=10000.0)
     price_uah: float = Field(ge=0.9, le=10000.0)
-    size: str = Field(max_length=50)
+    size_en: str | List[str] = Field(sa_type=JSON)
+    size_uk: str | List[str] = Field(sa_type=JSON)
     # Optional Product fields:
-    weight: str | None = Field(max_length=50, default=None)
+    weight_en: str | None = Field(max_length=50, default=None)
+    weight_uk: str | None = Field(max_length=50, default=None)
     tag: CarabinerTags | None = Field(default=None)
+    
+    @field_validator('size_en', 'size_uk')
+    def validate_size(cls, value):
+        if value is None:
+            return value
+        if isinstance(value, str):
+            if not value.strip():
+                raise ValueError("Size string cannot be empty.")
+        elif isinstance(value, list):
+            if not all(isinstance(size, str) and size.strip() for size in value):
+                raise ValueError("All sizes in the list must be non-empty strings.")
+        else:
+            raise ValueError("Size must be either a string or a list of strings.")
+        return value
     
 class ProductCreate(ProductBase):
     images: List["ProductImageCreate"] | None = Field(default=None)
@@ -88,9 +104,12 @@ class ProductUpdate(ProductBase):
     title_uk: str | None = Field(default=None, min_length=5, max_length=255)
     material_en: str | None = Field(default=None, min_length=5, max_length=255)
     material_uk: str | None = Field(default=None, min_length=5, max_length=255)
-    size: str | None = Field(default=None, max_length=50)
     price_usd: float | None = Field(default=None, ge=0.9, le=10000.0)
     price_uah: float | None = Field(default=None, ge=0.9, le=10000.0)
+    size_en: Optional[str | List[str]] = Field(default=None)
+    size_uk: Optional[str | List[str]] = Field(default=None)
+    weight_en: str | None = Field(default=None, max_length=50)
+    weight_uk: str | None = Field(default=None, max_length=50)
     images: List["ProductImageCreate"] | None = Field(default=None)
 
 class Product(ProductBase, table=True):
