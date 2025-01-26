@@ -131,7 +131,10 @@ function ProductsTable() {
             </Tbody>
           ) : (
             <Tbody>
-              {products?.data.map((product) => (
+              {products?.data
+                .slice()
+                .sort((a, b) => a.category.localeCompare(b.category))
+                .map((product) => (
                 <Tr key={product.id} opacity={isPlaceholderData ? 0.5 : 1}>
                   <Td sx={{ padding: '1rem .25rem !important' }}>
                     <ActionsMenu type={"Product"} value={product} />
