@@ -103,12 +103,28 @@ export const $ProductBase = {
       minimum: 0.9,
       maximum: 10000,
     },
-    size: {
-      type: "string",
-      isRequired: true,
-      maxLength: 50,
+    size_en: {
+      type: "any-of",
+      contains: [
+        { type: "string" },
+        { type: "array", items: { type: "string" } }
+      ],
     },
-    weight: {
+    size_uk: {
+      type: "any-of",
+      contains: [
+        { type: "string" },
+        { type: "array", items: { type: "string" } }
+      ],
+    },
+    weight_en: {
+      type: "any-of",
+      contains: [
+        { type: "string", maxLength: 50 },
+        { type: "null" },
+      ],
+    },
+    weight_uk: {
       type: "any-of",
       contains: [
         { type: "string", maxLength: 50 },

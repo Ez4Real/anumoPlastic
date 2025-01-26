@@ -46,19 +46,21 @@ type ProductBase = {
   material_uk: string;
   price_usd: number;
   price_uah: number;
-  size: string;
-  weight?: string | null;       
+  size_en: string | Array<string>;
+  size_uk: string | Array<string>;
+  weight_en?: string | null;       
+  weight_uk?: string | null;       
   tag?: CarabinerTags | null;      
 }
 
 export type ProductCreate = ProductBase & {
-  images?: ProductImage[] | null; 
+  images?: Array<ProductImage> | null; 
 };
 
 export type ProductPublic = ProductBase & {
   id: string
   owner_id: string
-  images?: ProductImage[];
+  images?: Array<ProductImage>;
 }
 
 export type ProductUpdate = ProductBase & {
@@ -67,10 +69,13 @@ export type ProductUpdate = ProductBase & {
   title_uk?: string | null;
   material_en?: string | null;
   material_uk?: string | null;
-  size?: string | null;
   price_usd?: number | null;
   price_uah?: number | null;
-  images?: ProductImage[] | null;
+  size_en: string | Array<string> | null;
+  size_uk: string | Array<string> | null;
+  weight_en?: string | null;       
+  weight_uk?: string | null;  
+  images?: Array<ProductImage> | null;
 }
 
 export type ProductsPublic = {

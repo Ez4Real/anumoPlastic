@@ -406,6 +406,9 @@ export type TDataReadProducts = {
   limit?: number
   skip?: number
 }
+export type TDataReadProductsByCategory = {
+  category: string
+}
 export type TDataCreateProduct = {
   requestBody: ProductCreate
 }
@@ -442,6 +445,26 @@ export class ProductsService {
         422: `Validation Error`,
       },
     })
+  }
+
+  /**
+   * Read Products by Category
+   * Retrieve products by category.
+   * @returns ProductsPublic Successful Response
+   * @throws ApiError
+   */
+  public static readProductsByCategory(
+    data: TDataReadProductsByCategory
+  ): CancelablePromise<ProductsPublic> {
+    const { category } = data;
+  
+    return __request(OpenAPI, {
+      method: "GET",
+      url: `/api/v1/products/${category}`, 
+      errors: {
+        422: `Validation Error`,
+      },
+    });
   }
 
   /**
