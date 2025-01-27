@@ -35,7 +35,7 @@ const Projects = () => {
     setCurrentProjectIndex((prevIndex) => 
       (prevIndex + direction + projects.length) % projects.length
     );
-    customSmoothScroll(164, 350);
+    customSmoothScroll(164, 600);
   };
 
 
