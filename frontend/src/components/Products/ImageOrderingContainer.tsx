@@ -14,7 +14,6 @@ interface ImagesContainerProps {
   setImages: React.Dispatch<React.SetStateAction<Array<ImageItem>>>;
   onRemove: (id: string) => void;
   scrollbarColor: string;
-  isOpen: boolean;
 }
 
 const ImagesOrderingContainer = ({
