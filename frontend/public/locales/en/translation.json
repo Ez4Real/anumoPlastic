@@ -25,7 +25,7 @@
         "bookHolders": "BOOK HOLDERS",
         "chokers": "CHOKERS",
         "plates": "PLATES",
-        "soapDishes": "SOAP DISHES",
+        "soapHolders": "SOAP DISHES",
         "projectsTitle": "PROJECTS",
         "alltrueestTitle": "ALLTRUEEST",
         "alltrueestDesc": "Large dining table and coffee table made of recycled plastic for Alltrueest cafe",
@@ -139,6 +139,10 @@
     },
     
     "Product": {
+        "material": "Material",
+        "size": "Size",
+        "weight": "Weight",
+        "price": "Price",
         "addToCart": "ADD TO CART"
     },
 
@@ -236,14 +240,29 @@
                         "title": "UAH price",
                         "required": "UAH price is required."
                     },
-                    "size": {
-                        "title": "Size(s)", 
-                        "placeholder": "Size(s)",
-                        "required": "Product size(s) is required."
+                    "size_en": {
+                        "title": "English size(s)", 
+                        "placeholder": {
+                            "single": "Enter english size",
+                            "multiple": "Sizes separated by spaces"
+                        },
+                        "required": "English size(s) is required."
                     },
-                    "weight": {
-                        "title": "Weight", 
-                        "placeholder": "Weight"
+                    "size_uk": {
+                        "title": "Ukrainian size(s)", 
+                        "placeholder": {
+                            "single": "Enter ukrainian size",
+                            "multiple": "Sizes separated by spaces"
+                        },
+                        "required": "Ukrainian size(s) is required."
+                    },
+                    "weight_en": {
+                        "title": "English weight", 
+                        "placeholder": "English weight"
+                    },
+                    "weight_uk": {
+                        "title": "Ukrainian weight", 
+                        "placeholder": "Ukrainian weight"
                     },
                     "tag": {
                         "title": "Tag", 

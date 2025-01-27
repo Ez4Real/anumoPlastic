@@ -14,7 +14,6 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
-  InputLeftAddon,
   InputLeftElement,
   InputGroup,
   Select,
@@ -23,16 +22,17 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  useColorModeValue,
   Textarea,
+  useColorModeValue,
 } from "@chakra-ui/react"
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { type SubmitHandler, useForm } from "react-hook-form"
+import { type SubmitHandler, useForm, FormProvider } from "react-hook-form"
 import { FiImage } from "react-icons/fi";
 import { type ApiError, type ProductCreate, type ImageItem, ProductsService } from "../../client"
 import useCustomToast from "../../hooks/useCustomToast"
-import { handleError } from "../../utils"
+import { handleError, validateImage } from "../../utils"
+import ProductSizeField from "../Common/ProductSizeField";
 import ImagesOrderingContainer from './ImageOrderingContainer';
 
 interface AddProductProps {
@@ -46,14 +46,12 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
 
-  const {
-    register,
-    handleSubmit,
-    setError,
-    clearErrors,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<ProductCreate>({
+  const [images, setImages] = useState<Array<ImageItem>>([]);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+
+  const [sizesAreList, setSizesAreList] = useState<boolean>(false);
+
+  const methods = useForm<ProductCreate>({
     mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {
@@ -92,87 +90,15 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
       queryClient.invalidateQueries({ queryKey: ["products"] })
     },
   })
-  
-  const [images, setImages] = useState<Array<ImageItem>>([]);
-  const imageInputRef = useRef<HTMLInputElement>(null);
 
-
-  const validateImage = (
-    file: File,
-    index: number,
-    allowedFormats: string[],
-    maxSizeMB: number = 5
-  ): { image: ImageItem | null; error: string | null } => {
-
-    if (!allowedFormats.includes(file.type)) {
-      return {
-        image: null,
-        error: t("AdminPanel.products.addProduct.fields.images.invalidFormatMsg"),
-      };
-    }
-  
-    if (file.size > maxSizeMB * 1024 * 1024) {
-      return {
-        image: null,
-        error: t("AdminPanel.products.addProduct.fields.images.invalidFileSizeMsg", {
-          size: maxSizeMB,
-        }),
-      };
-    }
-
-    return {
-      image: {
-        id: `${Date.now()}-${index}`,
-        file,
-        url: URL.createObjectURL(file),
-      },
-      error: null,
-    };
-  };
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    const allowedFormats = ["image/png", "image/jpg", "image/jpeg"];
-  
-    if (files) {
-      const validationResults = Array.from(files).map((file, index) =>
-        validateImage(file, index, allowedFormats)
-      );
-      const error = validationResults.find((result) => result.error !== null)?.error;
-  
-      if (error) {
-        setError("images", {
-          type: "manual",
-          message: error,
-        });
-      } else {
-        clearErrors("images");
-      }
-  
-      const validImages = validationResults
-        .map((result) => result.image)
-        .filter((image) => image !== null) as Array<ImageItem>;
-  
-      setImages((prev) => [...prev, ...validImages]);
-    }
-  };
-
-  const handleRemoveImage = (id: string) => {
-    const filtered = images.filter((img) => img.id !== id);
-    setImages(filtered);
-  };
-  
-  const saveImagesToLocalStorage = async (
-    images: Array<{ id: string; file: File }>
-  ): Promise<Array<{ url: string }>> => {
-    const formData = new FormData();
-    images.forEach((image) => {
-      formData.append("images", image.file); 
-    });
-  
-    const response = await ProductsService.uploadImages(formData);
-    return response.urls.map((url: string) => ({ url }));
-  };
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    reset,
+    formState: { errors, isSubmitting },
+  } = methods
 
   const onSubmit: SubmitHandler<ProductCreate> = async (data) => {
     let imageFiles;
@@ -195,6 +121,50 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
     mutation.mutate(processedData);
   };
 
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    const allowedFormats = ["image/png", "image/jpg", "image/jpeg"];
+  
+    if (files) {
+      const validatedImages = Array.from(files).map((file, index) =>
+        validateImage(file, index, allowedFormats, t)
+      );
+      const error = validatedImages.find((imageObj) => imageObj.error !== null)?.error;
+  
+      if (error) {
+        setError("images", {
+          type: "manual",
+          message: error,
+        });
+      } else {
+        clearErrors("images");
+      }
+  
+      const validImages = validatedImages
+        .map((imageObj) => imageObj.image)
+        .filter((image) => image !== null) as Array<ImageItem>;
+      setImages((prev) => [...prev, ...validImages]);
+    }
+  };
+
+  const handleRemoveImage = (id: string) => {
+    const filtered = images.filter((img) => img.id !== id);
+    setImages(filtered);
+  };
+  
+  const saveImagesToLocalStorage = async (
+    images: Array<{ id: string; file: File }>
+  ): Promise<Array<{ url: string }>> => {
+    const formData = new FormData();
+    images.forEach((image) => {
+      formData.append("images", image.file); 
+    });
+  
+    const response = await ProductsService.uploadImages(formData);
+    return response.urls.map((url: string) => ({ url }));
+  };
+
   return (
     <>
       <Modal
@@ -207,362 +177,347 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
           backdropFilter='auto'
           backdropBlur='2px'
         />
-        <ModalContent
-          as="form"
-          onSubmit={handleSubmit(onSubmit)}
-          maxW='95%'
-          my='2rem'
-          containerProps={{
-            sx: { 
-              '::-webkit-scrollbar-thumb':{
-                background: scrollbarColor,
-              },               
-            }
-          }}
-        >
-          <ModalHeader>{t('AdminPanel.actions.addProduct')}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6} >
-            <Grid templateColumns='repeat(2, 1fr)' gap='1rem'>
-              <GridItem>
-                <FormControl isRequired isInvalid={!!errors.category} >
-                  <FormLabel htmlFor="category">
-                    {t('AdminPanel.products.addProduct.fields.category.title')}
-                  </FormLabel>
-                  <Select
-                    {...register("category", {
-                      required: t('AdminPanel.products.addProduct.fields.category.required')
-                    })}
-                    variant='outline'
-                    placeholder={t('AdminPanel.products.addProduct.fields.category.placeholder')}
-                  >
-                    <option value='Carabiner'>
-                      {t('AdminPanel.products.categories.carabiner')}
-                    </option>
-                    <option value='Book holder'>
-                      {t('AdminPanel.products.categories.bookHolder')}
-                    </option>
-                    <option value='Choker'>
-                      {t('AdminPanel.products.categories.choker')}
-                    </option>
-                    <option value='Plate'>
-                      {t('AdminPanel.products.categories.plate')}
-                    </option>
-                    <option value='Soap holder'>
-                      {t('AdminPanel.products.categories.soapHolder')}
-                    </option>
-                  </Select>
-                  {errors.category && (
-                    <FormErrorMessage>{errors.category.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              <GridItem>
-                <FormControl isInvalid={!!errors.tag} variant="floatingLabel">
-                  <FormLabel htmlFor="tag">
-                    {t('AdminPanel.products.addProduct.fields.tag.title')}
-                  </FormLabel>
-                  <Select
-                    {...register("tag")}
-                    variant='outline'
-                    placeholder={t('AdminPanel.products.addProduct.fields.tag.placeholder')}
-                  >
-                    <option value='bunny'>
-                      {t('AdminPanel.products.tags.bunny')}
-                    </option>
-                    <option value='heart'>
-                      {t('AdminPanel.products.tags.heart')}
-                    </option>
-                    <option value='shuriken'>
-                      {t('AdminPanel.products.tags.shuriken')}
-                    </option>
-                    <option value='spikelet'>
-                      {t('AdminPanel.products.tags.spikelet')}
-                    </option>
-                  </Select>
-                  {errors.tag && (
-                    <FormErrorMessage>{errors.tag.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              
-              <GridItem>
-                <FormControl isRequired isInvalid={!!errors.title_en}>
-                  <FormLabel htmlFor="title_en">
-                    {t('AdminPanel.products.addProduct.fields.title_en.title')}
-                  </FormLabel>
-                  <Input
-                    id="title_en"
-                    {...register("title_en", {
-                      required: t('AdminPanel.products.addProduct.fields.title_en.required'),
-                      setValueAs: (value: string) => value.trim(),
-                    })}
-                    placeholder={t('AdminPanel.products.addProduct.fields.title_en.placeholder')}
-                    type="text"
-                  />
-                  {errors.title_en && (
-                    <FormErrorMessage>{errors.title_en.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              <GridItem>
-                <FormControl isRequired isInvalid={!!errors.title_uk}>
-                  <FormLabel htmlFor="title_uk">
-                    {t('AdminPanel.products.addProduct.fields.title_uk.title')}
-                  </FormLabel>
-                  <Input
-                    id="title_uk"
-                    {...register("title_uk", {
-                      required: t('AdminPanel.products.addProduct.fields.title_uk.required'),
-                      setValueAs: (value: string) => value.trim(),
-                    })}
-                    placeholder={t('AdminPanel.products.addProduct.fields.title_uk.placeholder')}
-                    type="text"
-                  />
-                  {errors.title_uk && (
-                    <FormErrorMessage>{errors.title_uk.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              <GridItem>
-                <FormControl isRequired isInvalid={!!errors.material_en}>
-                  <FormLabel htmlFor="material_en">
-                    {t('AdminPanel.products.addProduct.fields.material_en.title')}
-                  </FormLabel>
-                  <Textarea
-                    id="material_en"
-                    {...register("material_en", {
-                      required: t('AdminPanel.products.addProduct.fields.material_en.required'),
-                      setValueAs: (value: string) => value.trim(),
-                    })}
-                    placeholder={t('AdminPanel.products.addProduct.fields.material_en.placeholder')}
-                    resize="vertical"
-                    minHeight="2.5rem"
-                    maxHeight="8rem"
-                  />
-                  {errors.material_en && (
-                    <FormErrorMessage>{errors.material_en.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              <GridItem>
-                <FormControl isRequired isInvalid={!!errors.material_uk}>
-                  <FormLabel htmlFor="material_uk">
-                    {t('AdminPanel.products.addProduct.fields.material_uk.title')}
-                  </FormLabel>
-                  <Textarea
-                    id="material_uk"
-                    {...register("material_uk", {
-                      required: t('AdminPanel.products.addProduct.fields.material_uk.required'),
-                      setValueAs: (value: string) => value.trim(),
-                    })}
-                    placeholder={t('AdminPanel.products.addProduct.fields.material_uk.placeholder')}
-                    resize="vertical"
-                    minHeight="2.5rem"
-                    maxHeight="8rem"
-                  />
-                  {errors.material_uk && (
-                    <FormErrorMessage>{errors.material_uk.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              <GridItem>
-                <FormControl isRequired isInvalid={!!errors.price_usd}>
-                  <FormLabel htmlFor="price_usd">
-                    {t('AdminPanel.products.addProduct.fields.price_usd.title')}
-                  </FormLabel>
-                  <InputGroup>
-                    <InputLeftAddon>$</InputLeftAddon>
-                    <NumberInput
-                      precision={2}
-                      step={0.2}
-                      min={0.9}
-                      max={10000}
-                      w='100%'
-                      allowMouseWheel
+        <FormProvider {...methods}>
+          <ModalContent
+            as="form"
+            onSubmit={handleSubmit(onSubmit)}
+            maxW='95%'
+            my='2rem'
+            containerProps={{
+              sx: { 
+                '::-webkit-scrollbar-thumb':{
+                  background: scrollbarColor,
+                },               
+              }
+            }}
+          >
+            <ModalHeader>{t('AdminPanel.actions.addProduct')}</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6} >
+              <Grid templateColumns='repeat(2, 1fr)' gap='1rem'>
+                <GridItem>
+                  <FormControl isRequired isInvalid={!!errors.category} >
+                    <FormLabel htmlFor="category">
+                      {t('AdminPanel.products.addProduct.fields.category.title')}
+                    </FormLabel>
+                    <Select
+                      {...register("category", {
+                        required: t('AdminPanel.products.addProduct.fields.category.required')
+                      })}
+                      variant='outline'
+                      placeholder={t('AdminPanel.products.addProduct.fields.category.placeholder')}
                     >
-                      <NumberInputField
-                        id="price_usd"
-                        {...register("price_usd", {
-                          required: t('AdminPanel.products.addProduct.fields.price_usd.required'),
-                          min: 0.9,
-                          max: 10000,
-                        })}
-                        borderLeftRadius={0}
-                        borderLeftWidth={0}
-                      />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                  </InputGroup>
-                  {errors.price_usd && (
-                    <FormErrorMessage>{errors.price_usd.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              <GridItem>
-                <FormControl isRequired isInvalid={!!errors.price_uah}>
-                  <FormLabel htmlFor="price_uah">
-                    {t('AdminPanel.products.addProduct.fields.price_uah.title')}
-                  </FormLabel>
-                  <InputGroup>
-                    <InputLeftAddon>₴</InputLeftAddon>
-                    <NumberInput
-                      precision={2}
-                      step={0.2}
-                      min={0.9}
-                      max={10000}
-                      w='100%'
-                      allowMouseWheel
+                      <option value='Carabiner'>
+                        {t('AdminPanel.products.categories.carabiner')}
+                      </option>
+                      <option value='Book holder'>
+                        {t('AdminPanel.products.categories.bookHolder')}
+                      </option>
+                      <option value='Choker'>
+                        {t('AdminPanel.products.categories.choker')}
+                      </option>
+                      <option value='Plate'>
+                        {t('AdminPanel.products.categories.plate')}
+                      </option>
+                      <option value='Soap holder'>
+                        {t('AdminPanel.products.categories.soapHolder')}
+                      </option>
+                    </Select>
+                    {errors.category && (
+                      <FormErrorMessage>{errors.category.message}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </GridItem>
+                <GridItem>
+                  <FormControl isInvalid={!!errors.tag} variant="floatingLabel">
+                    <FormLabel htmlFor="tag">
+                      {t('AdminPanel.products.addProduct.fields.tag.title')}
+                    </FormLabel>
+                    <Select
+                      {...register("tag")}
+                      variant='outline'
+                      placeholder={t('AdminPanel.products.addProduct.fields.tag.placeholder')}
                     >
-                      <NumberInputField
-                        id="price_uah"
-                        {...register("price_uah", {
-                          required: t('AdminPanel.products.addProduct.fields.price_uah.required'),
-                          min: 0.9,
-                          max: 10000,
-                        })}
-                        borderLeftRadius={0}
-                        borderLeftWidth={0}
-                      />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                  </InputGroup>
-                  {errors.price_uah && (
-                    <FormErrorMessage>{errors.price_uah.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              <GridItem>
-                <FormControl isRequired isInvalid={!!errors.size_en}>
-                  <FormLabel htmlFor="size_en">
-                    {t('AdminPanel.products.addProduct.fields.size_en.title')}
-                  </FormLabel>
-                  <Input
-                    id="size_en"
-                    {...register("size_en", {
-                      required: t('AdminPanel.products.addProduct.fields.size_en.required'),
-                      setValueAs: (value: string) => value.trim(),
-                    })}
-                    placeholder={t('AdminPanel.products.addProduct.fields.size_en.placeholder')}
-                    type="text"
-                  />
-                  {errors.size_en && (
-                    <FormErrorMessage>{errors.size_en.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              <GridItem>
-                <FormControl isRequired isInvalid={!!errors.size_uk}>
-                  <FormLabel htmlFor="size_uk">
-                    {t('AdminPanel.products.addProduct.fields.size_uk.title')}
-                  </FormLabel>
-                  <Input
+                      <option value='bunny'>
+                        {t('AdminPanel.products.tags.bunny')}
+                      </option>
+                      <option value='heart'>
+                        {t('AdminPanel.products.tags.heart')}
+                      </option>
+                      <option value='shuriken'>
+                        {t('AdminPanel.products.tags.shuriken')}
+                      </option>
+                      <option value='spikelet'>
+                        {t('AdminPanel.products.tags.spikelet')}
+                      </option>
+                    </Select>
+                    {errors.tag && (
+                      <FormErrorMessage>{errors.tag.message}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </GridItem>
+                <GridItem>
+                  <FormControl isRequired isInvalid={!!errors.title_en}>
+                    <FormLabel htmlFor="title_en">
+                      {t('AdminPanel.products.addProduct.fields.title_en.title')}
+                    </FormLabel>
+                    <Input
+                      id="title_en"
+                      {...register("title_en", {
+                        required: t('AdminPanel.products.addProduct.fields.title_en.required'),
+                        setValueAs: (value: string) => value.trim(),
+                      })}
+                      placeholder={t('AdminPanel.products.addProduct.fields.title_en.placeholder')}
+                    />
+                    {errors.title_en && (
+                      <FormErrorMessage>{errors.title_en.message}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </GridItem>
+                <GridItem>
+                  <FormControl isRequired isInvalid={!!errors.title_uk}>
+                    <FormLabel htmlFor="title_uk">
+                      {t('AdminPanel.products.addProduct.fields.title_uk.title')}
+                    </FormLabel>
+                    <Input
+                      id="title_uk"
+                      {...register("title_uk", {
+                        required: t('AdminPanel.products.addProduct.fields.title_uk.required'),
+                        setValueAs: (value: string) => value.trim(),
+                      })}
+                      placeholder={t('AdminPanel.products.addProduct.fields.title_uk.placeholder')}
+                    />
+                    {errors.title_uk && (
+                      <FormErrorMessage>{errors.title_uk.message}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </GridItem>
+                <GridItem>
+                  <FormControl isRequired isInvalid={!!errors.material_en}>
+                    <FormLabel htmlFor="material_en">
+                      {t('AdminPanel.products.addProduct.fields.material_en.title')}
+                    </FormLabel>
+                    <Textarea
+                      id="material_en"
+                      {...register("material_en", {
+                        required: t('AdminPanel.products.addProduct.fields.material_en.required'),
+                        setValueAs: (value: string) => value.trim(),
+                      })}
+                      placeholder={t('AdminPanel.products.addProduct.fields.material_en.placeholder')}
+                      resize="vertical"
+                      minHeight="2.5rem"
+                      maxHeight="8rem"
+                    />
+                    {errors.material_en && (
+                      <FormErrorMessage>{errors.material_en.message}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </GridItem>
+                <GridItem>
+                  <FormControl isRequired isInvalid={!!errors.material_uk}>
+                    <FormLabel htmlFor="material_uk">
+                      {t('AdminPanel.products.addProduct.fields.material_uk.title')}
+                    </FormLabel>
+                    <Textarea
+                      id="material_uk"
+                      {...register("material_uk", {
+                        required: t('AdminPanel.products.addProduct.fields.material_uk.required'),
+                        setValueAs: (value: string) => value.trim(),
+                      })}
+                      placeholder={t('AdminPanel.products.addProduct.fields.material_uk.placeholder')}
+                      resize="vertical"
+                      minHeight="2.5rem"
+                      maxHeight="8rem"
+                    />
+                    {errors.material_uk && (
+                      <FormErrorMessage>{errors.material_uk.message}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </GridItem>
+                <GridItem>
+                  <FormControl isRequired isInvalid={!!errors.price_usd}>
+                    <FormLabel htmlFor="price_usd">
+                      {t('AdminPanel.products.addProduct.fields.price_usd.title')}
+                    </FormLabel>
+                    <InputGroup>
+                      <InputLeftElement
+                        pointerEvents='none'
+                        fontFamily='Inter,sans-serif'
+                        color='gray.300'
+                        fontSize='1.2em'
+                      >
+                        $
+                      </InputLeftElement>
+                      <NumberInput
+                        precision={2}
+                        step={0.2}
+                        min={0.9}
+                        max={10000}
+                        w='100%'
+                        allowMouseWheel
+                      >
+                        <NumberInputField
+                          id="price_usd"
+                          {...register("price_usd", {
+                            required: t('AdminPanel.products.addProduct.fields.price_usd.required'),
+                            min: 0.9,
+                            max: 10000,
+                          })}
+                          pl='2.5rem'
+                        />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                    </InputGroup>
+                    {errors.price_usd && (
+                      <FormErrorMessage>{errors.price_usd.message}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </GridItem>
+                <GridItem>
+                  <FormControl isRequired isInvalid={!!errors.price_uah}>
+                    <FormLabel htmlFor="price_uah">
+                      {t('AdminPanel.products.addProduct.fields.price_uah.title')}
+                    </FormLabel>
+                    <InputGroup>
+                      <InputLeftElement
+                        pointerEvents='none'
+                        fontFamily='Inter,sans-serif'
+                        color='gray.300'
+                        fontSize='1.2em'
+                      >
+                        ₴
+                      </InputLeftElement>
+                      <NumberInput
+                        precision={2}
+                        step={0.2}
+                        min={0.9}
+                        max={10000}
+                        w='100%'
+                        allowMouseWheel
+                      >
+                        <NumberInputField
+                          id="price_uah"
+                          {...register("price_uah", {
+                            required: t('AdminPanel.products.addProduct.fields.price_uah.required'),
+                            min: 0.9,
+                            max: 10000,
+                          })}
+                          pl='2.5rem'
+                        />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                    </InputGroup>
+                    {errors.price_uah && (
+                      <FormErrorMessage>{errors.price_uah.message}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </GridItem>
+                <GridItem>
+                  <ProductSizeField
                     id="size_uk"
-                    {...register("size_uk", {
-                      required: t('AdminPanel.products.addProduct.fields.size_uk.required'),
-                      setValueAs: (value: string) => value.trim(),
-                    })}
-                    placeholder={t('AdminPanel.products.addProduct.fields.size_uk.placeholder')}
-                    type="text"
+                    isChecked={sizesAreList}
+                    setIsChecked={setSizesAreList}     
                   />
-                  {errors.size_uk && (
-                    <FormErrorMessage>{errors.size_uk.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              <GridItem>
-                <FormControl isInvalid={!!errors.weight_en}>
-                  <FormLabel htmlFor="weight_en">
-                    {t('AdminPanel.products.addProduct.fields.weight_en.title')}
-                  </FormLabel>
+                </GridItem>
+                <GridItem>
+                  <ProductSizeField
+                    id="size_en"
+                    isChecked={sizesAreList}
+                    setIsChecked={setSizesAreList}
+                    
+                  />
+                </GridItem>
+                <GridItem>
+                  <FormControl isInvalid={!!errors.weight_en}>
+                    <FormLabel htmlFor="weight_en">
+                      {t('AdminPanel.products.addProduct.fields.weight_en.title')}
+                    </FormLabel>
+                    <Input
+                      id="weight_en"
+                      {...register("weight_en", {
+                        setValueAs: (value: string) => value.trim()
+                      })
+                        
+                      }
+                      placeholder={t('AdminPanel.products.addProduct.fields.weight_en.placeholder')}
+                    />
+                    {errors.weight_en && (
+                      <FormErrorMessage>{errors.weight_en.message}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </GridItem>
+                <GridItem>
+                  <FormControl isInvalid={!!errors.weight_uk}>
+                    <FormLabel htmlFor="weight_uk">
+                      {t('AdminPanel.products.addProduct.fields.weight_uk.title')}
+                    </FormLabel>
+                    <Input
+                      id="weight_uk"
+                      {...register("weight_uk", {
+                        setValueAs: (value: string) => value.trim()
+                      })}
+                      placeholder={t('AdminPanel.products.addProduct.fields.weight_uk.placeholder')}
+                    />
+                    {errors.weight_uk && (
+                      <FormErrorMessage>{errors.weight_uk.message}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </GridItem>
+                
+              </Grid>
+
+              <FormControl isInvalid={!!errors.images} mt="1rem">
+                <FormLabel>{t("AdminPanel.products.addProduct.fields.images.title")}</FormLabel>
+                <InputGroup >
+                  <InputLeftElement pointerEvents="none">
+                    <FiImage />
+                  </InputLeftElement>
                   <Input
-                    id="weight_en"
-                    {...register("weight_en", {
-                      setValueAs: (value: string) => value.trim()
-                    })
-                      
-                    }
-                    placeholder={t('AdminPanel.products.addProduct.fields.weight_en.placeholder')}
-                    type="text"
+                    {...register("images")}
+                    type='file'
+                    accept=".jpg, .jpeg, .png"
+                    multiple
+                    hidden
+                    ref={imageInputRef}
+                    onChange={handleImageUpload}
                   />
-                  {errors.weight_en && (
-                    <FormErrorMessage>{errors.weight_en.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
-              <GridItem>
-                <FormControl isInvalid={!!errors.weight_uk}>
-                  <FormLabel htmlFor="weight_uk">
-                    {t('AdminPanel.products.addProduct.fields.weight_uk.title')}
-                  </FormLabel>
                   <Input
-                    id="weight_uk"
-                    {...register("weight_uk", {
-                      setValueAs: (value: string) => value.trim()
-                    })}
-                    placeholder={t('AdminPanel.products.addProduct.fields.weight_uk.placeholder')}
-                    type="text"
+                    readOnly
+                    placeholder={t("AdminPanel.products.addProduct.fields.images.placeholder")}
+                    onClick={() => imageInputRef.current?.click()}
+                    value={images.map((img) => img.file.name).join(", ")}
+                    fontSize="sm"
                   />
-                  {errors.weight_uk && (
-                    <FormErrorMessage>{errors.weight_uk.message}</FormErrorMessage>
-                  )}
-                </FormControl>
-              </GridItem>
+                </InputGroup>
+                <FormErrorMessage>
+                  {errors.images && errors?.images.message}
+                </FormErrorMessage>
+              </FormControl>
+
+              {images.length > 0 && (
+                <ImagesOrderingContainer
+                  images={images}
+                  setImages={setImages}
+                  onRemove={handleRemoveImage}
+                  scrollbarColor={scrollbarColor}
+                />
+              )}
               
-            </Grid>
-
-            <FormControl isInvalid={!!errors.images} mt="1rem">
-              <FormLabel>{t("AdminPanel.products.addProduct.fields.images.title")}</FormLabel>
-              <InputGroup >
-                <InputLeftElement pointerEvents="none">
-                  <FiImage />
-                </InputLeftElement>
-                <Input
-                  {...register("images")}
-                  type='file'
-                  accept=".jpg, .jpeg, .png"
-                  multiple
-                  hidden
-                  ref={imageInputRef}
-                  onChange={handleImageUpload}
-                />
-                <Input
-                  readOnly
-                  placeholder={t("AdminPanel.products.addProduct.fields.images.placeholder")}
-                  onClick={() => imageInputRef.current?.click()}
-                  value={images.map((img) => img.file.name).join(", ")}
-                  fontSize="sm"
-                />
-              </InputGroup>
-              <FormErrorMessage>
-                {errors.images && errors?.images.message}
-              </FormErrorMessage>
-            </FormControl>
-
-            {images.length > 0 && (
-              <ImagesOrderingContainer
-                images={images}
-                setImages={setImages}
-                onRemove={handleRemoveImage}
-                scrollbarColor={scrollbarColor}
-                isOpen={isOpen}
-              />
-            )}
-            
-          </ModalBody>
-          <ModalFooter gap={3} pt={1}>
-            <Button variant="primary" type="submit" isLoading={isSubmitting}>
-              {t('AdminPanel.actions.save')}
-            </Button>
-            <Button onClick={onClose}>{t('AdminPanel.actions.cancel')}</Button>
-          </ModalFooter>
-        </ModalContent>
+            </ModalBody>
+            <ModalFooter gap={3} pt={1}>
+              <Button variant="primary" type="submit" isLoading={isSubmitting}>
+                {t('AdminPanel.actions.save')}
+              </Button>
+              <Button onClick={onClose}>{t('AdminPanel.actions.cancel')}</Button>
+            </ModalFooter>
+          </ModalContent>
+        </FormProvider>
       </Modal>
     </>
   )
