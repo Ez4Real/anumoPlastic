@@ -420,17 +420,16 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                 </GridItem>
                 <GridItem>
                   <ProductSizeField
-                    id="size_uk"
+                    id="size_en"
                     isChecked={sizesAreList}
-                    setIsChecked={setSizesAreList}     
+                    setIsChecked={setSizesAreList} 
                   />
                 </GridItem>
                 <GridItem>
                   <ProductSizeField
-                    id="size_en"
+                    id="size_uk"
                     isChecked={sizesAreList}
-                    setIsChecked={setSizesAreList}
-                    
+                    setIsChecked={setSizesAreList}     
                   />
                 </GridItem>
                 <GridItem>
