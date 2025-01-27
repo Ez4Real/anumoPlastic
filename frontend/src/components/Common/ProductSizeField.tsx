@@ -11,6 +11,7 @@ import {
 import { useFormContext } from 'react-hook-form';
 import { FiList } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
+import CustomIcon from './CustomIcon';
 
 interface ProductSizeFieldProps {
     id: string
@@ -71,7 +72,11 @@ const ProductSizeField = ({
             isChecked={isChecked}
             isRequired={false}
             onChange={() => setIsChecked(!isChecked)}
-            icon={<FiList />}
+            icon={<CustomIcon
+              icon={FiList}
+              isChecked={isChecked}
+              isIndeterminate={false}
+            />}
             sx={{
               '.chakra-checkbox__control': {
                 width: '1.75rem',
