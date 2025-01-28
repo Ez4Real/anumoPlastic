@@ -89,24 +89,24 @@ const Header = ({ isWhiteTheme = false }) => {
               to="/projects"
               onClick={handleLinkClick}
             ><li>{t('Header.projectsLink')}</li></Link>
-            <Link
+            {/* <Link
               className='Link'
               as={RouterLink}
               to="/about-us"
               onClick={handleLinkClick}
-            ><li>{t('Header.aboutLink')}</li></Link>
+            ><li>{t('Header.aboutLink')}</li></Link> */}
             <Link
               className='Link'
               as={RouterLink}
               to="/contact-us"
               onClick={handleLinkClick}
             ><li>{t('Header.contactUsLink')}</li></Link>
-            <Link
+            {/* <Link
               className='Link'
               as={RouterLink}
               to="/find-us"
               onClick={handleLinkClick}
-            ><li>{t('Header.findUsLink')}</li></Link>
+            ><li>{t('Header.findUsLink')}</li></Link> */}
           </ul>
           <div className='menuFooter'>
             <div className='menuFooter-container'>
