@@ -20,7 +20,7 @@ enum ProductCategory {
   SOAP_HOLDER = "Soap holder",
 }
 
-enum CarabinerTags {
+export enum CarabinerTags {
   BUNNY = "bunny",
   HEART = "heart",
   SHURIKEN = "shuriken",

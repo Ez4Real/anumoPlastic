@@ -1,4 +1,5 @@
-import type { ApiError } from "./client"
+import type { ApiError, ImageItem } from "./client"
+import { TFunction } from "i18next"
 
 export const emailPattern = {
   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -66,4 +67,38 @@ export const customSmoothScroll = (targetPosition: number, duration: number): vo
   };
 
   requestAnimationFrame(scrollStep);
+};
+
+export const validateImage = (
+  file: File,
+  index: number,
+  allowedFormats: string[],
+  t: TFunction,
+  maxSizeMB: number = 5
+): { image: ImageItem | null; error: string | null } => {
+
+  if (!allowedFormats.includes(file.type)) {
+    return {
+      image: null,
+      error: t("AdminPanel.products.addProduct.fields.images.invalidFormatMsg"),
+    };
+  }
+
+  if (file.size > maxSizeMB * 1024 * 1024) {
+    return {
+      image: null,
+      error: t("AdminPanel.products.addProduct.fields.images.invalidFileSizeMsg", {
+        size: maxSizeMB,
+      }),
+    };
+  }
+
+  return {
+    image: {
+      id: `${Date.now()}-${index}`,
+      file,
+      url: URL.createObjectURL(file),
+    },
+    error: null,
+  };
 };
