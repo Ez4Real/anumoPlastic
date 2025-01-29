@@ -75,18 +75,22 @@ const Header = ({ isWhiteTheme = false }) => {
               className='Link'
               as={RouterLink}
               to="/"
+              hash="root"
               onClick={handleLinkClick}
             ><li>{t('Header.homeLink')}</li></Link>
             <Link
               className='Link'
               as={RouterLink}
-              to="/shop"
+              to="/"
+              hash="shopBlock-homepage"
               onClick={handleLinkClick}
             ><li>{t('Header.shopLink')}</li></Link>
             <Link
               className='Link'
               as={RouterLink}
-              to="/projects"
+              to="/projects/$index"
+              params={{ index: '0' }}
+              hash="projectsSlider"
               onClick={handleLinkClick}
             ><li>{t('Header.projectsLink')}</li></Link>
             {/* <Link

@@ -16,8 +16,6 @@ import { Route as LayoutImport } from './routes/_layout'
 import { Route as AuthlayoutImport } from './routes/_auth_layout'
 import { Route as MainlayoutIndexImport } from './routes/_main_layout/index'
 import { Route as MainlayoutThankYouImport } from './routes/_main_layout/thank-you'
-import { Route as MainlayoutProjectsImport } from './routes/_main_layout/projects'
-import { Route as MainlayoutProductImport } from './routes/_main_layout/product'
 import { Route as MainlayoutContactUsImport } from './routes/_main_layout/contact-us'
 import { Route as MainlayoutCheckoutImport } from './routes/_main_layout/checkout'
 import { Route as AuthlayoutSignupImport } from './routes/_auth_layout/signup'
@@ -25,6 +23,8 @@ import { Route as AuthlayoutResetPasswordImport } from './routes/_auth_layout/re
 import { Route as AuthlayoutRecoverPasswordImport } from './routes/_auth_layout/recover-password'
 import { Route as AuthlayoutLoginImport } from './routes/_auth_layout/login'
 import { Route as LayoutAdminIndexImport } from './routes/_layout/admin/index'
+import { Route as MainlayoutProjectsIndexImport } from './routes/_main_layout/projects/$index'
+import { Route as MainlayoutProductsCategoryImport } from './routes/_main_layout/products/$category'
 import { Route as LayoutAdminUsersImport } from './routes/_layout/admin/users'
 import { Route as LayoutAdminSubscribersImport } from './routes/_layout/admin/subscribers'
 import { Route as LayoutAdminSettingsImport } from './routes/_layout/admin/settings'
@@ -54,16 +54,6 @@ const MainlayoutIndexRoute = MainlayoutIndexImport.update({
 
 const MainlayoutThankYouRoute = MainlayoutThankYouImport.update({
   path: '/thank-you',
-  getParentRoute: () => MainlayoutRoute,
-} as any)
-
-const MainlayoutProjectsRoute = MainlayoutProjectsImport.update({
-  path: '/projects',
-  getParentRoute: () => MainlayoutRoute,
-} as any)
-
-const MainlayoutProductRoute = MainlayoutProductImport.update({
-  path: '/product',
   getParentRoute: () => MainlayoutRoute,
 } as any)
 
@@ -101,6 +91,18 @@ const LayoutAdminIndexRoute = LayoutAdminIndexImport.update({
   path: '/admin/',
   getParentRoute: () => LayoutRoute,
 } as any)
+
+const MainlayoutProjectsIndexRoute = MainlayoutProjectsIndexImport.update({
+  path: '/projects/$index',
+  getParentRoute: () => MainlayoutRoute,
+} as any)
+
+const MainlayoutProductsCategoryRoute = MainlayoutProductsCategoryImport.update(
+  {
+    path: '/products/$category',
+    getParentRoute: () => MainlayoutRoute,
+  } as any,
+)
 
 const LayoutAdminUsersRoute = LayoutAdminUsersImport.update({
   path: '/admin/users',
@@ -162,14 +164,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainlayoutContactUsImport
       parentRoute: typeof MainlayoutImport
     }
-    '/_main_layout/product': {
-      preLoaderRoute: typeof MainlayoutProductImport
-      parentRoute: typeof MainlayoutImport
-    }
-    '/_main_layout/projects': {
-      preLoaderRoute: typeof MainlayoutProjectsImport
-      parentRoute: typeof MainlayoutImport
-    }
     '/_main_layout/thank-you': {
       preLoaderRoute: typeof MainlayoutThankYouImport
       parentRoute: typeof MainlayoutImport
@@ -193,6 +187,14 @@ declare module '@tanstack/react-router' {
     '/_layout/admin/users': {
       preLoaderRoute: typeof LayoutAdminUsersImport
       parentRoute: typeof LayoutImport
+    }
+    '/_main_layout/products/$category': {
+      preLoaderRoute: typeof MainlayoutProductsCategoryImport
+      parentRoute: typeof MainlayoutImport
+    }
+    '/_main_layout/projects/$index': {
+      preLoaderRoute: typeof MainlayoutProjectsIndexImport
+      parentRoute: typeof MainlayoutImport
     }
     '/_layout/admin/': {
       preLoaderRoute: typeof LayoutAdminIndexImport
@@ -220,10 +222,10 @@ export const routeTree = rootRoute.addChildren([
   MainlayoutRoute.addChildren([
     MainlayoutCheckoutRoute,
     MainlayoutContactUsRoute,
-    MainlayoutProductRoute,
-    MainlayoutProjectsRoute,
     MainlayoutThankYouRoute,
     MainlayoutIndexRoute,
+    MainlayoutProductsCategoryRoute,
+    MainlayoutProjectsIndexRoute,
   ]),
 ])
 

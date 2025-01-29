@@ -66,7 +66,7 @@ class CarabinerTags(str, Enum):
 
 
 class ProductBase(SQLModel):
-    # Generic Product fields:
+    # Required Product fields:
     category: ProductCategory = Field(index=True)
     title_en: str = Field(min_length=5, max_length=255)
     title_uk: str = Field(min_length=5, max_length=255)

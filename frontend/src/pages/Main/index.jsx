@@ -1,12 +1,14 @@
 import './index.css';
+import { Link as RouterLink } from "@tanstack/react-router"
+import { Link } from '@chakra-ui/react';
 
 // Product cringe
 import homepageImg from '/assets/images/homepage.png';
 import prod1 from '/assets/productImages/prod1.png'
 import prod2 from '/assets/productImages/prod2.png'
 import prod3 from '/assets/productImages/prod3.png'
-import prod4 from '/assets/productImages/prod4.png'
-import prod5 from '/assets/productImages/prod5.png'
+import prod4 from "/assets/images/projects/alltrueest/alltrueest_2.png"
+import prod5 from "/assets/images/projects/tabletopGiraffe/tabletop56x65.png"
 import prod6 from '/assets/productImages/prod6.png'
 
 import { useTranslation } from 'react-i18next';
@@ -15,7 +17,6 @@ import { useState } from 'react';
 
 const Main = () => {
   const { t } = useTranslation();
-
   const [dropdowns, setDropdowns] = useState({});
 
   const toggleDropdown = (dropdownName) => {
@@ -85,7 +86,7 @@ const Main = () => {
                 </div>
             </div>
             <div>{t('HomePage.aboutPolicy')}.</div>
-            <div className='shopBlock-homepage'>
+            <div className='shopBlock-homepage' id='shopBlock-homepage'>
                 <p className='blockTitle'>{t('HomePage.shopTitle')}</p>
                 <div className='shopBlockImage-container'>
                     <img src={prod1} alt="Product" className='shopBlockProductImage'></img>
@@ -103,13 +104,33 @@ const Main = () => {
                 <div className='CategoriesRight-homepage'>
                     <p>{t('HomePage.categoriesTitle')}</p>
                     <div>
-                        <ul>
-                            <li>{t('HomePage.carabiners')}</li>
-                            <li>{t('HomePage.bookHolders')}</li>
-                            <li>{t('HomePage.chokers')}</li>
-                            <li>{t('HomePage.plates')}</li>
-                            <li>{t('HomePage.soapDishes')}</li>
-                        </ul>
+                      <ul>
+                        <li>
+                            <Link as={RouterLink} to="/products/Carabiner" color="black">
+                                {t('HomePage.carabiners')}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link as={RouterLink} to="/products/Book holder" color="black">
+                                {t('HomePage.bookHolders')}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link as={RouterLink} to="/products/Choker" color="black">
+                                {t('HomePage.chokers')}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link as={RouterLink} to="/products/Plate" color="black">
+                                {t('HomePage.plates')}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link as={RouterLink} to="/products/Soap holder" color="black">
+                                {t('HomePage.soapHolders')}
+                            </Link>
+                        </li>
+                      </ul>
                     </div>
                 </div>
             </div>
@@ -118,7 +139,15 @@ const Main = () => {
                 <div className='projectsInner-container'>
                     <div className='projectsInnerLeft'>
                         <img src={prod4} alt="productImage"></img>
-                        <h4>{t('HomePage.alltrueestTitle')}</h4>
+                        <Link
+                          as={RouterLink}
+                          to="/projects/$index"
+                          params={{ index: '9' }}
+                          hash="projectsSlider"
+                          color="black"
+                        >
+                            {t('HomePage.alltrueestTitle')}
+                        </Link>
                         <p>{t('HomePage.alltrueestDesc')}.</p>
                         <p>{t('HomePage.alltrueestFrom')}</p>
                     </div>
@@ -127,17 +156,43 @@ const Main = () => {
                             <div className='imgContainer'>
                                 <img src={prod5} alt="productImage"></img>
                             </div>
-                            <p>{t('HomePage.giraffeTitle')}</p>
+                            <Link
+                              as={RouterLink}
+                              to="/projects/$index"
+                              params={{ index: '2' }}
+                              hash="projectsSlider"
+                              color="black"
+                            >
+                                {t('HomePage.giraffeTitle')}
+                            </Link>
                         </div>
                         <div className='projectSmallCard'>
                             <div className='imgContainer'>
                                 <img src={prod6} alt="productImage"></img>
                             </div>
-                            <p>{t('HomePage.hypermobileTitle')}</p>
+                            <Link
+                              as={RouterLink}
+                              to="/projects/$index"
+                              params={{ index: '7' }}
+                              hash="projectsSlider"
+                              color="black"
+                            >
+                                {t('HomePage.hypermobileTitle')}
+                            </Link>
                         </div>
                     </div>
                 </div>
-                <p className="vievAllProjectsLink">{t('HomePage.viewAll')}</p>
+                <p className="vievAllProjectsLink">
+                    <Link
+                      as={RouterLink}
+                      to="/projects/$index"
+                      params={{ index: '0' }}
+                      hash="projectsSlider"
+                      color="black"
+                    >
+                        {t('HomePage.viewAll')}
+                    </Link>
+                </p>
             </div>
             
             <Cooperation />
