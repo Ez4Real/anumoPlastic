@@ -1,3 +1,4 @@
+import './index.css'
 import { useTranslation } from 'react-i18next';
 
 const Cooperation = () => {

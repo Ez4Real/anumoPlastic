@@ -19,6 +19,7 @@ import {
     GlassesAndNecklace
 } from '../../../components/Projects';
 import { customSmoothScroll } from '../../../utils';
+import { Container } from "@chakra-ui/react";
 
 
 export const Route = createFileRoute("/_main_layout/projects/$index")({
@@ -44,9 +45,8 @@ function Projects() {
       const projectIndex = Number(index);
       if (isNaN(projectIndex) || projectIndex < 0 || projectIndex >= projects.length) {
         navigate({
-        to: "/projects/$index",
-        params: { index: "0" },
-        // replace: true,
+            to: "/projects/$index",
+            params: { index: "0" },
         });
       } else if (projectIndex !== currentProjectIndex) {
         setCurrentProjectIndex(projectIndex);
@@ -67,7 +67,7 @@ function Projects() {
 
 
     return (
-        <div className='content'>
+        <Container id='content' p="0 46px">
             <BreadCrumb pageName={t('ProjectsPage.pageName')} />
             <div className="projectsSlider" id="projectsSlider">
                 {projects[currentProjectIndex]}
@@ -82,7 +82,7 @@ function Projects() {
                 </div>
             </div>
             <Cooperation />
-        </div>
+        </Container>
     );
 };
 

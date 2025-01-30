@@ -1,0 +1,20 @@
+.cooperationBlock .blockTitle {
+    font-style: italic;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 58px;
+    margin-bottom: 1rem;
+}
+
+.cooperationBlock .emailContainer {
+    width: fit-content;
+    border: 4px solid black;
+    border-radius: 50%;
+    padding: 1.25rem 1rem;
+}
+
+.cooperationBlock .emailContainer span {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+}
