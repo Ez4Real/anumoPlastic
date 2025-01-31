@@ -1,6 +1,6 @@
 import '../index.css'
 import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router"
-import Header from "../components/Header"
+import Header from "../components/Header/index.tsx"
 import Footer from "../components/Footer"
 import { useEffect, useState } from 'react';
 

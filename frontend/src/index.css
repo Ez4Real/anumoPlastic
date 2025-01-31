@@ -15,6 +15,13 @@ button {
     font-size: 2rem;
 }
 
+ul {
+    font-family: 'Inter', sans-serif;
+}
+ul li {
+    text-underline-position: under;
+}
+
 .container {
     overflow: hidden;
 }

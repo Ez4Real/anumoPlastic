@@ -1,4 +1,5 @@
 .languageCurrency-container {
+    font-family: 'Inter', sans-serif;
     cursor: pointer;
     height: fit-content;
 }

@@ -77,7 +77,13 @@ function Main() {
           </Box>
           <Box flex="1">
             <Text m={0}>{t('HomePage.anumoAbout')}.</Text>
-            <List spacing=".75rem" pl={0}>
+            <List
+              spacing=".75rem"
+              pl={0}
+              style={{
+                textUnderlinePosition: "under"
+              }}
+            >
               {['material', 'production', 'inspiration', 'values'].map((item) => (
                 <ListItem key={item}>
                   <Link
@@ -294,6 +300,9 @@ function Main() {
               params={{ index: '0' }}
               hash="projectsSlider"
               color="black"
+              style={{
+                textUnderlinePosition: "under"
+              }}
             >
               {t('HomePage.viewAll')}
             </Link>

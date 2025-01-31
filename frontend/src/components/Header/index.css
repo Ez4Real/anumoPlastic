@@ -262,6 +262,7 @@ header {
     font-weight: 500;
     font-size: 16px;
     text-decoration-line: underline;
+    text-underline-position: under;
     padding-bottom: .375rem;
 }
 

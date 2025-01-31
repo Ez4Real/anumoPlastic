@@ -18,6 +18,7 @@
     font-size: 16px;
     line-height: 19px;
     text-decoration-line: underline;
+    text-underline-position: under;
 }
 
 .footerContent-container ul li {
@@ -40,21 +41,6 @@
 .footerContent-container .signUp-container {
     width: 21.5rem;
 }
-
-/* .footerContent-container .languageCurrency-container {
-    display: flex;
-    flex-direction: column;
-} */
-
-/* .footerContent-container .languageCurrency-container .language{
-    border-bottom: 1px solid black;
-}
-
-.footerContent-container .languageCurrency-container div {
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
-} */
 
 .footer-container .socialLinks {
     font-weight: 500;
