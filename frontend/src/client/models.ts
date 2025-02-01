@@ -29,8 +29,12 @@ export enum CarabinerTags {
 
 type ProductImage = {
   url: string;
-  alt_text?: string | null; 
+  alt_text?: string | undefined; 
   order: number;   
+}
+export type CartProductImageItem = {
+  url: string;
+  alt_text?: string | undefined; 
 }
 export type ImageItem = {
   id: string;
@@ -77,6 +81,23 @@ export type ProductUpdate = ProductBase & {
   weight_uk?: string | null;  
   images?: Array<ProductImage> | null;
 }
+
+export type CartProduct = {
+  id: string
+  category: ProductCategory;
+  title_en: string;
+  title_uk: string;
+  material_en: string;
+  material_uk: string;
+  price_usd: number;
+  price_uah: number;
+  size: string;
+  weight_en?: string | null;       
+  weight_uk?: string | null;       
+  tag?: CarabinerTags | null;      
+  image?: CartProductImageItem | null;
+  count: number
+};
 
 export type ProductsPublic = {
   data: Array<ProductPublic>
