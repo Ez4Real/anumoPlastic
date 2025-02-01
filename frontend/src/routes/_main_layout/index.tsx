@@ -106,22 +106,23 @@ function Main() {
           </Box>
         </Flex>
         <Text m={0}>{t('HomePage.aboutPolicy')}.</Text>
+        <Heading
+          id='shopBlock-homepage'
+          as="h3"
+          size="xl"
+          fontSize="64px"
+          fontWeight="700"
+          mb="2rem"
+        >
+          {t('HomePage.shopTitle')}
+        </Heading>
 
         {isPending ? (
           <Flex justify="center" align="center" height="100vh">
             <Spinner size="xl" speed="1s" color="ui.main" />
           </Flex>
         ) : (
-          <Box id='shopBlock-homepage'>
-            <Heading
-              as="h3"
-              size="xl"
-              fontSize="64px"
-              fontWeight="700"
-              mb="2rem"
-            >
-              {t('HomePage.shopTitle')}
-            </Heading>
+          <Box >
             <Swiper
               ref={sliderRef}
               autoplay

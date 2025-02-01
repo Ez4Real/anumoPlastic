@@ -17,6 +17,7 @@ import { ProductPublic, ProductsService } from '../../../client/index.ts';
 import BreadCrumb from '../../../components/BreadCrumb/index.jsx';
 import { OpenAPI, CarabinerTags } from "../../../client"
 import { useEffect, useMemo, useState } from 'react';
+import { useCart } from '../../../context/CartContext.tsx';
 
 
 export const Route = createFileRoute("/_main_layout/products/$category")({
@@ -36,6 +37,7 @@ function Product() {
   const { category } = Route.useParams<{ category: string }>();
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language;
+  const { dispatch, openCart } = useCart();
   const apiBaseUrl = OpenAPI.BASE
 
   const {data: products, isPending } = useQuery({
@@ -51,6 +53,8 @@ function Product() {
     if (products && products.count > 0) {
       const initialProduct  = products.data[0];
       setProduct(initialProduct );
+      console.log("Product: ", product);
+      
       if (initialProduct.images) setPreviewImageIndex(0)
       if (initialProduct.tag) setTag(initialProduct.tag)
       if (Array.isArray(initialProduct.size_en)) {
@@ -60,7 +64,6 @@ function Product() {
       }
     }
   }, [products]);
-
 
   const productsByTag = useMemo(() => {
     if (!products || !products.data) return {};
@@ -80,6 +83,21 @@ function Product() {
       setPreviewImageIndex(0)
       setTag(selectedTag); 
     }
+  };
+
+  const handleAddToCart = () => {
+    if ( !product || !product.images || !size) return
+    console.log("Size: ", size)
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: {
+        ...product,
+        size: size,
+        image: product.images[previewImageIndex],
+        count: 1
+      }
+    })
+    openCart()
   };
 
 
@@ -223,6 +241,7 @@ function Product() {
 
                 <Box className="addToCartBtn-container" pt="24px">
                   <Button
+                    onClick={handleAddToCart}
                     width="100%"
                     fontSize="14px"
                     fontWeight="600"
@@ -232,6 +251,9 @@ function Product() {
                     cursor="pointer"
                     border="none"
                     textDecoration="underline"
+                    style={{
+                      textUnderlinePosition: "under"
+                    }}
                   >
                     {t("Product.addToCart")}
                   </Button>

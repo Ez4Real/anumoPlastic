@@ -3,6 +3,7 @@ import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router"
 import Header from "../components/Header/index.tsx"
 import Footer from "../components/Footer"
 import { useEffect, useState } from 'react';
+import { CartProvider } from '../context/CartContext.tsx';
 
 export const Route = createFileRoute('/_main_layout')({
   component: MainLayout,
@@ -24,9 +25,11 @@ function MainLayout() {
 
   return (
     <div className='main-layout'>
-      <Header isWhiteTheme={isWhiteTheme} />
+      <CartProvider>
+        <Header isWhiteTheme={isWhiteTheme} />
         <Outlet />
-      <Footer />
+        <Footer />
+      </CartProvider>
     </div>
   );
 }
