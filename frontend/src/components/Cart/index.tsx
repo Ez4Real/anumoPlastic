@@ -12,7 +12,7 @@ import {
     Text,
     Link
 } from "@chakra-ui/react";
-import { Link as RouterLink } from "@tanstack/react-router"
+import { Link as RouterLink, useNavigate } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next";
 import { useCart } from "../../context/CartContext";
 import ProductCounter from "../ProductCounter";
@@ -28,18 +28,13 @@ interface CartProps {
 const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
     const { t, i18n } = useTranslation();
     const currentLang = i18n.language;
-    const { state, dispatch } = useCart();
+    const { state, closeCart } = useCart();
+    const navigate = useNavigate();
     const apiBaseUrl = OpenAPI.BASE
 
     const totalUSD = state.cartItems.reduce((sum, item) => sum + item.price_usd * item.count, 0);
     const totalUAH = state.cartItems.reduce((sum, item) => sum + item.price_uah * item.count, 0);
-
-    const handleRemoveCartItem = (id: string) => {
-      dispatch({ type: "REMOVE_FROM_CART", payload: id });
-    };
-
     console.log(state);
-
     return (
         <Drawer
           isOpen={isOpen}
@@ -129,6 +124,10 @@ const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
                   fontSize="14px"
                   fontWeight="600"
                   mt="4rem"
+                  textDecoration="underline"
+                  style={{
+                      textUnderlinePosition: "under"
+                  }}
                 >{t('Header.cartShopLink')}</Link>
               </Flex>
             ) : (
@@ -203,6 +202,10 @@ const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
                     pb="20px"
                   >{t('Header.checkoutHint')}</Text>
                   <Button
+                    onClick={() => {
+                      navigate({ to: "/checkout" })
+                      closeCart()
+                    }}
                     w="100%"
                     fontSize="14px"
                     fontWeight="600"

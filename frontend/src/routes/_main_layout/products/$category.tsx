@@ -53,7 +53,7 @@ function Product() {
     if (products && products.count > 0) {
       const initialProduct  = products.data[0];
       setProduct(initialProduct );
-      console.log("Product: ", product);
+      // console.log("Product: ", product);
       
       if (initialProduct.images) setPreviewImageIndex(0)
       if (initialProduct.tag) setTag(initialProduct.tag)
@@ -87,7 +87,7 @@ function Product() {
 
   const handleAddToCart = () => {
     if ( !product || !product.images || !size) return
-    console.log("Size: ", size)
+    // console.log("Size: ", size)
     dispatch({
       type: "ADD_TO_CART",
       payload: {
@@ -239,7 +239,7 @@ function Product() {
                   {currentLang === "en" ? `$${product.price_usd}` : `₴${product.price_uah}`}
                 </Box>
 
-                <Box className="addToCartBtn-container" pt="24px">
+                <Box pt="24px">
                   <Button
                     onClick={handleAddToCart}
                     width="100%"

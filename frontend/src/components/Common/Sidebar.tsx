@@ -140,7 +140,7 @@ const Sidebar = () => {
               </Text>
             )}
             <SwitchLocalization
-              containerWidth="1.775rem"
+              containerWidth="2rem"   
               separatorLineColor={languageSeparatorColor}
               fontSize=".875rem"
             />
