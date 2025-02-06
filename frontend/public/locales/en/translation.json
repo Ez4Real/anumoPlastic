@@ -143,7 +143,14 @@
         "size": "Size",
         "weight": "Weight",
         "price": "Price",
-        "addToCart": "ADD TO CART"
+        "addToCart": "ADD TO CART",
+
+        "tableIvan": {
+            "customiseTitle": "Color",
+            "costumiseManual": "The final price depends on the chosen\ncolors and patterns.You can customize the colors and tabletop finish (handmade \npattern or smooth surface).\nContact us — we’ll help you decide!",
+            "maxPrice": "480",
+            "contactUs": "CONTACT US"
+        }
     },
 
     "Checkout": {
@@ -193,7 +200,8 @@
                 "bookHolder": "Book holder",
                 "choker": "Choker",
                 "plate": "Plate",
-                "soapHolder": "Soap holder"
+                "soapHolder": "Soap holder",
+                "tableIvan": "Ivan the table"
             },
             "tags": {
                 "bunny": "Bunny",

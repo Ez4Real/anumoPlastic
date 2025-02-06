@@ -74,7 +74,7 @@ export const validateImage = (
   index: number,
   allowedFormats: string[],
   t: TFunction,
-  maxSizeMB: number = 5
+  maxSizeMB: number = 10
 ): { image: ImageItem | null; error: string | null } => {
 
   if (!allowedFormats.includes(file.type)) {

@@ -21,7 +21,7 @@ import {
   VStack
 } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import CustomIcon from "../../components/Common/CustomIcon";
 import { FiMail } from "react-icons/fi";
 import { useCart } from "../../context/CartContext";
@@ -51,7 +51,7 @@ function CheckoutNew() {
   return (
     <Container px="46px">
       <Grid templateColumns="1fr 108px 50%">
-        {/* Left Element */}
+        
         <GridItem>
           <Container as="form" >
             <Heading
@@ -238,7 +238,6 @@ function CheckoutNew() {
 
             <Box pt="32px" pb="220px">
               <Button
-                // onClick={handleAddToCart}
                 width="100%"
                 fontSize="14px"
                 fontWeight="600"

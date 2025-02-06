@@ -1,6 +1,20 @@
 import { useQuery } from "@tanstack/react-query"
 import { Link as RouterLink, createFileRoute } from "@tanstack/react-router"
-import { Box, Container, Flex, Grid, GridItem, Heading, Image, Link, List, ListItem, Spinner, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Container,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Image,
+  Link,
+  List,
+  ListItem,
+  Spinner,
+  Text,
+  useBreakpointValue
+} from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { OpenAPI, ProductsService } from "../../client";
 import { useTranslation } from 'react-i18next';
@@ -35,9 +49,8 @@ type DropdownsState = {
 function Main() {
   const { t } = useTranslation();
   const apiBaseUrl = OpenAPI.BASE
-
-  const [dropdowns, setDropdowns] = useState<DropdownsState>({});
   const sliderRef = useRef(null)
+  const [dropdowns, setDropdowns] = useState<DropdownsState>({});
 
   const {
     data: products,

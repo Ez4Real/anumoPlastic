@@ -8,6 +8,7 @@ import {
   Button,
   Text,
   Container,
+  Link,
 } from '@chakra-ui/react';
 import { createFileRoute } from "@tanstack/react-router"
 import { useQuery } from "@tanstack/react-query"
@@ -52,8 +53,7 @@ function Product() {
   useEffect(() => {
     if (products && products.count > 0) {
       const initialProduct  = products.data[0];
-      setProduct(initialProduct );
-      // console.log("Product: ", product);
+      setProduct(initialProduct);
       
       if (initialProduct.images) setPreviewImageIndex(0)
       if (initialProduct.tag) setTag(initialProduct.tag)
@@ -87,7 +87,6 @@ function Product() {
 
   const handleAddToCart = () => {
     if ( !product || !product.images || !size) return
-    // console.log("Size: ", size)
     dispatch({
       type: "ADD_TO_CART",
       payload: {
@@ -161,7 +160,7 @@ function Product() {
                   {currentLang === "en" ? product.title_en : product.title_uk}
                 </Text>
 
-                <Box pb="12px">
+                <Box mb="12px">
                   <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
                     {t("Product.material")}:
                   </Text>
@@ -169,7 +168,7 @@ function Product() {
                 </Box>
 
                 {product.category === "Carabiner" && product.tag && (
-                  <Box pb="12px">
+                  <Box mb="12px">
                     <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
                       Tag:
                     </Text>
@@ -193,7 +192,7 @@ function Product() {
                   </Box>
                 )}
 
-                <Box pb="12px">
+                <Box mb="12px">
                   <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
                     {t("Product.size")}:
                   </Text>
@@ -224,11 +223,20 @@ function Product() {
                 </Box>
 
                 {product.weight_en && product.weight_uk && (
-                  <Box pb="12px">
+                  <Box mb="12px">
                     <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
                       {t("Product.weight")}:
                     </Text>
                     {currentLang === "en" ? product.weight_en : product.weight_uk}
+                  </Box>
+                )}
+
+                {product.category === "Ivan the table" && (
+                  <Box mb="12px">
+                    <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
+                      {t("Product.tableIvan.customiseTitle")}
+                    </Text>
+                    {t("Product.tableIvan.costumiseManual")}
                   </Box>
                 )}
 
@@ -237,9 +245,13 @@ function Product() {
                     {t("Product.price")}:
                   </Text>
                   {currentLang === "en" ? `$${product.price_usd}` : `₴${product.price_uah}`}
+                  {product.category === "Ivan the table" && (
+                    <>-{t("Product.tableIvan.maxPrice")}</>
+                  )}
                 </Box>
 
-                <Box pt="24px">
+                <Box mt="24px">
+                  {product.category !== "Ivan the table" ? (
                   <Button
                     onClick={handleAddToCart}
                     width="100%"
@@ -257,6 +269,24 @@ function Product() {
                   >
                     {t("Product.addToCart")}
                   </Button>
+                  ) : (
+                    <Link
+                      href="mailto:anumoplastic@gmail.com"
+                      display="flex"
+                      justifyContent="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                      color="white"
+                      bg="black"
+                      p="12px"
+                      style={{
+                        textUnderlinePosition: "under"
+                      }}
+                      isExternal
+                    >
+                      {t("Product.tableIvan.contactUs")}
+                    </Link>
+                  )}
                 </Box>
               </Flex>
             </Grid>

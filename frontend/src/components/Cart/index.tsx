@@ -34,7 +34,6 @@ const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
 
     const totalUSD = state.cartItems.reduce((sum, item) => sum + item.price_usd * item.count, 0);
     const totalUAH = state.cartItems.reduce((sum, item) => sum + item.price_uah * item.count, 0);
-    console.log(state);
     return (
         <Drawer
           isOpen={isOpen}

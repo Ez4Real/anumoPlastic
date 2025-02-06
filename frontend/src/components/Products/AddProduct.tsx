@@ -222,6 +222,9 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                       <option value='Soap holder'>
                         {t('AdminPanel.products.categories.soapHolder')}
                       </option>
+                      <option value='Ivan The Table'>
+                        {t('AdminPanel.products.categories.tableIvan')}
+                      </option>
                     </Select>
                     {errors.category && (
                       <FormErrorMessage>{errors.category.message}</FormErrorMessage>
@@ -352,7 +355,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                         precision={2}
                         step={0.2}
                         min={0.9}
-                        max={10000}
+                        max={99999}
                         w='100%'
                         allowMouseWheel
                       >
@@ -361,7 +364,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                           {...register("price_usd", {
                             required: t('AdminPanel.products.addProduct.fields.price_usd.required'),
                             min: 0.9,
-                            max: 10000,
+                            max: 99999,
                           })}
                           pl='2.5rem'
                         />
@@ -394,7 +397,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                         precision={2}
                         step={0.2}
                         min={0.9}
-                        max={10000}
+                        max={99999}
                         w='100%'
                         allowMouseWheel
                       >
@@ -403,7 +406,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                           {...register("price_uah", {
                             required: t('AdminPanel.products.addProduct.fields.price_uah.required'),
                             min: 0.9,
-                            max: 10000,
+                            max: 99999,
                           })}
                           pl='2.5rem'
                         />

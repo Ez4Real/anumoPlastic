@@ -18,6 +18,7 @@ enum ProductCategory {
   CHOKER = "Choker",
   PLATE = "Plate",
   SOAP_HOLDER = "Soap holder",
+  IVAN_THE_TABLE = "Ivan the table",
 }
 
 export enum CarabinerTags {

@@ -57,6 +57,7 @@ class ProductCategory(str, Enum):
     CHOKER = "Choker"
     PLATE = "Plate"
     SOAP_HOLDER = "Soap holder"
+    IVAN_THE_TABLE = "Ivan the table"
 
 class CarabinerTags(str, Enum):
     BUNNY = "bunny"
@@ -72,8 +73,8 @@ class ProductBase(SQLModel):
     title_uk: str = Field(min_length=5, max_length=255)
     material_en: str = Field(min_length=5, max_length=255)
     material_uk: str = Field(min_length=5, max_length=255)
-    price_usd: float = Field(ge=0.9, le=10000.0)
-    price_uah: float = Field(ge=0.9, le=10000.0)
+    price_usd: float = Field(ge=0.9, le=99999.0)
+    price_uah: float = Field(ge=0.9, le=99999.0)
     size_en: str | List[str] = Field(sa_type=JSON)
     size_uk: str | List[str] = Field(sa_type=JSON)
     # Optional Product fields:
@@ -104,8 +105,8 @@ class ProductUpdate(ProductBase):
     title_uk: str | None = Field(default=None, min_length=5, max_length=255)
     material_en: str | None = Field(default=None, min_length=5, max_length=255)
     material_uk: str | None = Field(default=None, min_length=5, max_length=255)
-    price_usd: float | None = Field(default=None, ge=0.9, le=10000.0)
-    price_uah: float | None = Field(default=None, ge=0.9, le=10000.0)
+    price_usd: float | None = Field(default=None, ge=0.9, le=99999.0)
+    price_uah: float | None = Field(default=None, ge=0.9, le=99999.0)
     size_en: Optional[str | List[str]] = Field(default=None)
     size_uk: Optional[str | List[str]] = Field(default=None)
     weight_en: str | None = Field(default=None, max_length=50)
