@@ -89,10 +89,6 @@ const Header = ({ isWhiteTheme = false }) => {
             maxH="100vh"
             height="700px"
             maxW="430px"
-            containerProps={{
-                zIndex: 2,
-                h: "100vh"
-            }}
           >
             <DrawerBody
               display="flex"
@@ -104,11 +100,11 @@ const Header = ({ isWhiteTheme = false }) => {
                 <Button
                   onClick={openCart}
                   boxSize="36px"
+                  px=".5rem"
                   border="none"
                   background="none"
                   cursor="pointer"
-                >
-                <Image src="/shopping-bag-black.svg" alt="Shopping Bag" />
+                ><Image src="/shopping-bag-black.svg" alt="Shopping Bag" />
                 </Button>
               </Box>
                 <UnorderedList

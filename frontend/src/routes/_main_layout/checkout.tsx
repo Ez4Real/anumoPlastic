@@ -29,11 +29,11 @@ import ProductCounter from "../../components/ProductCounter";
 import { OpenAPI } from "../../client";
 
 export const Route = createFileRoute("/_main_layout/checkout")({
-  component: CheckoutNew,
+  component: Checkout,
 })
 
 
-function CheckoutNew() {
+function Checkout() {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language;
   const apiBaseUrl = OpenAPI.BASE
@@ -53,7 +53,7 @@ function CheckoutNew() {
       <Grid templateColumns="1fr 108px 50%">
         
         <GridItem>
-          <Container as="form" >
+          <Container as="form" p={0} >
             <Heading
               m={0}
               fontSize="24px"
@@ -217,9 +217,10 @@ function CheckoutNew() {
                   fontWeight: "600",
                   ".chakra-checkbox__control": {
                     boxSize: "16px",
-                    border: "1px solid #3A3A3A",
+                    border: "1px solid #3A3A3A !important",
                     borderRadius: "50%",
                     position: "relative",
+                    background: "white !important",
                   },
                   ".chakra-checkbox__control[data-checked]::after": {
                     content: '""',
@@ -247,9 +248,8 @@ function CheckoutNew() {
                 cursor="pointer"
                 border="none"
                 textDecoration="underline"
-                style={{
-                  textUnderlinePosition: "under"
-                }}
+                _hover={{ backgroundColor: "black" }}
+                _active={{ backgroundColor: "black" }}
               >
                 {t('Checkout.placeOrder')}
               </Button>

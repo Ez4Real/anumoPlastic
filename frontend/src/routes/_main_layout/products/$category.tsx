@@ -8,7 +8,7 @@ import {
   Button,
   Text,
   Container,
-  Link,
+  Link
 } from '@chakra-ui/react';
 import { createFileRoute } from "@tanstack/react-router"
 import { useQuery } from "@tanstack/react-query"
@@ -263,9 +263,8 @@ function Product() {
                     cursor="pointer"
                     border="none"
                     textDecoration="underline"
-                    style={{
-                      textUnderlinePosition: "under"
-                    }}
+                    _hover={{ backgroundColor: "black" }}
+                    _active={{ backgroundColor: "black" }}
                   >
                     {t("Product.addToCart")}
                   </Button>

@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react"
+import { border, extendTheme } from "@chakra-ui/react"
 
 const disabledStyles = {
   _disabled: {
@@ -7,6 +7,10 @@ const disabledStyles = {
 }
 
 const theme = extendTheme({
+  config: {
+    useSystemColorMode: false,
+    initialColorMode: "light",
+  },
   colors: {
     ui: {
       main: "#009688",
@@ -58,4 +62,64 @@ const theme = extendTheme({
   },
 })
 
-export default theme
+const mainTheme = extendTheme({
+  config: {
+    useSystemColorMode: false,
+    initialColorMode: "light",
+  },
+  styles: {
+    global: {
+      "html, body": {
+        fontSize: "16px",
+        lineHeight: "normal",
+        fontFamily: "Inter, sans-serif",
+        bg: 'white',
+        color: 'black',
+      },
+      ".chakra-modal__overlay": {
+        bg: "transparent !important",
+      },
+      a: {
+        textDecoration: "underline !important",
+        textUnderlinePosition: "under",
+      },
+      "ul, ol": {
+        my: "1em",
+      },
+      "input, textarea": {
+        colorScheme: 'light',
+        color: "black",
+        borderRadius: "0 !important",
+        _placeholder: {
+          color: "black",
+        },
+        _hover: {
+          borderColor: "black !important"
+        }
+      }
+    }
+  },
+  components: {
+    Container: {
+      baseStyle: {
+        maxW: "unset",
+        px: "46px"
+      },
+    },
+    Heading: {
+      baseStyle: {
+        fontFamily: "Inter, sans-serif",
+      },
+    },
+    Button: {
+      baseStyle: {
+        backgroundColor: "black",
+        borderRadius: 0,
+        color: "white",
+        textUnderlinePosition: "under"
+      },
+    },
+  },
+})
+
+export { theme, mainTheme }

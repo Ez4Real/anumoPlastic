@@ -4,6 +4,9 @@ import Header from "../components/Header/index.tsx"
 import Footer from "../components/Footer"
 import { useEffect, useState } from 'react';
 import { CartProvider } from '../context/CartContext.tsx';
+import { ChakraProvider } from '@chakra-ui/react';
+import  { mainTheme } from '../theme.tsx';
+
 
 export const Route = createFileRoute('/_main_layout')({
   component: MainLayout,
@@ -22,14 +25,17 @@ function MainLayout() {
       unsubscribe();
     };
   }, [router]);
+  
 
   return (
     <div className='main-layout'>
-      <CartProvider>
-        <Header isWhiteTheme={isWhiteTheme} />
-        <Outlet />
-        <Footer />
-      </CartProvider>
+      <ChakraProvider theme={ mainTheme }>
+        <CartProvider>
+          <Header isWhiteTheme={isWhiteTheme} />
+          <Outlet />
+          <Footer />
+        </CartProvider>
+      </ChakraProvider>
     </div>
   );
 }

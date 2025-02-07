@@ -49,10 +49,6 @@ const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
             maxH="100vh"
             height="700px"
             maxW="430px"
-            containerProps={{
-                zIndex: 2,
-                h: "100vh"
-            }}
           >
             <DrawerBody
               fontFamily="Inter, sans-serif"
@@ -213,9 +209,8 @@ const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
                     border="none"
                     background="black"
                     textDecoration="underline"
-                    style={{
-                        textUnderlinePosition: "under"
-                    }}
+                    _hover={{ backgroundColor: "black" }}
+                    _active={{ backgroundColor: "black" }}
                     >{t('Checkout.placeOrder')}</Button>
                 </Box>
               </Flex> 

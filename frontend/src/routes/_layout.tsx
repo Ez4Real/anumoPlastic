@@ -1,4 +1,4 @@
-import theme from "../theme"
+import { theme } from "../theme"
 import { Box, ChakraProvider, Flex, Spinner } from "@chakra-ui/react"
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router"
 

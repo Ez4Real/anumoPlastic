@@ -52,6 +52,12 @@ function Main() {
   const sliderRef = useRef(null)
   const [dropdowns, setDropdowns] = useState<DropdownsState>({});
 
+  // const gridColumns = useBreakpointValue(
+  //   { base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" },
+  //   { fallback: "repeat(1, 1fr)" }
+  // );
+  
+
   const {
     data: products,
     isPending,
@@ -72,7 +78,7 @@ function Main() {
       <Box>
         <Image src={homepageImg} alt="Anumo banner" objectFit="cover" width="100%" />
       </Box>
-      <Container px="46px">
+      <Container >
         <Heading
           as="h1"
           textAlign="center"
@@ -91,8 +97,7 @@ function Main() {
           <Box flex="1">
             <Text m={0}>{t('HomePage.anumoAbout')}.</Text>
             <List
-              spacing=".75rem"
-              pl={0}
+              spacing=".5rem"
               style={{
                 textUnderlinePosition: "under"
               }}
@@ -125,6 +130,7 @@ function Main() {
           size="xl"
           fontSize="64px"
           fontWeight="700"
+          mt="4rem"
           mb="2rem"
         >
           {t('HomePage.shopTitle')}
@@ -181,7 +187,11 @@ function Main() {
           </Box>
         )}
 
-        <Grid templateColumns='repeat(2, 1fr)' gap='1rem'>
+        <Grid
+          templateColumns='repeat(2, 1fr)'
+          // templateColumns={gridColumns}
+          gap='1rem'
+        >
           <GridItem
             fontSize="40px"
             fontWeight="600"
@@ -192,8 +202,8 @@ function Main() {
               fontSize="40px"
               fontWeight="600"
             >{t('HomePage.categoriesTitle')}</Text>
-            <List spacing={12} p={0}>
-              {['Carabiner', 'Book holder', 'Choker', 'Plate', 'Soap holder'].map((category) => (
+            <List spacing=".75rem" p={0}>
+              {['Carabiner', 'Book holder', 'Choker', 'Plate', 'Soap holder', 'Ivan the table'].map((category) => (
                 <ListItem key={category}>
                   <Link
                     as={RouterLink}
@@ -233,10 +243,8 @@ function Main() {
                   color="black"
                   fontWeight="700"
                   fontSize="24px"
-                  lineHeight="30px"
-                  textDecoration="underline"
                   display="block"
-                  mt="1rem"
+                  mt="24px"
                 >
                   {t('HomePage.alltrueestTitle')}
                 </Link>
