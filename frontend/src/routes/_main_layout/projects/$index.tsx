@@ -15,11 +15,11 @@ import {
     Hypermobile,
     WelcomeBoards,
     Alltrueest,
-    TableIvan,
+    // TableIvan,
     GlassesAndNecklace
 } from '../../../components/Projects';
 import { customSmoothScroll } from '../../../utils';
-import { Container } from "@chakra-ui/react";
+import { Container, Flex, Image, Link } from "@chakra-ui/react";
 
 
 export const Route = createFileRoute("/_main_layout/projects/$index")({
@@ -35,7 +35,8 @@ function Projects() {
         <SunnyBunny />, <UkrainianCeramics />, <TabletopGiraffe />,
         <Chokers />, <Trays />, <CoffeeTables />,
         <SoapHolders />, <Hypermobile />, <WelcomeBoards />,
-        <Alltrueest />, <GlassesAndNecklace />, <TableIvan />,
+        <Alltrueest />, <GlassesAndNecklace />, 
+        // <TableIvan />,
     ], []);
 
     const initialIndex = Number(index) >= 0 && Number(index) < projects.length ? Number(index) : 0;
@@ -67,20 +68,50 @@ function Projects() {
 
 
     return (
-        <Container id='content' p="0 46px">
+        <Container id='content' p={["0 24px", "0 46px"]}>
             <BreadCrumb pageName={t('ProjectsPage.pageName')} />
             <div className="projectsSlider" id="projectsSlider">
                 {projects[currentProjectIndex]}
             </div>
 
-            <div className='sliderFooter-container'>
-                <div onClick={() => changeProject(-1)}>
-                    <img src='/arrow-left.svg'></img><span>{t('ProjectsPage.back')}</span>
-                </div>
-                <div onClick={() => changeProject(1)}>
-                    <span>{t('ProjectsPage.next')}</span><img src='/arrow-right.svg'></img>
-                </div>
-            </div>
+            
+            <Flex
+                m="4.5rem 0 4.375rem 0"
+                justifyContent="space-between"
+            >
+              <Flex
+                onClick={() => changeProject(-1)}
+                cursor="pointer"
+                alignItems="center"
+              >
+                <Image
+                  src='/arrow-left.svg'
+                  h={["12px", "100%"]}
+                ></Image>
+                <Link
+                  fontSize={["12px", "24px"]}
+                  fontWeight="700"
+                  padding={["0 .5rem", "0 1rem"]}
+                >{t('ProjectsPage.back')}</Link>
+              </Flex>
+
+              <Flex
+                onClick={() => changeProject(1)}
+                cursor="pointer"
+                alignItems="center"
+              >
+                <Link
+                  fontSize={["12px", "24px"]}
+                  fontWeight="700"
+                  padding={["0 .5rem", "0 1rem"]}
+                >{t('ProjectsPage.next')}</Link>
+                <Image
+                  src='/arrow-right.svg'
+                  h={["12px", "100%"]}
+                ></Image>
+              </Flex>
+            </Flex>
+            
             <Cooperation />
         </Container>
     );

@@ -8,5 +8,5 @@ export { default as SoapHolders } from './SoapHolders';
 export { default as Hypermobile } from './Hypermobile';
 export { default as WelcomeBoards } from './WelcomeBoards';
 export { default as Alltrueest } from './Alltrueest';
-export { default as TableIvan } from './TableIvan';
 export { default as GlassesAndNecklace } from './Glasses&Necklace';
+// export { default as TableIvan } from './TableIvan';

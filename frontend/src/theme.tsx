@@ -1,4 +1,4 @@
-import { border, extendTheme } from "@chakra-ui/react"
+import { extendTheme } from "@chakra-ui/react"
 
 const disabledStyles = {
   _disabled: {
@@ -75,6 +75,7 @@ const mainTheme = extendTheme({
         fontFamily: "Inter, sans-serif",
         bg: 'white',
         color: 'black',
+        // overflowX: "hidden"
       },
       ".chakra-modal__overlay": {
         bg: "transparent !important",
@@ -103,7 +104,8 @@ const mainTheme = extendTheme({
     Container: {
       baseStyle: {
         maxW: "unset",
-        px: "46px"
+        px: ["24px", "46px"],
+        overflow: "hidden"
       },
     },
     Heading: {
@@ -118,7 +120,25 @@ const mainTheme = extendTheme({
         color: "white",
         textUnderlinePosition: "under"
       },
-    },
+      variants: {
+        unstyled: {
+          bg: "transparent",
+          color: "inherit",
+          border: "none",
+          padding: "0",
+          margin: "0",
+          _hover: {
+            bg: "transparent",
+          },
+          _active: {
+            bg: "transparent",
+          },
+          _focus: {
+            boxShadow: "none",
+          },
+        },
+      },
+    }
   },
 })
 

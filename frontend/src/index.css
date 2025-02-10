@@ -4,6 +4,7 @@ body {
 
 #root {
     white-space: pre-line;
+    overflow: hidden;
 }
 
 button {

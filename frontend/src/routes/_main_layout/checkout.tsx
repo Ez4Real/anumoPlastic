@@ -49,17 +49,25 @@ function Checkout() {
   const totalUAH = subtotalUAH + deliveryPrice.uk
 
   return (
-    <Container px="46px">
-      <Grid templateColumns="1fr 108px 50%">
-        
+    <Container px={["24px", "46px"]}>
+      <Grid
+        display={["flex", "grid"]}
+        flexDirection={["column-reverse", "row"]}
+        templateColumns="1fr 108px 50%"
+      >
         <GridItem>
-          <Container as="form" p={0} >
+          <Container as="form" p="0 !important" mt={["36px", 0]}>
             <Heading
               m={0}
-              fontSize="24px"
-              fontWeight="700"
+              fontSize={["20px", "24px"]}
+              fontWeight={["600", "700"]}
             >{t('Checkout.contactFormTitle')}</Heading>
-            <Grid templateColumns="1fr 1fr" gap="12px" mt="16px">
+            <Grid
+              templateColumns={["unset", "1fr 1fr"]}
+              templateRows={["1fr", "unset"]}
+              gap="12px"
+              mt="16px"
+            >
               <GridItem>
                 <FormControl>
                   <Input
@@ -98,27 +106,42 @@ function Checkout() {
               <Checkbox
                 isChecked={mailing}
                 onChange={() => setMailing(!mailing)}
-                isRequired={false}
-                boxSize="24px"
-                justifyContent="center"
                 icon={<CustomIcon
                   icon={FiMail}
                   isChecked={mailing}
                   isIndeterminate={false}
                 />}
-                borderRadius="4px"
+                isRequired={false}
+                boxSize="24px"
+                justifyContent="center"
+                borderRadius="6px"
+                border="1px solid black"
+                colorScheme="black"
                 _hover={{
                   bg: "rgba(0, 0, 0, 0.75)",
-                  color: "white",
+                  ".chakra-checkbox__control": {
+                    color: "white"
+                  }
                 }}
                 _checked={{
                   bg: "black",
-                  borderColor: "black",
-                  color: "white",
+                }}
+                sx={{
+                  ".chakra-checkbox__control": {
+                    border: "none",
+                    transition: "all 0.2s ease-in-out",
+                    color: "black"
+                  },
+                  ".chakra-checkbox__control[data-checked]": {
+                    color: "white",
+                  },
                 }}
               >
               </Checkbox>
-              <Text fontSize="14px" ml="16px">{t('Checkout.emailMeCheckbox')}</Text>
+              <Text
+                fontSize="14px"
+                ml="16px"
+              >{t('Checkout.emailMeCheckbox')}</Text>
             </Flex>
 
             <FormControl mt="16px">
@@ -134,8 +157,8 @@ function Checkout() {
 
             <Heading
               m={0}
-              fontSize="24px"
-              fontWeight="700"
+              fontSize={["20px", "24px"]}
+              fontWeight={["600", "700"]}
               mt="24px"
             >{t('Checkout.deliveryFormTitle')}</Heading>
 
@@ -144,7 +167,6 @@ function Checkout() {
             <RadioGroup
               onChange={setDeliveryMethod}
               value={deliveryMethod}
-              fontSize="14px"
               fontWeight="600"
               mt="1rem"
             >
@@ -157,8 +179,11 @@ function Checkout() {
                   <Radio
                     key={index}
                     value={value}
-                    spacing={10}
+                    spacing={[2, 10]}
                     sx={{
+                      // "&.chakra-radio__label": {
+                      //   fontSize: "14px"
+                      // },
                       "&.chakra-radio__control": {
                         boxSize: "16px",
                         border: "1px solid #3A3A3A",
@@ -185,8 +210,8 @@ function Checkout() {
 
             <FormControl mt="24px">
               <FormLabel
-                fontSize="24px"
-                fontWeight="700"
+                fontSize={["20px", "24px"]}
+                fontWeight={["600", "700"]}
                 mb="12px"
               > {t('Checkout.orderCommentTitle')}
               </FormLabel>
@@ -211,7 +236,7 @@ function Checkout() {
               <Checkbox
                 isChecked
                 icon={<></>}
-                my="1rem"
+                my={["12px", "1rem"]}
                 sx={{
                   fontSize: "14px",
                   fontWeight: "600",
@@ -287,8 +312,8 @@ function Checkout() {
           ) : (
             <>
               <Heading
-                fontSize="24px"
-                fontWeight="700"
+                fontSize={["20px", "24px"]}
+                fontWeight={["600", "700"]}
                 mb="1rem"
               >{t('Checkout.orderSummaryTitle')}</Heading>
 
@@ -297,8 +322,11 @@ function Checkout() {
                 const itemTotalUAH = item.price_uah * item.count;
 
                 return (
-                  <Box key={index} mb="1.5rem">
-                    <Grid templateColumns="1fr 1fr" gap="1rem">
+                  <Box key={index} mb={["1rem", "1.5rem"]}>
+                    <Grid
+                      templateColumns={["32% 64%", "1fr 1fr"]}
+                      gap={["12px", "1rem"]}
+                    >
                       <GridItem>
                         <Box>
                           <Image
@@ -312,7 +340,11 @@ function Checkout() {
                         display="flex"
                         flexDirection="column"
                       >
-                        <Text m={0} fontSize="20px" fontWeight="700">
+                        <Text
+                          m={0}
+                          mb="10px"
+                          fontSize={["14px", "20px"]}
+                          fontWeight={["600", "700"]}>
                           {currentLang === "en" ? item.title_en : item.title_uk}
                         </Text>
                         <Text fontSize="1rem">
@@ -338,9 +370,10 @@ function Checkout() {
               })}
 
               <Flex
-                fontSize="1rem"
+                fontSize={["14px", "1rem"]}
                 direction="column"
                 gap="16px"
+                mt={["66px", 0]}
               >
                 <Flex justifyContent="space-between">
                   <Text>{t('Checkout.orderSubtotal')}</Text>
@@ -361,13 +394,14 @@ function Checkout() {
 
                 <Flex
                   justifyContent="space-between"
-                  fontSize="18px"
-                  fontWeight="700"
+                  fontSize={["16px", "18px"]}
+                  fontWeight={["600", "700"]}
+
                 >
                   <Text>{t('Checkout.orderTotal')}</Text>
-                  <Flex gap={4} alignItems="center">
+                  <Flex gap={[0, 4]} alignItems="center">
                     <Box
-                      fontSize="14px"
+                      fontSize={["12px", "14px"]}
                       fontWeight="400" color="#BBBBBB"
                     >{t('Checkout.checkoutCurrency')}</Box>
                     <Box>

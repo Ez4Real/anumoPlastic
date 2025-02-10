@@ -1,6 +1,5 @@
 
 
-import "./index.css"
 import { useTranslation } from 'react-i18next';
 
 import hypermobile from "/assets/images/projects/hypermobile/hypermobile.png"
@@ -8,28 +7,74 @@ import hypermobile_1 from "/assets/images/projects/hypermobile/hypermobile_1.png
 import hypermobile_2 from "/assets/images/projects/hypermobile/hypermobile_2.png"
 import hypermobile_3 from "/assets/images/projects/hypermobile/hypermobile_3.png"
 import hypermobile_4 from "/assets/images/projects/hypermobile/hypermobile_4.png"
+import {
+  Badge,
+  Box,
+  Container,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Image,
+  Text,
+  useBreakpointValue
+} from "@chakra-ui/react";
 
+
+const GridItemImg = ({ imgSrc, order = 1, rowSpan = 1 }) => {
+  return (
+    <GridItem
+      order={order}
+      rowSpan={rowSpan}>
+      <Image
+        src={imgSrc}
+        alt="Hypermobile"
+        h="100%"
+        objectFit="cover"
+      ></Image>
+    </GridItem>
+  )
+}
 
 const Hypermobile = () => {
   const { t } = useTranslation();
 
-  return (
-    <div className='projectComponent-container'>
-        <p className='projectTitle'>{t('ProjectsPage.projects.hypermobile.title')}<span >/2024</span></p>
-        <div className="hypermobile-container">
-          <div className="left">
-            <img src={hypermobile} alt="Hypermobile"></img>
-            <img src={hypermobile_1} alt="Hypermobile"></img>
-            <img src={hypermobile_3} alt="Hypermobile"></img>
-          </div>
-          <div className="right">
-            <img src={hypermobile_2} alt="Hypermobile"></img>
-            <img src={hypermobile_4} alt="Hypermobile"></img>
-          </div>
-        </div>
-        <p className="projectDescription">{t('ProjectsPage.projects.hypermobile.description')}</p>
-    </div>
+  const titleFontSize = useBreakpointValue({ base: "18px", sm: "60px" });
+  const gridGap = useBreakpointValue({ base: "16px", sm: "26px" });
 
+  return (
+    <Container px="0">
+      <Heading
+        fontWeight="700"
+        fontSize={titleFontSize}
+        mb={["20px", "46px"]}
+      >{t('ProjectsPage.projects.hypermobile.title')}
+        <Badge
+          position="relative"
+          top={["-1px", "-.25rem"]}
+          pl={[".25rem", ".375rem"]}
+          fontWeight={["700", "600"]}
+          fontSize={["14px", "24px"]}
+          colorScheme="transparent"
+        >/2024</Badge>
+      </Heading>
+
+      <Grid
+        templateColumns={["1fr", "1fr 1fr"]}
+        gap={gridGap}
+      >
+        <GridItemImg imgSrc={hypermobile} order={[4, 0]} />
+        <GridItemImg imgSrc={hypermobile_2} order={[0, 1]} rowSpan={[1, 2]} />
+        <GridItemImg imgSrc={hypermobile_1} order={[2, 2]} />
+        <GridItemImg imgSrc={hypermobile_3} order={[1, 3]} />
+        <GridItemImg imgSrc={hypermobile_4} order={[3, 4]} />
+        <GridItem order={5}>
+          <Text
+            fontSize={["12px", "16px"]}
+          >{t('ProjectsPage.projects.hypermobile.description')}</Text>
+        </GridItem>
+      </Grid>
+    </Container>
   );
 };
 

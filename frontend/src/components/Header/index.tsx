@@ -11,6 +11,7 @@ import {
   Link,
   ListItem,
   UnorderedList,
+  useBreakpointValue,
   useDisclosure
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "@tanstack/react-router"
@@ -28,6 +29,10 @@ const Header = ({ isWhiteTheme = false }) => {
   const logoSrc = isWhiteTheme ? '/logo.svg' : '/logo-black.svg'
   const menuIconSrc = isWhiteTheme ? '/menu-burger.svg' : '/menu-burger-black.svg'
   const cartIconSrc = isWhiteTheme ? '/shopping-bag.svg' : '/shopping-bag-black.svg'
+
+  const isMobile = useBreakpointValue({ base: true, sm: false });
+  const drawerHeight = useBreakpointValue({ base: "100vh", sm: "700px" }); 
+
   
   const handleLinkClick = useCallback(() => {
     closeMenu();
@@ -39,7 +44,7 @@ const Header = ({ isWhiteTheme = false }) => {
     <>
       <Box
         as="header"
-        p="48px 46px"
+        p={["48px 24px", "48px 46px"]}
         position={isWhiteTheme ? "absolute": "static"}
         width="-webkit-fill-available"
       >
@@ -58,6 +63,7 @@ const Header = ({ isWhiteTheme = false }) => {
               border="none"
               cursor="pointer"
               onClick={toggleMenu}
+              p="6px"
             >
               <Image src={menuIconSrc} alt="Burger Menu" />
             </Button>
@@ -87,35 +93,68 @@ const Header = ({ isWhiteTheme = false }) => {
           <DrawerContent
             bg="white"
             maxH="100vh"
-            height="700px"
+            height={drawerHeight}
             maxW="430px"
           >
             <DrawerBody
               display="flex"
               flexDirection="column"
-              p="3.5rem 3rem 2rem"
+              p={["60px 24px 2rem", "3.5rem 3rem 2rem"]}
               flex={1}
             >
-              <Box textAlign="end">
-                <Button
-                  onClick={openCart}
-                  boxSize="36px"
-                  px=".5rem"
-                  border="none"
-                  background="none"
-                  cursor="pointer"
-                ><Image src="/shopping-bag-black.svg" alt="Shopping Bag" />
-                </Button>
-              </Box>
-                <UnorderedList
-                  fontSize="26px"
-                  fontWeight="700"
-                  listStyleType="none"
-                  textAlign="right"
-                  m="32px 0"
-                  p="1.5rem"
-                >
-                {[
+              <Flex
+                justify="space-between"
+                align="center"
+              >
+                { isMobile && (
+                <>
+                  <Box w="100%">
+                    <Link as={RouterLink} to="/">
+                      <Image
+                        src="/logo-black.svg"
+                        alt="Anumo Logo" />
+                    </Link>
+                  </Box>
+                  <Box w="100%" textAlign="center">
+                    <Button
+                      bg="none"
+                      border="none"
+                      cursor="pointer"
+                      onClick={toggleMenu}
+                      p="6px"
+                    >
+                      <Image src="/menu-burger-black.svg" alt="Burger Menu" />
+                    </Button>
+                  </Box>
+                </>
+                )}
+                <Box w="100%" textAlign="end">
+                  <Button
+                    bg="none"
+                    border="none"
+                    cursor="pointer"
+                    onClick={openCart}
+                    p=".5rem"
+                  >
+                    <Image src="/shopping-bag-black.svg" alt="Shopping Bag" />
+                  </Button>
+                </Box>
+              </Flex>
+
+              <UnorderedList
+                fontSize="26px"
+                fontWeight="700"
+                listStyleType="none"
+                textAlign="right"
+                mt={["136px", "32px"]}
+                mx={0}
+                mb="32px"
+                p="1.5rem"
+
+                display={["flex", "block"]}
+                alignItems={["center", "stretch"]}
+                flexDirection="column"
+              > {[
                     { to: "/", hash: "root", label: t("Header.homeLink") },
                     { to: "/", hash: "shopBlock-homepage", label: t("Header.shopLink") },
                     { to: "/projects/$index", params: { index: "0" }, hash: "projectsSlider", label: t("Header.projectsLink") },
@@ -123,7 +162,10 @@ const Header = ({ isWhiteTheme = false }) => {
                     // { to: "/about-us", label: t("Header.aboutLink") },
                     // { to: "/find-us", label: t("Header.findUsLink") },
                 ].map(({ to, hash, params, label }, index) => (
-                    <ListItem key={index} pb=".75rem">
+                    <ListItem
+                      key={index}
+                      pb={["24px", ".75rem"]}
+                    >
                       <Link
                       as={RouterLink}
                       to={to}
@@ -134,8 +176,8 @@ const Header = ({ isWhiteTheme = false }) => {
                       > {label}
                       </Link>
                     </ListItem>
-                ))}
-                </UnorderedList>
+              ))}
+              </UnorderedList>
                 <Box mt="auto">
                 <Flex
                     justify="space-between"
@@ -169,6 +211,7 @@ const Header = ({ isWhiteTheme = false }) => {
         <Cart
           isOpen={isCartOpen}
           onClose={closeCart} 
+          toggleMenu={toggleMenu}
           handleLinkClick={handleLinkClick}
         />
       </Box>

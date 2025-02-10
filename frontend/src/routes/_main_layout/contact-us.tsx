@@ -30,8 +30,10 @@ function ContactUs() {
       <BreadCrumb pageName={t('ContactUs.pageName')} />
 
       <Grid
+        display={["flex", "grid"]}
+        flexDirection={["column-reverse", "row"]}
         gridTemplateColumns={"1fr 1fr"}
-        gap="13.5rem"
+        gap={["1rem", "13.5rem"]}
       >
         <GridItem>
           <Container as="form" p="0 !important">
@@ -48,6 +50,7 @@ function ContactUs() {
                     fontSize="14px"
                     padding="12px"
                     width="-webkit-fill-available"
+                    w="100%"
                   />
                   <FormLabel
                     fontSize="10px"
@@ -64,6 +67,7 @@ function ContactUs() {
                     fontSize="14px"
                     padding="12px"
                     width="-webkit-fill-available"
+                    w="100%"
                   />
                   <FormLabel
                     fontSize="10px"
@@ -133,7 +137,10 @@ function ContactUs() {
             </Box>
           </Container>
         </GridItem>
-        <Grid gridTemplateColumns={"1fr 1fr"}>
+        <Grid
+          gridTemplateColumns={"1fr 1fr"}
+          gap={["25px", 0]}
+        >
           <GridItem order={[2, 1]}>
             <Box>
               <Image

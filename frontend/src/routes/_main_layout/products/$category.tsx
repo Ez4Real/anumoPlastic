@@ -8,7 +8,10 @@ import {
   Button,
   Text,
   Container,
-  Link
+  Link,
+  useBreakpointValue,
+  Collapse,
+  Heading
 } from '@chakra-ui/react';
 import { createFileRoute } from "@tanstack/react-router"
 import { useQuery } from "@tanstack/react-query"
@@ -49,6 +52,16 @@ function Product() {
   const [previewImageIndex, setPreviewImageIndex] = useState<number>(0)
   const [tag, setTag] = useState<CarabinerTags | null>(null);
   const [size, setSize] = useState<string | null>(null);
+
+  const isMobile = useBreakpointValue({ base: true, sm: false });
+
+
+  // !!!!!!
+  const [expandDescription, setExpandDescription] = useState(false);
+  const description_1 = t("ProjectsPage.projects.tableIvan.description_1");
+  const sliceEndNumber = i18n.language === "en" ? 455 : 478;
+  const truncatedDescription = `${description_1.slice(0, sliceEndNumber)} ...`; 
+
 
   useEffect(() => {
     if (products && products.count > 0) {
@@ -108,21 +121,34 @@ function Product() {
     );
   }
 
+
+
   return (
-    <Container id='content' p="0 46px">
+    <Container
+      id='content'
+      p={["0 24px", "0 46px"]}
+    >
         <BreadCrumb pageName={category} />
         {product && (
           <Box>
+            { isMobile && (
+              <Text fontSize="16px" fontWeight="600" mt={0} mb="16px">
+                {currentLang === "en" ? product.title_en : product.title_uk}
+              </Text>
+            )}
             <Grid
               key={product.id}
-              templateColumns="348px 444px 327px"
-              gap="30px"
+              templateColumns="0.31fr 0.40fr 0.29fr"
+              display={["flex", "grid"]}
+              flexDirection={["column", "row"]}
+              gap={["16px", "30px"]}
             >
               {product.images && (
                 <Grid
-                  templateColumns="repeat(2, 1fr)"
+                  order={[2, 1]}
+                  templateColumns={["repeat(3, 1fr)", "repeat(2, 1fr)"]}
                   gap="12px"
-                  autoRows="206px"
+                  autoRows={["128px", "206px"]}
                 >
                   {product.images.map((image, index) => (
                     <GridItem
@@ -144,7 +170,7 @@ function Product() {
               )}
 
 
-              <Box h="548px">
+              <Box h={["440", "548px"]} order={[1, 2]}>
                 {product.images && (
                   <Image
                     src={`${apiBaseUrl}${product.images[previewImageIndex].url}`}
@@ -155,13 +181,15 @@ function Product() {
                 )}
               </Box>
 
-              <Flex direction="column" fontSize="16px">
-                <Text fontSize="20px" fontWeight="700" mt={0} mb="16px">
-                  {currentLang === "en" ? product.title_en : product.title_uk}
-                </Text>
+              <Flex direction="column" fontSize="16px" order={3}>
+                { !isMobile && (
+                  <Text fontSize="20px" fontWeight={["500", "700"]} mt={0} mb="16px">
+                    {currentLang === "en" ? product.title_en : product.title_uk}
+                  </Text>
+                )}
 
                 <Box mb="12px">
-                  <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
+                  <Text fontSize="18px" fontWeight={["500", "700"]} mt={0} mb="8px">
                     {t("Product.material")}:
                   </Text>
                   {currentLang === "en" ? product.material_en : product.material_uk}
@@ -169,7 +197,7 @@ function Product() {
 
                 {product.category === "Carabiner" && product.tag && (
                   <Box mb="12px">
-                    <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
+                    <Text fontSize="18px" fontWeight={["500", "700"]} mt={0} mb="8px">
                       Tag:
                     </Text>
                     <Flex gap="12px">
@@ -193,7 +221,7 @@ function Product() {
                 )}
 
                 <Box mb="12px">
-                  <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
+                  <Text fontSize="18px" fontWeight={["500", "700"]} mt={0} mb="8px">
                     {t("Product.size")}:
                   </Text>
                   {Array.isArray(currentLang === "en" ? product.size_en : product.size_uk) ? (
@@ -224,7 +252,7 @@ function Product() {
 
                 {product.weight_en && product.weight_uk && (
                   <Box mb="12px">
-                    <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
+                    <Text fontSize="18px" fontWeight={["500", "700"]} mt={0} mb="8px">
                       {t("Product.weight")}:
                     </Text>
                     {currentLang === "en" ? product.weight_en : product.weight_uk}
@@ -233,7 +261,7 @@ function Product() {
 
                 {product.category === "Ivan the table" && (
                   <Box mb="12px">
-                    <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
+                    <Text fontSize="18px" fontWeight={["500", "700"]} mt={0} mb="8px">
                       {t("Product.tableIvan.customiseTitle")}
                     </Text>
                     {t("Product.tableIvan.costumiseManual")}
@@ -241,7 +269,7 @@ function Product() {
                 )}
 
                 <Box>
-                  <Text fontSize="18px" fontWeight="700" mt={0} mb="8px">
+                  <Text fontSize="18px" fontWeight={["500", "700"]} mt={0} mb="8px">
                     {t("Product.price")}:
                   </Text>
                   {currentLang === "en" ? `$${product.price_usd}` : `₴${product.price_uah}`}
@@ -289,6 +317,36 @@ function Product() {
                 </Box>
               </Flex>
             </Grid>
+
+
+            {/* !!!! */}
+            {product.category === "Ivan the table" && (
+              <Flex
+                mt="2rem"
+                flexDirection="column"
+              >
+                <Heading
+                  fontSize="20px"
+                >
+                  {t("ProjectsPage.projects.tableIvan.aboutProject")}
+                </Heading>
+                {/* Description */}
+                <Text mt="12px" className="projectDescription bottom">
+                  {expandDescription ? description_1 : truncatedDescription}
+                </Text>
+          
+                {/* Toggle Button */}
+                <Button 
+                  variant="unstyled"
+                  onClick={() => setExpandDescription((prev) => !prev)}
+                  alignSelf="end"
+                  textDecoration="underline"
+                  mt="8px"
+                >
+                  {expandDescription ? t("ProjectsPage.close") : t("ProjectsPage.seeAll")}
+                </Button>
+              </Flex>
+            )}
           </Box>
         )} 
     </Container>

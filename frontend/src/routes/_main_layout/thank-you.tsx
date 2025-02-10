@@ -16,7 +16,11 @@ function ThankYou() {
       alignItems="center"
       flexDirection="column"
     >
-      <Text fontSize="20px" fontWeight="500" m={0}>{t('ThankYou.title')}!</Text>
+      <Text
+        fontSize={["19px", "20px"]}
+        fontWeight="500"
+        m={0}
+      >{t('ThankYou.title')}!</Text>
       <Text fontSize="14px" pt="12px" pb="2rem">{t('ThankYou.info')}</Text>
       <Link
         as={RouterLink}

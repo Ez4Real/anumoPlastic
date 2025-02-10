@@ -24,6 +24,7 @@ import 'swiper/css';
 
 
 import homepageImg from '/assets/images/homepage.png';
+import mbHomepageImg from '/assets/images/mbHomepage.png';
 import prod4 from "/assets/images/projects/alltrueest/alltrueest_2.png"
 import prod5 from "/assets/images/projects/tabletopGiraffe/tabletop56x65.png"
 import prod6 from '/assets/productImages/prod6.png'
@@ -52,11 +53,8 @@ function Main() {
   const sliderRef = useRef(null)
   const [dropdowns, setDropdowns] = useState<DropdownsState>({});
 
-  // const gridColumns = useBreakpointValue(
-  //   { base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" },
-  //   { fallback: "repeat(1, 1fr)" }
-  // );
-  
+  const slidesSpaceBetween = useBreakpointValue({ base: 12, sm: 32 })
+  const slidesPerView = useBreakpointValue({ base: 2.25, sm: 2.5 })
 
   const {
     data: products,
@@ -75,63 +73,93 @@ function Main() {
 
   return (
     <>
-      <Box>
-        <Image src={homepageImg} alt="Anumo banner" objectFit="cover" width="100%" />
+      <Box h={["840px", "auto"]}>
+        <Image
+         src={useBreakpointValue({ base: mbHomepageImg, sm: homepageImg })}
+         alt="Anumo banner"
+         objectFit="cover"
+         boxSize="100%"
+        />
       </Box>
-      <Container >
+      <Container>
         <Heading
           as="h1"
           textAlign="center"
-          fontSize="135px"
+          fontSize={["40px", "135px"]}
           fontWeight="800"
-          lineHeight="181.53px"
-          mb="4rem"
+          lineHeight={["53px", "181.53px"]}
+          mb={["50px", "4rem"]}
+          mt={["46px", 0]}
         >
           ANUMO PLASTIC
         </Heading>
 
-        <Flex justify="space-between" gap="1rem">
-          <Box fontWeight="600" flex="1">
-            <Text m={0}>[Anúmo] — (ukr. ану́мо) a decisive and bold call to action.</Text>
-          </Box>
-          <Box flex="1">
-            <Text m={0}>{t('HomePage.anumoAbout')}.</Text>
+        <Grid
+          templateColumns={["146px 172px", "50% 50%"]}
+          gap={'1rem'}
+        >
+          <GridItem fontWeight="600" flex="1"
+          >
+            <Text
+              m={0}
+              fontWeight={["500", "600"]}
+              fontSize={["16px", "32px"]}
+              lineHeight={["19px", "normal"]}
+            >[Anúmo] — (ukr. ану́мо) a decisive and bold call to action.</Text>
+          </GridItem>
+          <GridItem flex="1">
+            <Text
+              m={0}
+              fontSize={["16px", "32px"]}
+              lineHeight={["19px", "normal"]}
+            >{t('HomePage.anumoAbout')}.</Text>
             <List
-              spacing=".5rem"
+              spacing={[0, ".5rem"]}
               style={{
                 textUnderlinePosition: "under"
               }}
+              mb="24px"
             >
               {['material', 'production', 'inspiration', 'values'].map((item) => (
-                <ListItem key={item}>
+                <ListItem
+                  key={item}
+                >
                   <Link
                     onClick={() => toggleDropdown(item)}
                     textDecoration="underline"
-                    fontWeight="600"
-                    fontSize="28px"
+                    display={["list-item", "flex"]}
+                    mt='12px'
+                    fontWeight={["500", "600"]}
+                    fontSize={["16px", "28px"]}
                     cursor="pointer"
                   >
                     {t(`HomePage.${item}.title`)}
                   </Link>
                   {dropdowns[item] && (
-                    <Box fontSize="24px" m="16px 0 24px 0">
+                    <Box
+                      fontSize={["14px", "24px"]}
+                      m={["8px 0 12px 0", "16px 0 24px 0"]}
+                    >
                       {t(`HomePage.${item}.description`)}
                     </Box>
                   )}
                 </ListItem>
               ))}
             </List>
-          </Box>
-        </Flex>
-        <Text m={0}>{t('HomePage.aboutPolicy')}.</Text>
+          </GridItem>
+        </Grid>
+        <Text 
+          m={0}
+          fontSize={["1rem", "2rem"]}
+        >{t('HomePage.aboutPolicy')}.</Text>
         <Heading
           id='shopBlock-homepage'
           as="h3"
           size="xl"
-          fontSize="64px"
-          fontWeight="700"
-          mt="4rem"
-          mb="2rem"
+          fontSize={["32px", "64px"]}
+          fontWeight={["600", "700"]}
+          mt={["90px", "4rem"]}
+          mb={["24px", "2rem"]}
         >
           {t('HomePage.shopTitle')}
         </Heading>
@@ -145,9 +173,12 @@ function Main() {
             <Swiper
               ref={sliderRef}
               autoplay
-              spaceBetween={32}
-              slidesPerView={2.5}
+              spaceBetween={slidesSpaceBetween}
+              slidesPerView={slidesPerView}
               loop={true}
+              style={{
+                overflow: 'visible'
+              }}
             >
               {products?.data
                 .slice()
@@ -156,7 +187,8 @@ function Main() {
                   product.images ? (
                     <SwiperSlide key={product.id}>
                       <Box
-                        h="586px"
+                        w={["146px", "auto"]}
+                        h={["180px", "586px"]}
                         cursor="pointer"
                       >
                         <Link
@@ -178,9 +210,12 @@ function Main() {
                   ) : null
                 )}
             </Swiper>
-            <Flex p="3rem 0 4rem">
-              {/* @ts-ignore */}
-              <Box onClick={() => {sliderRef?.current?.swiper.slideNext()}}>
+            <Flex m={["24px 0 32px", "3rem 0 4rem"]}>
+              <Box
+                /* @ts-ignore */
+                onClick={() => {sliderRef?.current?.swiper.slideNext()}}
+                w={["46px", "auto"]}
+              >
                 <Image src="/arrow-right.svg" alt="Next Slide" />
               </Box>
             </Flex>
@@ -188,28 +223,41 @@ function Main() {
         )}
 
         <Grid
-          templateColumns='repeat(2, 1fr)'
-          // templateColumns={gridColumns}
+          templateColumns="repeat(2, 1fr)"
           gap='1rem'
         >
           <GridItem
-            fontSize="40px"
+            fontSize={["16px", "40px"]}
             fontWeight="600"
           >/{t('HomePage.enjoyResponsibility')}/</GridItem>
-          <GridItem>
+          <GridItem mb={["4rem", 0]}>
             <Text
               m={0}
-              fontSize="40px"
+              fontSize={["16px", "40px"]}
               fontWeight="600"
+              textAlign={["end", "start"]}
             >{t('HomePage.categoriesTitle')}</Text>
-            <List spacing=".75rem" p={0}>
-              {['Carabiner', 'Book holder', 'Choker', 'Plate', 'Soap holder', 'Ivan the table'].map((category) => (
+            <List
+              display={["flex", "block"]}
+              flexDirection="column"
+              alignItems={["flex-end", "unset"]}
+              spacing={[0, ".75rem"]}
+              p={0}
+              my={[0, "1em"]}
+            >
+              {['Carabiner', 'Book holder', 'Choker', 'Plate', 'Soap holder', 'Ivan the table']
+               .map((category, index) => (
                 <ListItem key={category}>
                   <Link
                     as={RouterLink}
                     to={`/products/${category}`}
                     hash="root"
+                    fontSize={["14px", "32px"]}
+                    display={["list-item", "flex"]}
+                    mt='10px'
                     color="black"
+                    mr={0}
+                    // mr={[index % 3 === 2 ? "10px" : 0, 0]}
                   > {t(`HomePage.${category}`)}
                   </Link>
                 </ListItem>
@@ -221,14 +269,17 @@ function Main() {
         <Box>
           <Heading
             as="h1"
-            fontSize="64px"
-            fontWeight="700"
-            mb="2rem"
+            fontSize={["32px", "64px"]}
+            fontWeight={["600", "700"]}
+            mb={["24px", "2rem"]}
           >
             {t('HomePage.projectsTitle')}
           </Heading>
-          <Grid templateColumns='repeat(2, 1fr)'>
-            <GridItem pb="4rem">
+          <Grid
+            templateColumns='repeat(2, 1fr)'
+            display={["flex", "grid"]}
+            flexDirection={["column", "unset"]}>
+            <GridItem mb={["20px","4rem"]}>
               <Box>
                 <Image
                   src={prod4}
@@ -241,29 +292,30 @@ function Main() {
                   params={{ index: '9' }}
                   hash="projectsSlider"
                   color="black"
-                  fontWeight="700"
-                  fontSize="24px"
+                  fontWeight={["600", "700"]}
+                  fontSize={["12px", "24px"]}
                   display="block"
-                  mt="24px"
+                  mt={["16px", "24px"]}
                 >
                   {t('HomePage.alltrueestTitle')}
                 </Link>
                 <Text
                   m=".75rem 0"
-                  fontSize="20px"
+                  fontSize={["12px", "20px"]}
+                  lineHeight={["15px", "normal"]}
                 >{t('HomePage.alltrueestDesc')}.
                 </Text>
                 <Text
                   m=".75rem 0"
-                  fontSize="20px"
+                  fontSize={["12px", "20px"]}
                 >{t('HomePage.alltrueestFrom')}.
                 </Text>
               </Box>
             </GridItem>
               <Grid
                 templateColumns='repeat(2, 1fr)'
-                gap="40px"
-                pl="40px"
+                gap={["24px", "40px"]}
+                pl={["0", "40px"]}
                 alignItems="end"
               >
                 <GridItem>
@@ -277,10 +329,10 @@ function Main() {
                     params={{ index: '2' }}
                     hash="projectsSlider"
                     color="black"
-                    fontWeight="800"
-                    fontSize="16px"
+                    fontWeight={["600", "800"]}
+                    fontSize={["12px", "16px"]}
+                    lineHeight={["15px", "19px"]}
                     my="1em"
-                    lineHeight="19px"
                     display="block"
                     height="1.75rem"
                   >
@@ -298,10 +350,10 @@ function Main() {
                     params={{ index: '7' }}
                     hash="projectsSlider"
                     color="black"
-                    fontWeight="800"
-                    fontSize="16px"
+                    fontWeight={["600", "800"]}
+                    fontSize={["12px", "16px"]}
+                    lineHeight={["15px", "19px"]}
                     my="1em"
-                    lineHeight="19px"
                     display="block"
                     height="1.75rem"
                   >
@@ -312,9 +364,9 @@ function Main() {
           </Grid>
           <Text
             textAlign="end"
-            fontWeight="700"
-            fontSize="16px"
-            m="4rem 0 6rem"
+            fontWeight={["600", "700"]}
+            fontSize={["12px", "16px"]}
+            m={["60px 0 90px", "4rem 0 6rem"]}
           >
             <Link
               as={RouterLink}
@@ -330,9 +382,7 @@ function Main() {
             </Link>
           </Text>
         </Box>
-
         <Cooperation />
-
       </Container>
     </>
   );

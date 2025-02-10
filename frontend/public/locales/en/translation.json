@@ -77,6 +77,7 @@
     "ProjectsPage": {
         "pageName": "Projects",
         "seeAll": "SEE ALL",
+        "close": "CLOSE",
         
         "projects": {
             "sunnyBunny": {
@@ -119,7 +120,7 @@
             "alltrueest": {
                 "title": "ALLTRUEEST",
                 "from": "Pattern made by Anumo Plastic",
-                "description": "A large rectangular dining table and a small round coffee table.\n\nMade for the Alltrueest café in Kyiv."
+                "description": "Large dining table and coffee table made of recycled plastic for Alltrueast cafe."
             },
             "tableIvan": {
                 "title": "TABLE IVAN",
@@ -128,7 +129,8 @@
                 "characteristics": {
                     "title": "Technical characteristics",
                     "list": "Length: 675 мм\nWidth: 334 мм\nHeight: 353 мм\nWeight: 6,85 kg\nMaterial: recycled plastic type 2 (HDPE)"
-                }
+                },
+                "aboutProject": "ABOUT THE PROJECT"
             },
             "glasses&Necklace": {
                 "title": "GLASSES CHAIN AND NECKLACE",

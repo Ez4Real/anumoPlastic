@@ -10,7 +10,8 @@ import {
     GridItem,
     Image,
     Text,
-    Link
+    Link,
+    useBreakpointValue
 } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next";
@@ -23,17 +24,22 @@ interface CartProps {
   isOpen: boolean
   onClose: () => void
   handleLinkClick: () => void
+  toggleMenu: () => void
 }
 
-const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
+const Cart = ({ isOpen, onClose, handleLinkClick, toggleMenu }: CartProps) => {
     const { t, i18n } = useTranslation();
     const currentLang = i18n.language;
     const { state, closeCart } = useCart();
     const navigate = useNavigate();
     const apiBaseUrl = OpenAPI.BASE
 
+    const isMobile = useBreakpointValue({ base: true, sm: false });
+
     const totalUSD = state.cartItems.reduce((sum, item) => sum + item.price_usd * item.count, 0);
     const totalUAH = state.cartItems.reduce((sum, item) => sum + item.price_uah * item.count, 0);
+
+    const drawerHeight = useBreakpointValue({ base: "100vh", sm: "700px" }); 
     return (
         <Drawer
           isOpen={isOpen}
@@ -47,7 +53,7 @@ const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
           <DrawerContent
             bg="white"
             maxH="100vh"
-            height="700px"
+            height={drawerHeight}
             maxW="430px"
           >
             <DrawerBody
@@ -56,48 +62,102 @@ const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
               flexDirection="column"
               h="100%"
               p="46px 24px"
-              style={{
-                overflowY: "scroll",
-                scrollbarWidth: "thin",
-                scrollbarColor: "black transparent",
+              sx={{
+                "::-webkit-scrollbar": {
+                  width: ".5rem !important",
+                },
+                "::-webkit-scrollbar-thumb": {
+                  background: "black",
+                },
               }}
             >
-            <Flex justify="space-between" align="center" pb="24px">
-                <Text m={0} fontSize="24px" fontWeight="700">
-                    {t('Header.cartTitle')}
-                </Text>
-                <Box
-                    onClick={onClose}
-                    aria-label="Close"
-                    role="button"
-                    position="relative"
-                    width="16px"
-                    height="16px"
+
+            { isMobile && (
+              <Flex
+                justify="space-between"
+                align="center"
+                mb="24px"
+              >
+                <Box w="100%">
+                  <Link as={RouterLink} to="/">
+                    <Image src="/logo-black.svg" alt="Anumo Logo" />
+                  </Link>
+                </Box>
+                <Box w="100%" textAlign="center">
+                  <Button
+                    bg="none"
+                    border="none"
                     cursor="pointer"
-                    transition="transform 0.3s ease"
-                    _hover={{ transform: 'rotate(90deg)' }}
-                    _before={{
-                    content: '""',
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    width: '100%',
-                    height: '2px',
-                    backgroundColor: 'black',
-                    borderRadius: '1rem',
-                    transform: 'translate(-50%, -50%) rotate(45deg)',
-                    }}
-                    _after={{
-                    content: '""',
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    width: '100%',
-                    height: '2px',
-                    backgroundColor: 'black',
-                    borderRadius: '1rem',
-                    transform: 'translate(-50%, -50%) rotate(-45deg)',
-                    }}
+                    onClick={toggleMenu}
+                    p="6px"
+                  >
+                    <Image src="/menu-burger-black.svg" alt="Burger Menu" />
+                  </Button>
+                </Box>
+                
+                <Flex
+                  justifyContent="flex-end"
+                  w="100%"
+                  textAlign="end">
+                  <Button
+                    bg="none"
+                    border="none"
+                    cursor="pointer"
+                    onClick={closeCart}
+                    p={0}
+                    display="flex"
+                    justifyContent="flex-end"
+                  >
+                    <Image src="/shopping-bag-black.svg" alt="Shopping Bag" />
+                  </Button>
+                </Flex>
+              </Flex>
+            )} 
+
+            <Flex
+              justify="space-between"
+              align="center"
+              mb={["16px", "24px"]}
+            >
+              <Text
+                m={0}
+                fontSize={["14px", "24px"]}
+                fontWeight={["600", "700"]}
+              >
+                  {t('Header.cartTitle')}
+              </Text>
+              <Box
+                onClick={onClose}
+                aria-label="Close"
+                role="button"
+                position="relative"
+                width="16px"
+                height="16px"
+                cursor="pointer"
+                transition="transform 0.3s ease"
+                _hover={{ transform: 'rotate(90deg)' }}
+                _before={{
+                  content: '""',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  width: '100%',
+                  height: '2px',
+                  backgroundColor: 'black',
+                  borderRadius: '1rem',
+                  transform: 'translate(-50%, -50%) rotate(45deg)',
+                }}
+                  _after={{
+                  content: '""',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  width: '100%',
+                  height: '2px',
+                  backgroundColor: 'black',
+                  borderRadius: '1rem',
+                  transform: 'translate(-50%, -50%) rotate(-45deg)',
+                }}
                 />
             </Flex>
 
@@ -152,7 +212,7 @@ const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
                         display="flex"
                         flexDirection="column"
                       >
-                        <Text m={0} fontWeight="700">
+                        <Text m={0} fontWeight="700" mb="10px">
                           {currentLang === "en" ? item.title_en : item.title_uk}
                         </Text>
                         <Text fontSize="14px">
@@ -215,10 +275,6 @@ const Cart = ({ isOpen, onClose, handleLinkClick }: CartProps) => {
                 </Box>
               </Flex> 
             )}
-              
-
-
-
             </DrawerBody>
           </DrawerContent>
         </Drawer> 
