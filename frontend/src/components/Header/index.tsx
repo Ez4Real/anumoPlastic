@@ -59,10 +59,11 @@ const Header = ({ isWhiteTheme = false }) => {
           </Box>
           <Box w="100%" textAlign="center">
             <Button
+              onClick={toggleMenu}
+              variant="unstyled"
               bg="none"
               border="none"
               cursor="pointer"
-              onClick={toggleMenu}
               p="6px"
             >
               <Image src={menuIconSrc} alt="Burger Menu" />
@@ -70,10 +71,11 @@ const Header = ({ isWhiteTheme = false }) => {
           </Box>
           <Box w="100%" textAlign="end">
             <Button
+              onClick={openCart}
+              variant="unstyled"
               bg="none"
               border="none"
               cursor="pointer"
-              onClick={openCart}
             >
               <Image src={cartIconSrc} alt="Shopping Bag" />
             </Button>
@@ -117,10 +119,11 @@ const Header = ({ isWhiteTheme = false }) => {
                   </Box>
                   <Box w="100%" textAlign="center">
                     <Button
+                      variant="unstyled"
+                      onClick={toggleMenu}
                       bg="none"
                       border="none"
                       cursor="pointer"
-                      onClick={toggleMenu}
                       p="6px"
                     >
                       <Image src="/menu-burger-black.svg" alt="Burger Menu" />
@@ -130,10 +133,11 @@ const Header = ({ isWhiteTheme = false }) => {
                 )}
                 <Box w="100%" textAlign="end">
                   <Button
+                    variant="unstyled"
+                    onClick={openCart}
                     bg="none"
                     border="none"
                     cursor="pointer"
-                    onClick={openCart}
                     p=".5rem"
                   >
                     <Image src="/shopping-bag-black.svg" alt="Shopping Bag" />
