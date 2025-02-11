@@ -64,6 +64,7 @@ interface CartContextType {
   isCartOpen: boolean
   openCart: () => void
   closeCart: () => void
+  toggleCart: () => void
 }
 
 // Create context
@@ -75,15 +76,21 @@ interface CartProviderProps {
 
 // Provider component
 export const CartProvider = ({ children }: CartProviderProps) => {
-  const { isOpen: isCartOpen, onOpen: openCart, onClose: closeCart } = useDisclosure();
+  const {
+    isOpen: isCartOpen,
+    onOpen: openCart,
+    onClose: closeCart,
+    onToggle: toggleCart
+  } = useDisclosure();
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const value = useMemo(() => ({
     state,
     dispatch,
     isCartOpen,
     openCart,
-    closeCart
-  }), [state, dispatch, isCartOpen, openCart, closeCart]);
+    closeCart,
+    toggleCart
+  }), [state, dispatch, isCartOpen, openCart, closeCart, toggleCart]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

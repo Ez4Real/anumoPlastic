@@ -17,7 +17,6 @@ import {
 } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
 
-import Logo from "/assets/images/logo.svg"
 import type { UserRegister } from "../../client"
 import useAuth, { isLoggedIn } from "../../hooks/useAuth"
 import { confirmPasswordRules, emailPattern, passwordRules } from "../../utils"
@@ -73,7 +72,7 @@ function SignUp() {
           centerContent
         >
           <Image
-            src={Logo}
+            src='/logo-black.svg'
             alt="Anumo logo"
             height="auto"
             maxW="2xs"

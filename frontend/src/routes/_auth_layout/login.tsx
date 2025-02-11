@@ -20,7 +20,6 @@ import {
 } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
 
-import Logo from "/assets/images/logo.svg"
 import type { Body_login_login_access_token as AccessToken } from "../../client"
 import useAuth, { isLoggedIn } from "../../hooks/useAuth"
 import { emailPattern } from "../../utils"
@@ -79,7 +78,7 @@ function Login() {
         centerContent
       >
         <Image
-          src={Logo}
+          src='/logo-black.svg'
           alt="Anumo logo"
           height="auto"
           maxW="2xs"

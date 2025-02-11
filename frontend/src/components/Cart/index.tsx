@@ -30,7 +30,7 @@ interface CartProps {
 const Cart = ({ isOpen, onClose, handleLinkClick, toggleMenu }: CartProps) => {
     const { t, i18n } = useTranslation();
     const currentLang = i18n.language;
-    const { state, closeCart } = useCart();
+    const { state, closeCart, toggleCart } = useCart();
     const navigate = useNavigate();
     const apiBaseUrl = OpenAPI.BASE
 
@@ -72,49 +72,58 @@ const Cart = ({ isOpen, onClose, handleLinkClick, toggleMenu }: CartProps) => {
               }}
             >
 
-            { isMobile && (
-              <Flex
-                justify="space-between"
-                align="center"
-                mb="24px"
-              >
+            <Flex
+              justify="space-between"
+              align="center"
+              mb="24px"
+            >
+              { isMobile && (
+              <>
                 <Box w="100%">
                   <Link as={RouterLink} to="/">
-                    <Image src="/logo-black.svg" alt="Anumo Logo" />
+                    <Image
+                      w="192px"
+                      src="/logo-black.svg"
+                      alt="Anumo Logo"
+                    />
                   </Link>
                 </Box>
-                <Box w="100%" textAlign="center">
+                <Flex
+                  justifyContent="center"
+                  w="100%"
+                  textAlign="center"
+                >
                   <Button
-                    variant="unstyled"
                     onClick={toggleMenu}
-                    bg="none"
-                    border="none"
-                    cursor="pointer"
+                    variant="unstyled"
+                    display="flex"
                     p="6px"
                   >
-                    <Image src="/menu-burger-black.svg" alt="Burger Menu" />
-                  </Button>
-                </Box>
-                
-                <Flex
-                  justifyContent="flex-end"
-                  w="100%"
-                  textAlign="end">
-                  <Button
-                    variant="unstyled"
-                    onClick={closeCart}
-                    bg="none"
-                    border="none"
-                    cursor="pointer"
-                    p={0}
-                    display="flex"
-                    justifyContent="flex-end"
-                  >
-                    <Image src="/shopping-bag-black.svg" alt="Shopping Bag" />
+                    <Image
+                      src="/menu-burger-black.svg"
+                      alt="Burger Menu"
+                    />
                   </Button>
                 </Flex>
+              </>
+              )}
+              <Flex
+                justifyContent="flex-end"
+                w="100%"
+              >
+                <Button
+                  onClick={toggleCart}
+                  variant="unstyled"
+                  display="flex"
+                >
+                  <Image
+                    src="/shopping-bag-black.svg"
+                    alt="Shopping Bag"
+                  />
+                </Button>
               </Flex>
-            )} 
+            </Flex>
+
 
             <Flex
               justify="space-between"
@@ -128,39 +137,44 @@ const Cart = ({ isOpen, onClose, handleLinkClick, toggleMenu }: CartProps) => {
               >
                   {t('Header.cartTitle')}
               </Text>
-              <Box
-                onClick={onClose}
-                aria-label="Close"
-                role="button"
-                position="relative"
-                width="16px"
-                height="16px"
-                cursor="pointer"
-                transition="transform 0.3s ease"
-                _hover={{ transform: 'rotate(90deg)' }}
-                _before={{
-                  content: '""',
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  width: '100%',
-                  height: '2px',
-                  backgroundColor: 'black',
-                  borderRadius: '1rem',
-                  transform: 'translate(-50%, -50%) rotate(45deg)',
-                }}
-                  _after={{
-                  content: '""',
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  width: '100%',
-                  height: '2px',
-                  backgroundColor: 'black',
-                  borderRadius: '1rem',
-                  transform: 'translate(-50%, -50%) rotate(-45deg)',
-                }}
+              <Flex
+                boxSize="40px"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Box
+                  onClick={onClose}
+                  aria-label="Close"
+                  role="button"
+                  position="relative"
+                  boxSize="16px"
+                  cursor="pointer"
+                  transition="transform 0.3s ease"
+                  _hover={{ transform: 'rotate(90deg)' }}
+                  _before={{
+                    content: '""',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: '100%',
+                    height: '2px',
+                    backgroundColor: 'black',
+                    borderRadius: '1rem',
+                    transform: 'translate(-50%, -50%) rotate(45deg)',
+                  }}
+                    _after={{
+                    content: '""',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: '100%',
+                    height: '2px',
+                    backgroundColor: 'black',
+                    borderRadius: '1rem',
+                    transform: 'translate(-50%, -50%) rotate(-45deg)',
+                  }}
                 />
+              </Flex>
             </Flex>
 
             {state.cartItems.length === 0 ? (

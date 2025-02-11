@@ -28,8 +28,9 @@ const Footer = () => {
             mb="48px"
           >
             <Image
-              src='/footer-logo-black.svg'
+              src='/logo-black.svg'
               alt='Anumo Logo Black'
+              h="24px"
             ></Image>
           </Box>
           <Box>

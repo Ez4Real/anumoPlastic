@@ -96,7 +96,7 @@ function Main() {
 
         <Grid
           templateColumns={["146px 172px", "50% 50%"]}
-          gap={'1rem'}
+          gap={["24px", "1rem"]}
         >
           <GridItem fontWeight="600" flex="1"
           >

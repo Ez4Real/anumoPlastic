@@ -54,32 +54,39 @@ const Header = ({ isWhiteTheme = false }) => {
         >
           <Box w="100%">
             <Link as={RouterLink} to="/">
-              <Image src={logoSrc} alt="Anumo Logo" />
+              <Image
+                w="192px"
+                src={logoSrc}
+                alt="Anumo Logo"
+              />
             </Link>
           </Box>
-          <Box w="100%" textAlign="center">
+          <Flex
+            justifyContent="center"
+            w="100%"
+            textAlign="center"
+          >
             <Button
               onClick={toggleMenu}
               variant="unstyled"
-              bg="none"
-              border="none"
-              cursor="pointer"
+              display="flex"
               p="6px"
             >
               <Image src={menuIconSrc} alt="Burger Menu" />
             </Button>
-          </Box>
-          <Box w="100%" textAlign="end">
+          </Flex>
+          <Flex
+            justifyContent="flex-end"
+            w="100%"
+          >
             <Button
               onClick={openCart}
               variant="unstyled"
-              bg="none"
-              border="none"
-              cursor="pointer"
+              display="flex"
             >
               <Image src={cartIconSrc} alt="Shopping Bag" />
             </Button>
-          </Box>
+          </Flex>
         </Flex>
         
         {/* Sidebar Menu */}
@@ -101,9 +108,10 @@ const Header = ({ isWhiteTheme = false }) => {
             <DrawerBody
               display="flex"
               flexDirection="column"
-              p={["60px 24px 2rem", "3.5rem 3rem 2rem"]}
+              p={["46px 24px", "3.5rem 3rem 2rem"]}
               flex={1}
             >
+              
               <Flex
                 justify="space-between"
                 align="center"
@@ -113,36 +121,46 @@ const Header = ({ isWhiteTheme = false }) => {
                   <Box w="100%">
                     <Link as={RouterLink} to="/">
                       <Image
+                        w="192px"
                         src="/logo-black.svg"
-                        alt="Anumo Logo" />
+                        alt="Anumo Logo"
+                      />
                     </Link>
                   </Box>
-                  <Box w="100%" textAlign="center">
+                  <Flex
+                    justifyContent="center"
+                    w="100%"
+                    textAlign="center"
+                  >
                     <Button
-                      variant="unstyled"
                       onClick={toggleMenu}
-                      bg="none"
-                      border="none"
-                      cursor="pointer"
+                      variant="unstyled"
+                      display="flex"
                       p="6px"
                     >
-                      <Image src="/menu-burger-black.svg" alt="Burger Menu" />
+                      <Image
+                        src="/menu-burger-black.svg"
+                        alt="Burger Menu"
+                      />
                     </Button>
-                  </Box>
+                  </Flex>
                 </>
                 )}
-                <Box w="100%" textAlign="end">
+                <Flex
+                  justifyContent="flex-end"
+                  w="100%"
+                >
                   <Button
-                    variant="unstyled"
                     onClick={openCart}
-                    bg="none"
-                    border="none"
-                    cursor="pointer"
-                    p=".5rem"
+                    variant="unstyled"
+                    display="flex"
                   >
-                    <Image src="/shopping-bag-black.svg" alt="Shopping Bag" />
+                    <Image
+                      src="/shopping-bag-black.svg"
+                      alt="Shopping Bag"
+                    />
                   </Button>
-                </Box>
+                </Flex>
               </Flex>
 
               <UnorderedList
