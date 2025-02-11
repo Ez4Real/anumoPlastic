@@ -8,6 +8,8 @@ import { OpenAPI } from "./client"
 import './i18n';
 
 OpenAPI.BASE = import.meta.env.VITE_API_URL
+OpenAPI.MONO_API_DOMAIN = import.meta.env.VITE_API_MONO_DOMAIN
+OpenAPI.MONO_ACQ_TOKEN = import.meta.env.VITE_API_MONO_TOKEN
 OpenAPI.TOKEN = async () => {
   return localStorage.getItem("access_token") || ""
 }

@@ -19,7 +19,8 @@ import type {
   ProductsPublic,
   ProductUpdate,
   SubscribersPublic,
-  SubscriberPublic
+  SubscriberPublic,
+  CartProductImageItem
 } from "./models"
 
 export type TDataLoginAccessToken = {
@@ -622,6 +623,68 @@ export class SubscribersService {
       errors: {
         422: `Validation Error`,
       },
+    })
+  }
+}
+
+type CartProduct = {
+  name: string
+  qty: number
+  sum: number
+  total: number
+  icon: string | null
+  code: string
+}
+type SaveCardData = {
+  saveCard: boolean // Ознака зберігання картки (токенізації) після оплати
+  walletId: string // Ідентифікатор гаманця користувача
+}
+type MerchantPaymentInfo = { // при активній звʼязці з ПРРО https://web.monobank.ua
+  reference: string // order id
+  destination: string // Призначення платежу
+  basketOrder: Array<CartProduct>
+  customerEmails: Array<string>
+  comment?: string 
+}
+export type PaymentCreate = {
+  amount: number;
+  ccy?: 980 | 840;  //(UKR HRYVNA | US DOLLAR)
+  merchantPaymInfo: MerchantPaymentInfo;
+  redirectUrl: string;
+  webHookUrl: string;
+  displayType: string;
+
+  validity?: number; // Строк дії в секундах, за замовчуванням рахунок перестає бути дійсним через 24 години
+  paymentType?: "debit" | "hold" // Для значення hold термін складає 9 днів. Якщо через 9 днів холд не буде фіналізовано — він скасовується
+  qrId?: string; // Ідентифікатор QR-каси для встановлення суми оплати на існуючих QR-кас
+  code?: string; // Код терміналу субмерчанта, з апі “Список субмерчантів”.
+  saveCardData?: null | SaveCardData
+}
+
+export type TDataPaymentCreate = {
+  requestBody: PaymentCreate
+}
+
+export class PaymentsService {
+  public static createPayment(
+    data: TDataPaymentCreate,
+  ): CancelablePromise<PaymentCreate> {
+    const { requestBody } = data
+    console.log("\n\nBody: ", requestBody);
+    
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/payments/create",
+      body: requestBody,
+      mediaType: "application/json",
+      headers: {
+        "X-Token": OpenAPI.MONO_ACQ_TOKEN as string, 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      errors: {
+        422: `Validation Error`,
+      }
     })
   }
 }

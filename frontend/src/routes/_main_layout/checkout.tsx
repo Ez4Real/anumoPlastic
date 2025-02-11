@@ -26,7 +26,10 @@ import CustomIcon from "../../components/Common/CustomIcon";
 import { FiMail } from "react-icons/fi";
 import { useCart } from "../../context/CartContext";
 import ProductCounter from "../../components/ProductCounter";
-import { OpenAPI } from "../../client";
+import { ApiError, OpenAPI, PaymentCreate, PaymentsService } from "../../client";
+import { useMutation } from "@tanstack/react-query";
+import { type SubmitHandler, useForm, FormProvider } from "react-hook-form"
+import { useNavigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_main_layout/checkout")({
   component: Checkout,
@@ -42,11 +45,86 @@ function Checkout() {
   const [mailing, setMailing] = useState<boolean>(false);
   const [deliveryMethod, setDeliveryMethod] = useState<string>("ukraine");
 
-  const subtotalUSD = state.cartItems.reduce((sum, item) => sum + item.price_usd * item.count, 0);
-  const subtotalUAH = state.cartItems.reduce((sum, item) => sum + item.price_uah * item.count, 0);
-  const deliveryPrice = { en: 30, uk: 1250 };
-  const totalUSD = subtotalUSD + deliveryPrice.en
-  const totalUAH = subtotalUAH + deliveryPrice.uk
+  const subtotal = state.cartItems.reduce(
+    (sum, item) => sum + (
+      currentLang === "en"
+        ? item.price_usd
+        : item.price_uah) * item.count, 0
+  )
+  const deliveryPrice = currentLang === "en" ? 30 : 1250
+  const total = subtotal + deliveryPrice;
+
+  console.log(state.cartItems)
+
+  const navigate = useNavigate({ from: Route.fullPath })
+
+  const methods = useForm<PaymentCreate>({
+    mode: "onBlur",
+    criteriaMode: "all",
+    defaultValues: {
+      amount: total * 100,
+      ccy: currentLang === "en" ? 840 : 980,
+      merchantPaymInfo: {
+        reference: "84d0070ee4e44667b31371d8f8813947",
+        destination: "Оплата за товар(и)",
+        customerEmails: ["butilka05roma@gmail.com"],
+        basketOrder: state.cartItems.map((item) => ({
+          name: currentLang === "en" ? item.title_en : item.title_uk,
+          qty: item.count,
+          sum: (currentLang === "en" ? item.price_usd : item.price_uah) * 100,
+          total: (currentLang === "en" ? item.price_usd : item.price_uah) * item.count * 100,
+          icon: `${apiBaseUrl}${item.image?.url}`, 
+          code: "SOME PRODUCT CODE", 
+        })),
+      },
+      // webHookUrl: `${OpenAPI.BASE}/api/v1/payments/callback`,
+      webHookUrl: "http://127.0.0.1:8000/api/v1/payments/callback",
+      // redirectUrl: '/thank-you',
+      redirectUrl: 'http://localhost:5173/thank-you',
+      // displayType: "iframe",
+      paymentType: "debit"
+
+    },
+  })
+
+
+  const mutation = useMutation({
+    mutationFn: (data: PaymentCreate) =>
+      PaymentsService.createPayment({ requestBody: data })
+        .then(response => 
+          // @ts-ignore
+          window.location.href = response.pageUrl
+          // console.log(response)
+        )
+        .catch(error => console.error("Payment Failed:", error)),
+    onSuccess: (data, variables, context) => {
+      // if (response) {
+        console.log("\n\nVariables", variables);
+        console.log(variables);
+      //   console.log(response);
+        
+        // window.location.href = response.pageUrl; // Redirect to Monobank payment page
+
+        // navigate({ to: "/login" })
+    },
+    onError: (err: ApiError) => {
+      console.log("\n\nFAILED!!!");
+      console.log(err);
+    }
+  })
+
+  const onSubmit: SubmitHandler<PaymentCreate> = async (data) => {
+      mutation.mutate(data);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting },
+  } = methods
+
 
   return (
     <Container px={["24px", "46px"]}>
@@ -56,231 +134,276 @@ function Checkout() {
         templateColumns="1fr 108px 50%"
       >
         <GridItem>
-          <Container as="form" p="0 !important" mt={["36px", 0]}>
-            <Heading
-              m={0}
-              fontSize={["20px", "24px"]}
-              fontWeight={["600", "700"]}
-            >{t('Checkout.contactFormTitle')}</Heading>
-            <Grid
-              templateColumns={["unset", "1fr 1fr"]}
-              templateRows={["1fr", "unset"]}
-              gap="12px"
-              mt="16px"
+          <FormProvider {...methods}>
+            <Container
+              as="form"
+              onSubmit={handleSubmit(onSubmit)}
+              mt={["36px", 0]}
+              p="0 !important"
             >
-              <GridItem>
+              <Heading
+                m={0}
+                fontSize={["20px", "24px"]}
+                fontWeight={["600", "700"]}
+              >{t('Checkout.contactFormTitle')}</Heading>
+              <Grid
+                templateColumns={["unset", "1fr 1fr"]}
+                templateRows={["1fr", "unset"]}
+                gap="12px"
+                mt="16px"
+              >
+                <GridItem>
+                  <FormControl>
+                    <Input
+                      border="1px solid #A4A2A2"
+                      fontSize="14px"
+                      p="12px"
+                      height="-webkit-fill-available"
+                      width="-webkit-fill-available"
+                      placeholder={t('Checkout.firstNamePlaceholder')}
+                    />
+                  </FormControl>
+                </GridItem>
                 <FormControl>
                   <Input
+                    placeholder={t('Checkout.lastNamePlaceholder')}
                     border="1px solid #A4A2A2"
                     fontSize="14px"
                     p="12px"
                     height="-webkit-fill-available"
                     width="-webkit-fill-available"
-                    placeholder={t('Checkout.firstNamePlaceholder')}
                   />
                 </FormControl>
-              </GridItem>
-              <FormControl>
+
+              </Grid>
+              <FormControl mt="16px">
                 <Input
-                  placeholder={t('Checkout.lastNamePlaceholder')}
+                  placeholder={t('Checkout.emailPlaceholder')}
                   border="1px solid #A4A2A2"
                   fontSize="14px"
-                  p="12px"
-                  height="-webkit-fill-available"
+                  padding="12px"
                   width="-webkit-fill-available"
                 />
               </FormControl>
 
-            </Grid>
-            <FormControl mt="16px">
-              <Input
-                placeholder={t('Checkout.emailPlaceholder')}
-                border="1px solid #A4A2A2"
-                fontSize="14px"
-                padding="12px"
-                width="-webkit-fill-available"
-              />
-            </FormControl>
-
-            <Flex mt="16px" alignItems="center" h="24px">
-              <Checkbox
-                isChecked={mailing}
-                onChange={() => setMailing(!mailing)}
-                icon={<CustomIcon
-                  icon={FiMail}
+              <Flex mt="16px" alignItems="center" h="24px">
+                <Checkbox
                   isChecked={mailing}
-                  isIndeterminate={false}
-                />}
-                isRequired={false}
-                boxSize="24px"
-                justifyContent="center"
-                borderRadius="6px"
-                border="1px solid black"
-                colorScheme="black"
-                _hover={{
-                  bg: "rgba(0, 0, 0, 0.75)",
-                  ".chakra-checkbox__control": {
-                    color: "white"
-                  }
-                }}
-                _checked={{
-                  bg: "black",
-                }}
-                sx={{
-                  ".chakra-checkbox__control": {
-                    border: "none",
-                    transition: "all 0.2s ease-in-out",
-                    color: "black"
-                  },
-                  ".chakra-checkbox__control[data-checked]": {
-                    color: "white",
-                  },
-                }}
-              >
-              </Checkbox>
-              <Text
-                fontSize="14px"
-                ml="16px"
-              >{t('Checkout.emailMeCheckbox')}</Text>
-            </Flex>
+                  onChange={() => setMailing(!mailing)}
+                  icon={<CustomIcon
+                    icon={FiMail}
+                    isChecked={mailing}
+                    isIndeterminate={false}
+                  />}
+                  isRequired={false}
+                  boxSize="24px"
+                  justifyContent="center"
+                  borderRadius="6px"
+                  border="1px solid black"
+                  colorScheme="black"
+                  _hover={{
+                    bg: "rgba(0, 0, 0, 0.75)",
+                    ".chakra-checkbox__control": {
+                      color: "white"
+                    }
+                  }}
+                  _checked={{
+                    bg: "black",
+                  }}
+                  sx={{
+                    ".chakra-checkbox__control": {
+                      border: "none",
+                      transition: "all 0.2s ease-in-out",
+                      color: "black"
+                    },
+                    ".chakra-checkbox__control[data-checked]": {
+                      color: "white",
+                    },
+                  }}
+                >
+                </Checkbox>
+                <Text
+                  fontSize="14px"
+                  ml="16px"
+                >{t('Checkout.emailMeCheckbox')}</Text>
+              </Flex>
 
-            <FormControl mt="16px">
-              <Input
-                type="tel"
-                placeholder={t('Checkout.phonePlaceholder')}
-                border="1px solid #A4A2A2"
-                fontSize="14px"
-                padding="12px"
-                width="-webkit-fill-available"
-              />
-            </FormControl>
+              <FormControl mt="16px">
+                <Input
+                  type="tel"
+                  placeholder={t('Checkout.phonePlaceholder')}
+                  border="1px solid #A4A2A2"
+                  fontSize="14px"
+                  padding="12px"
+                  width="-webkit-fill-available"
+                />
+              </FormControl>
 
-            <Heading
-              m={0}
-              fontSize={["20px", "24px"]}
-              fontWeight={["600", "700"]}
-              mt="24px"
-            >{t('Checkout.deliveryFormTitle')}</Heading>
-
-            <CSSReset />
-
-            <RadioGroup
-              onChange={setDeliveryMethod}
-              value={deliveryMethod}
-              fontWeight="600"
-              mt="1rem"
-            >
-              <VStack align="start" spacing="16px">
-                {[
-                  { value: "ukraine", label: t("Checkout.deliveryUkraine") },
-                  { value: "europe", label: t("Checkout.deliveryEurope") },
-                  { value: "overseas", label: t("Checkout.deliveryOverseas") },
-                ].map(({ value, label }, index) => (
-                  <Radio
-                    key={index}
-                    value={value}
-                    spacing={[2, 10]}
-                    sx={{
-                      // "&.chakra-radio__label": {
-                      //   fontSize: "14px"
-                      // },
-                      "&.chakra-radio__control": {
-                        boxSize: "16px",
-                        border: "1px solid #3A3A3A",
-                        borderRadius: "50%",
-                        position: "relative",
-                      },
-                      _checked: {
-                        _before: {
-                          content: '""',
-                          backgroundColor: "#3A3A3A",
-                          boxSize: "10px",
-                          borderRadius: "50%",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
-                        },
-                      },
-                    }}
-                  >{label}</Radio>
-                ))}
-              </VStack >
-            </RadioGroup>
-
-            <FormControl mt="24px">
-              <FormLabel
+              <Heading
+                m={0}
                 fontSize={["20px", "24px"]}
                 fontWeight={["600", "700"]}
-                mb="12px"
-              > {t('Checkout.orderCommentTitle')}
-              </FormLabel>
-              <Textarea
-                resize="vertical"
-                fontSize="14px"
-                border="1px solid rgb(164, 162, 162)"
-                h="160px"
-                minH="160px"
-                maxH="260px"
-                w="100%"
-                p="12px"
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel
-                fontSize="24px"
-                fontWeight="700"
-                mt="32px"
-              > {t('Checkout.paymentTitle')}
-              </FormLabel>
-              <Checkbox
-                isChecked
-                icon={<></>}
-                my={["12px", "1rem"]}
-                sx={{
-                  fontSize: "14px",
-                  fontWeight: "600",
-                  ".chakra-checkbox__control": {
-                    boxSize: "16px",
-                    border: "1px solid #3A3A3A !important",
-                    borderRadius: "50%",
-                    position: "relative",
-                    background: "white !important",
-                  },
-                  ".chakra-checkbox__control[data-checked]::after": {
-                    content: '""',
-                    backgroundColor: "#3A3A3A",
-                    boxSize: "10px",
-                    borderRadius: "50%",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                  },
-                }}
-              >{t('Checkout.cardPayment')}
-              </Checkbox>
-            </FormControl>
+                mt="24px"
+              >{t('Checkout.deliveryFormTitle')}</Heading>
 
-            <Box pt="32px" pb="220px">
-              <Button
-                width="100%"
-                fontSize="14px"
+              <CSSReset />
+
+              <RadioGroup
+                onChange={setDeliveryMethod}
+                value={deliveryMethod}
                 fontWeight="600"
-                color="white"
-                bg="black"
-                p="12px"
-                cursor="pointer"
-                border="none"
-                textDecoration="underline"
-                _hover={{ backgroundColor: "black" }}
-                _active={{ backgroundColor: "black" }}
+                mt="1rem"
               >
-                {t('Checkout.placeOrder')}
-              </Button>
-            </Box>
+                <VStack align="start" spacing="16px">
+                  {[
+                    { value: "ukraine", label: t("Checkout.deliveryUkraine") },
+                    { value: "europe", label: t("Checkout.deliveryEurope") },
+                    { value: "overseas", label: t("Checkout.deliveryOverseas") },
+                  ].map(({ value, label }, index) => (
+                    <Radio
+                      key={index}
+                      value={value}
+                      spacing={[2, 10]}
+                      sx={{
+                        "&.chakra-radio__control": {
+                          boxSize: "16px",
+                          border: "1px solid #3A3A3A",
+                          borderRadius: "50%",
+                          position: "relative",
+                        },
+                        _checked: {
+                          _before: {
+                            content: '""',
+                            backgroundColor: "#3A3A3A",
+                            boxSize: "10px",
+                            borderRadius: "50%",
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                          },
+                        },
+                      }}
+                    >{label}</Radio>
+                  ))}
+                </VStack >
+              </RadioGroup>
 
-          </Container>
+              <FormControl mt="24px">
+                <FormLabel
+                  fontSize={["20px", "24px"]}
+                  fontWeight={["600", "700"]}
+                  mb="12px"
+                > {t('Checkout.orderCommentTitle')}
+                </FormLabel>
+                <Textarea
+                  resize="vertical"
+                  fontSize="14px"
+                  border="1px solid rgb(164, 162, 162)"
+                  h="160px"
+                  minH="160px"
+                  maxH="260px"
+                  w="100%"
+                  p="12px"
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel
+                  fontSize="24px"
+                  fontWeight="700"
+                  mt="32px"
+                > {t('Checkout.paymentTitle')}
+                </FormLabel>
+                <Checkbox
+                  isChecked
+                  icon={<></>}
+                  my={["12px", "1rem"]}
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    ".chakra-checkbox__control": {
+                      boxSize: "16px",
+                      border: "1px solid #3A3A3A !important",
+                      borderRadius: "50%",
+                      position: "relative",
+                      background: "white !important",
+                    },
+                    ".chakra-checkbox__control[data-checked]::after": {
+                      content: '""',
+                      backgroundColor: "#3A3A3A",
+                      boxSize: "10px",
+                      borderRadius: "50%",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                    },
+                  }}
+                >{t('Checkout.cardPayment')}
+                </Checkbox>
+              </FormControl>
+
+              <FormControl mt="16px">
+                <Input
+                  type="tel"
+                  placeholder="Номер карти"
+                  border="1px solid #A4A2A2"
+                  fontSize="14px"
+                  padding="12px"
+                  width="-webkit-fill-available"
+                />
+              </FormControl>
+              <Grid
+                templateColumns={["unset", "1fr 1fr"]}
+                templateRows={["1fr", "unset"]}
+                gap="12px"
+                mt="16px"
+              >
+                <GridItem>
+                  <FormControl>
+                    <Input
+                      border="1px solid #A4A2A2"
+                      fontSize="14px"
+                      p="12px"
+                      height="-webkit-fill-available"
+                      width="-webkit-fill-available"
+                      placeholder="MM/YY"
+                    />
+                  </FormControl>
+                </GridItem>
+                <FormControl>
+                  <Input
+                    placeholder="CVV2/CVC2"
+                    border="1px solid #A4A2A2"
+                    fontSize="14px"
+                    p="12px"
+                    height="-webkit-fill-available"
+                    width="-webkit-fill-available"
+                  />
+                </FormControl>
+              </Grid>
+
+              <Box pt="32px" pb="220px">
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  variant="unstyled"
+                  width="100%"
+                  fontSize="14px"
+                  fontWeight="600"
+                  color="white"
+                  bg="black"
+                  p="12px"
+                  textDecoration="underline"
+                  _hover={{ backgroundColor: "black" }}
+                  _active={{ backgroundColor: "black" }}
+                >
+                  {t('Checkout.placeOrder')}
+                </Button>
+              </Box>
+
+            </Container>
+          </ FormProvider>
         </GridItem>
 
         <GridItem></GridItem>
@@ -378,17 +501,13 @@ function Checkout() {
                 <Flex justifyContent="space-between">
                   <Text>{t('Checkout.orderSubtotal')}</Text>
                   <Box>
-                    {currentLang === "en"
-                      ? `$${subtotalUSD}`
-                      : `₴${subtotalUAH}`}
+                    {subtotal}
                   </Box>
                 </Flex>
                 <Flex justifyContent="space-between">
                   <Text>{t('Checkout.orderShipping')}</Text>
                   <Box>
-                    {currentLang === "en"
-                      ? `$${deliveryPrice.en}`
-                      : `₴${deliveryPrice.uk}`}
+                    {deliveryPrice}
                   </Box>
                 </Flex>
 
@@ -406,8 +525,8 @@ function Checkout() {
                     >{t('Checkout.checkoutCurrency')}</Box>
                     <Box>
                       {currentLang === "en"
-                        ? `$${totalUSD.toFixed(2)}`
-                        : `₴${totalUAH.toFixed(2)}`}
+                        ? '$'
+                        : '₴'}{total}
                     </Box>
                   </Flex>
                 </Flex>

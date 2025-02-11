@@ -34,6 +34,8 @@ export type OpenAPIConfig = {
   RESULT?: TResult
   TOKEN?: string | Resolver<string> | undefined
   USERNAME?: string | Resolver<string> | undefined
+  MONO_API_DOMAIN: string
+  MONO_ACQ_TOKEN: string
   VERSION: string
   WITH_CREDENTIALS: boolean
   interceptors: {
@@ -51,6 +53,8 @@ export const OpenAPI: OpenAPIConfig = {
   RESULT: "body",
   TOKEN: undefined,
   USERNAME: undefined,
+  MONO_API_DOMAIN: "",
+  MONO_ACQ_TOKEN: "",
   VERSION: "0.1.0",
   WITH_CREDENTIALS: false,
   interceptors: { request: new Interceptors(), response: new Interceptors() },

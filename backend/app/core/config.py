@@ -35,6 +35,8 @@ class Settings(BaseSettings):
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     FRONTEND_HOST: str = "http://localhost:5173"
+    MONOBANK_ACQUIRING_API: str = "https://api.monobank.ua"
+    MONOBANK_ACQUIRING_TOKEN: str
     BACKEND_HOST: str
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
 
@@ -46,7 +48,8 @@ class Settings(BaseSettings):
     @property
     def all_cors_origins(self) -> list[str]:
         return [str(origin).rstrip("/") for origin in self.BACKEND_CORS_ORIGINS] + [
-            self.FRONTEND_HOST
+            self.FRONTEND_HOST,
+            self.MONOBANK_ACQUIRING_API
         ]
 
     PROJECT_NAME: str

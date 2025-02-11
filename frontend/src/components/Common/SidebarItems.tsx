@@ -36,7 +36,7 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
         style: {
           background: bgActive,
           borderRadius: "12px",
-        },
+        }
       }}
       color={textColor}
       onClick={onClose}

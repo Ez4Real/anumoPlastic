@@ -10,7 +10,6 @@ import {
   Container,
   Link,
   useBreakpointValue,
-  Collapse,
   Heading
 } from '@chakra-ui/react';
 import { createFileRoute } from "@tanstack/react-router"
