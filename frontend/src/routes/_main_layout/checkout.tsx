@@ -14,14 +14,14 @@ import {
   Image,
   Input,
   Link,
-  Radio,
   RadioGroup,
+  Select,
   Text,
   Textarea,
   VStack
 } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomIcon from "../../components/Common/CustomIcon";
 import { FiMail } from "react-icons/fi";
 import { useCart } from "../../context/CartContext";
@@ -29,7 +29,16 @@ import ProductCounter from "../../components/ProductCounter";
 import { ApiError, OpenAPI, PaymentCreate, PaymentsService } from "../../client";
 import { useMutation } from "@tanstack/react-query";
 import { type SubmitHandler, useForm, FormProvider } from "react-hook-form"
-import { useNavigate } from "@tanstack/react-router";
+import CustomRadio from "../../components/Common/CustomRadio";
+import { debounce } from "lodash";
+
+// !!!!!
+import axios from "axios";
+import BranchFormGroup, { Branch } from "../../components/Common/Forms/BranchFormGroup";
+import PostOfficeFormGroup from "../../components/Common/Forms/postOfficeFormGroup";
+import AddressFormGroup from "../../components/Common/Forms/AddressFormGroup";
+// import BranchFormGroup from "../../components/Common/Forms/BranchFormGroup"
+
 
 export const Route = createFileRoute("/_main_layout/checkout")({
   component: Checkout,
@@ -43,7 +52,45 @@ function Checkout() {
   const { state, closeCart } = useCart();
 
   const [mailing, setMailing] = useState<boolean>(false);
-  const [deliveryMethod, setDeliveryMethod] = useState<string>("ukraine");
+  const [deliveryRegion, setDeliveryRegion] = useState<string>("");
+  const [deliveryMethod, setDeliveryMethod] = useState<string>("Branch");
+  const [city, setCity] = useState("");
+  const [branchNumber, setBranchNumber] = useState<string>("");
+  const [branchOptions, setBranchOptions] = useState<Array<Branch>>([]);
+
+
+  useEffect(() => {
+    const fetchWarehouses = debounce(async () => {
+      if (city && branchNumber) {
+        console.log("\nCity: ", city);
+        console.log("\nbranchNumber", branchNumber);
+        console.log("\nbranchNumber", branchNumber);
+
+        try {
+          const response = await axios.post('https://api.novaposhta.ua/v2.0/json/', {
+            apiKey: OpenAPI.NOVA_POSHTA_TOKEN,
+            modelName: 'Address',
+            calledMethod: 'getWarehouses',
+            methodProperties: {
+              CityName: city,
+              // FindByString: deliberyMeth
+              WarehouseId: branchNumber
+            },
+          });
+          setBranchOptions(response.data.data); 
+          console.log(response.data.data); 
+        } catch (error) {
+          console.error('Error fetching branches:', error);
+        }
+      }
+    }, 500);
+
+    fetchWarehouses();
+  }, [city, branchNumber]);
+
+
+
+
 
   const subtotal = state.cartItems.reduce(
     (sum, item) => sum + (
@@ -54,9 +101,7 @@ function Checkout() {
   const deliveryPrice = currentLang === "en" ? 30 : 1250
   const total = subtotal + deliveryPrice;
 
-  console.log(state.cartItems)
-
-  const navigate = useNavigate({ from: Route.fullPath })
+  // console.log(state.cartItems)
 
   const methods = useForm<PaymentCreate>({
     mode: "onBlur",
@@ -171,7 +216,6 @@ function Checkout() {
                     fontSize="14px"
                     p="12px"
                     height="-webkit-fill-available"
-                    width="-webkit-fill-available"
                   />
                 </FormControl>
 
@@ -182,7 +226,6 @@ function Checkout() {
                   border="1px solid #A4A2A2"
                   fontSize="14px"
                   padding="12px"
-                  width="-webkit-fill-available"
                 />
               </FormControl>
 
@@ -244,48 +287,100 @@ function Checkout() {
                 fontSize={["20px", "24px"]}
                 fontWeight={["600", "700"]}
                 mt="24px"
-              >{t('Checkout.deliveryFormTitle')}</Heading>
+              >{t('Checkout.delivery.formTitle')}</Heading>
 
               <CSSReset />
 
               <RadioGroup
-                onChange={setDeliveryMethod}
-                value={deliveryMethod}
+                onChange={setDeliveryRegion}
+                value={deliveryRegion}
                 fontWeight="600"
-                mt="1rem"
+                mt={["16px", "20px"]}
               >
-                <VStack align="start" spacing="16px">
-                  {[
-                    { value: "ukraine", label: t("Checkout.deliveryUkraine") },
-                    { value: "europe", label: t("Checkout.deliveryEurope") },
-                    { value: "overseas", label: t("Checkout.deliveryOverseas") },
-                  ].map(({ value, label }, index) => (
-                    <Radio
-                      key={index}
-                      value={value}
-                      spacing={[2, 10]}
+                <VStack align="start">
+                  <CustomRadio value="ukraine" label={t("Checkout.delivery.Ukraine.title")}/>
+                  {deliveryRegion === "ukraine" && (
+                  <>
+                    <Select
+                      value={deliveryMethod}
+                      onChange={(e) => {
+                        setDeliveryMethod(e.target.value)
+                        setBranchNumber("")
+                      }}
+                      borderRadius={0}
+                      fontSize="14px"
+                      borderColor="#A4A2A2"
+                      color="#3A3A3A"
+                      display="flex"
+                      mt="1rem"
                       sx={{
-                        "&.chakra-radio__control": {
-                          boxSize: "16px",
-                          border: "1px solid #3A3A3A",
-                          borderRadius: "50%",
-                          position: "relative",
-                        },
-                        _checked: {
-                          _before: {
-                            content: '""',
-                            backgroundColor: "#3A3A3A",
-                            boxSize: "10px",
-                            borderRadius: "50%",
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                          },
+                        "option:checked": {
+                          background: "#F1F1F1",
                         },
                       }}
-                    >{label}</Radio>
-                  ))}
+                    >
+                      <option value='Branch'>
+                        {t("Checkout.delivery.Ukraine.select.branchTitle")}
+                      </option>
+                      <option value='Postomat'>
+                        {t("Checkout.delivery.Ukraine.select.postOfficeTitle")}
+                      </option>
+                      <option value='address-delivery'>
+                        {t("Checkout.delivery.Ukraine.select.addressDeliveryTitle")}
+                      </option>
+                    </Select>
+                    <VStack w="100%" spacing={0}>
+                      {/* City Selection */}
+                      { deliveryMethod !== "address-delivery" && (
+                      <FormControl mt="14px">
+                        <FormLabel fontSize={["20px", "16px"]} fontWeight={["600", "700"]} mb="12px">
+                          {t('Checkout.delivery.Ukraine.select.city.title')}
+                        </FormLabel>
+                        <Input
+                          value={city}
+                          onChange={(e) => {
+                            setCity(e.target.value);
+                          }}
+                          placeholder={t('Checkout.delivery.Ukraine.select.city.placeholder')}
+                          border="1px solid #A4A2A2"
+                          color="#3A3A3A"
+                          fontSize="14px"
+                          padding="12px"
+                        />
+                      </FormControl>
+                      )}
+
+                      {/* Branch Selection */}
+                      { deliveryMethod === "Branch" && (
+                        <BranchFormGroup
+                          branchOptions={branchOptions}
+                          setBranchNumber={setBranchNumber}
+                        />
+                      )}
+                      { deliveryMethod === "Postomat" && (
+                        <PostOfficeFormGroup
+                          titleLabel={t("Checkout.delivery.Ukraine.select.postOffice.title")}
+                          placeholder={t('Checkout.delivery.Ukraine.select.postOffice.placeholder')}
+                          branchOptions={branchOptions}
+                        />
+                      )}
+                      { deliveryMethod === "address-delivery" && (
+                        <AddressFormGroup
+                          countryValue="UA"
+                        />
+                      )}
+                    </VStack>
+                  </>
+                  )}
+                  
+                  <CustomRadio value="europe" label={t("Checkout.delivery.europe.title")}  mt="1rem"/>
+                  { deliveryRegion === "europe" && (
+                    <AddressFormGroup apiEndpoint="/region/europe" />
+                  )}
+                  <CustomRadio value="overseas" label={t("Checkout.delivery.overseas.title")}  mt="1rem"/>
+                  { deliveryRegion === "overseas" && (
+                    <AddressFormGroup regions={["americas", "oceania", "africa"]} />
+                  )}
                 </VStack >
               </RadioGroup>
 
@@ -342,46 +437,6 @@ function Checkout() {
                 >{t('Checkout.cardPayment')}
                 </Checkbox>
               </FormControl>
-
-              <FormControl mt="16px">
-                <Input
-                  type="tel"
-                  placeholder="Номер карти"
-                  border="1px solid #A4A2A2"
-                  fontSize="14px"
-                  padding="12px"
-                  width="-webkit-fill-available"
-                />
-              </FormControl>
-              <Grid
-                templateColumns={["unset", "1fr 1fr"]}
-                templateRows={["1fr", "unset"]}
-                gap="12px"
-                mt="16px"
-              >
-                <GridItem>
-                  <FormControl>
-                    <Input
-                      border="1px solid #A4A2A2"
-                      fontSize="14px"
-                      p="12px"
-                      height="-webkit-fill-available"
-                      width="-webkit-fill-available"
-                      placeholder="MM/YY"
-                    />
-                  </FormControl>
-                </GridItem>
-                <FormControl>
-                  <Input
-                    placeholder="CVV2/CVC2"
-                    border="1px solid #A4A2A2"
-                    fontSize="14px"
-                    p="12px"
-                    height="-webkit-fill-available"
-                    width="-webkit-fill-available"
-                  />
-                </FormControl>
-              </Grid>
 
               <Box pt="32px" pb="220px">
                 <Button

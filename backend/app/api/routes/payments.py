@@ -19,7 +19,7 @@ class MonoBankCallback(BaseModel):
 @router.post("/create")
 async def create_payment(request_data: dict):
     headers = {
-        "X-Token": settings.MONOBANK_ACQUIRING_TOKEN,
+        "X-Token": settings.REACT_APP_MONO_ACQUIRE_TOKEN,
         "Content-Type": "application/json",
     }
     

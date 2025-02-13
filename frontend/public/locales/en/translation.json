@@ -163,10 +163,49 @@
         "emailPlaceholder": "Email",
         "emailMeCheckbox": "Email me with news and offers",
         "phonePlaceholder": "Phone",
-        "deliveryFormTitle": "Delivery",
-        "deliveryUkraine": "Delivery across Ukraine",
-        "deliveryEurope": "Delivery across Europe",
-        "deliveryOverseas": "Delivery overseas (Northern and Southern America,\nAustralia, Africa and other Oceanic countries)",
+        "delivery": {
+            "formTitle": "Delivery",
+            "Ukraine": {
+                "title": "Delivery across Ukraine",
+                "select": {
+                    "city": {
+                        "title": "City",
+                        "placeholder": "Enter the name of the city"
+                    },
+                    "branchTitle": "Branch “Nova Poshta”",
+                    "postOfficeTitle": "Post office “Nova Poshta”",
+                    "addressDeliveryTitle": "Address delivery “Nova Poshta”",
+                    "branch": {
+                        "title": "Branch",
+                        "numberPlacehloder": "Enter number of the “Nova Poshta” branch",
+                        "placeholder": "Select the “Nova Poshta” branch"
+                    },
+                    "postOffice": {
+                        "title": "Post office",
+                        "placeholder": "Оберіть поштомат “Нова Пошта”"
+                    },
+                    "addressDelivery": {
+                        "title": "Post office",
+                        "placeholder": "Оберіть поштомат “Нова Пошта”"
+                    }
+                }
+            },
+            "europe": {
+                "title": "Delivery across Europe",
+                "addressFormGroup": {
+                    "title": "Address",
+                    "placeholders": {
+                        "country": "Country/Region",
+                        "city": "City",
+                        "postalCode": "Postal code",
+                        "deliveryAddress": "Delivery address"
+                    }
+                }
+            },
+            "overseas": {
+                "title": "Delivery overseas (Northern and Southern America,\nAustralia, Africa and other Oceanic countries)"
+            }
+        },
         "orderCommentTitle": "Add a comment to the order",
         "paymentTitle": "Payment",
         "cardPayment": "Payment by card online",

@@ -19,8 +19,7 @@ import type {
   ProductsPublic,
   ProductUpdate,
   SubscribersPublic,
-  SubscriberPublic,
-  CartProductImageItem
+  SubscriberPublic
 } from "./models"
 
 export type TDataLoginAccessToken = {
@@ -678,9 +677,8 @@ export class PaymentsService {
       body: requestBody,
       mediaType: "application/json",
       headers: {
-        "X-Token": OpenAPI.MONO_ACQ_TOKEN as string, 
+        "X-Token": OpenAPI.MONO_API_TOKEN, 
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
       },
       errors: {
         422: `Validation Error`,

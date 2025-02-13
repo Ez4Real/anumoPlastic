@@ -5,9 +5,9 @@ from fastapi import APIRouter, HTTPException, UploadFile, File
 from sqlmodel import func, select
 
 from app.core.config import settings
-from app.api.deps import CurrentUser, SessionDep
+from app.api.deps import CurrentUser, UserOrNone, SessionDep
 from app.models import Product, ProductCreate, ProductUpdate, \
-    ProductImage, ProductPublic, ProductsPublic, ImagesUpload, Message
+    ProductImage, ProductPublic, ProductsPublic, Message
 from app.utils import save_image_to_local
 
 router = APIRouter()
@@ -15,17 +15,19 @@ router = APIRouter()
 
 @router.get("/", response_model=ProductsPublic)
 def read_products(
-    session: SessionDep, current_user: CurrentUser, skip: int = 0, limit: int = 100
+    session: SessionDep,
+    current_user: UserOrNone,
+    skip: int = 0, limit: int = 100
 ) -> Any:
     """
-    Retrieve products.
+    Retrieve products. Public users get limited access in admin panel.
     """
-
-    if current_user.is_superuser:
+    if not current_user or current_user.is_superuser:
         count_statement = select(func.count()).select_from(Product)
         count = session.exec(count_statement).one()
         statement = select(Product).offset(skip).limit(limit)
         products = session.exec(statement).all()
+
     else:
         count_statement = (
             select(func.count())
@@ -40,7 +42,11 @@ def read_products(
             .limit(limit)
         )
         products = session.exec(statement).all()
-
+    # else:
+    #     count_statement = select(func.count()).select_from(Product)
+    #     count = session.exec(count_statement).one()
+    #     statement = select(Product).offset(skip).limit(limit)
+    #     products = session.exec(statement).all()
     return ProductsPublic(data=products, count=count)
 
 
@@ -103,7 +109,11 @@ def create_product(
 
 
 @router.post("/upload-images")
-async def upload_images(images: List[UploadFile] = File(...)) -> dict:
+async def upload_images(
+      *,
+      current_user: CurrentUser,
+      images: List[UploadFile] = File(...)
+    ) -> dict:
     """
     Upload multiple product images and save them to local storage.
     """

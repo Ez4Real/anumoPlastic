@@ -163,10 +163,49 @@
         "emailPlaceholder": "Електронна пошта",
         "emailMeCheckbox": "Повідомляти мене про новини та знижки",
         "phonePlaceholder": "Телефон",
-        "deliveryFormTitle": "Доставка",
-        "deliveryUkraine": "Доставка по Україні",
-        "deliveryEurope": "Міжнародна доставка (Європа)",
-        "deliveryOverseas": "Міжнародна доставка (Північна й Південна Америка,\nАвстралія, Африка та інші країни заокеання)",
+        "delivery": {
+            "formTitle": "Доставка",
+            "Ukraine": {
+                "title": "Доставка по Україні",
+                "select": {
+                    "city": {
+                        "title": "Місто",
+                        "placeholder": "Введіть назву міста"
+                    },
+                    "branchTitle": "Відділеня “Нова Пошта”",
+                    "postOfficeTitle": "Поштомат “Нова Пошта”",
+                    "addressDeliveryTitle": "Адресна доставка “Нова Пошта”",
+                    "branch": {
+                        "title": "Відділення",
+                        "numberPlacehloder": "Введіть номер відділеня “Нова Пошта”",
+                        "placeholder": "Оберіть відділеня “Нова Пошта”"
+                    },
+                    "postOffice": {
+                        "title": "Поштомат",
+                        "placeholder": "Оберіть поштомат “Нова Пошта”"
+                    },
+                    "addressDelivery": {
+                        "title": "Post office",
+                        "placeholder": "Оберіть поштомат “Нова Пошта”"
+                    }
+                }
+            },
+            "europe": {
+                "title": "Міжнародна доставка (Європа)",
+                "addressFormGroup": {
+                    "title": "Адреса",
+                    "placeholders": {
+                        "country": "Країна/Регіон",
+                        "city": "Місто",
+                        "postalCode": "Поштовий індекс",
+                        "deliveryAddress": "Адреса доставки"
+                    }
+                }
+            },
+            "overseas": {
+                "title": "Міжнародна доставка (Північна й Південна Америка,\nАвстралія, Африка та інші країни заокеання)"
+            }
+        },
         "orderCommentTitle": "Додати коментар до замовлення",
         "paymentTitle": "Оплата",
         "cardPayment": "Оплата карткою онлайн",
