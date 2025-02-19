@@ -35,10 +35,13 @@ class Settings(BaseSettings):
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     FRONTEND_HOST: str = "http://localhost:5173"
-    MONOBANK_ACQUIRING_API: str = "https://api.monobank.ua"
-    REACT_APP_MONO_ACQUIRE_TOKEN: str
     BACKEND_HOST: str
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
+    
+    MONOBANK_ACQUIRING_API: str = "https://api.monobank.ua"
+    REACT_APP_MONO_ACQUIRE_TOKEN: str
+    MONO_PUB_KEY: str
+    NOVA_POSHTA_API_TOKEN: str
 
     BACKEND_CORS_ORIGINS: Annotated[
         list[AnyUrl] | str, BeforeValidator(parse_cors)

@@ -48,14 +48,14 @@ def send_email(
     )
     
     if attachments:
-        for attachment in attachments:
-            message.attach(
-                filename=attachment['filename'],
-                content_disposition=attachment['content_disposition'],
-                data=open(attachment['file_path'], "rb"),
-                cid=attachment['cid']
-            )
-    
+      for filename, filedata, cid in attachments:
+        message.attach(
+            filename=filename,
+            content_disposition="inline",
+            data=filedata,
+            cid=cid
+        )
+        
     smtp_options = {"host": settings.SMTP_HOST, "port": settings.SMTP_PORT}
     if settings.SMTP_TLS:
         smtp_options["tls"] = True
@@ -159,3 +159,13 @@ def save_image_to_local(image: UploadFile, upload_dir: Path) -> str:
     
     media_path = settings.MEDIA_DIR / filename
     return f"/{media_path.as_posix()}"
+
+def delete_image_from_local(image_path: str, upload_dir: Path) -> bool:
+    """
+    Deletes an image from the specified upload directory.
+    """
+    image_path = upload_dir / Path(image_path).name
+    if image_path.exists():
+        image_path.unlink()
+        return True
+    return False

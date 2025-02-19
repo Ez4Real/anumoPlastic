@@ -23,6 +23,7 @@ import AddUser from "../../../components/Admin/AddUser.tsx"
 import ActionsMenu from "../../../components/Common/ActionsMenu.tsx"
 import Navbar from "../../../components/Common/Navbar.tsx"
 import { PaginationFooter } from "../../../components/Common/PaginationFooter.tsx"
+import { useTranslation } from "react-i18next"
 
 const usersSearchSchema = z.object({
   page: z.number().catch(1),
@@ -148,10 +149,11 @@ function UsersTable() {
 }
 
 function Admin() {
+  const { t } = useTranslation();
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
-        Users Management
+        {t('AdminPanel.title.users')}
       </Heading>
 
       <Navbar type={"User"} addModalAs={AddUser} />

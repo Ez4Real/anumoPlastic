@@ -222,7 +222,7 @@ const AddProduct = ({ isOpen, onClose }: AddProductProps) => {
                       <option value='Soap holder'>
                         {t('AdminPanel.products.categories.soapHolder')}
                       </option>
-                      <option value='Ivan The Table'>
+                      <option value='Ivan the table'>
                         {t('AdminPanel.products.categories.tableIvan')}
                       </option>
                     </Select>

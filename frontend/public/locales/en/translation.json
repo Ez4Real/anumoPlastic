@@ -34,7 +34,17 @@
         "giraffeTitle": "TABLE TOP MOBLE “GIRAFFE”",
         "hypermobileTitle": "HYPERMOBILE",
         "viewAll": "VIEW ALL",
-        "cooperation": "COOPERATION"
+        "cooperation": "COOPERATION",
+
+        "mailing": {
+          "onSuccessToast": {
+            "success": "Success!",
+            "created": "Newsletter subscription email sent"
+          },
+          "onErrorToast": {
+            "error": "Error!"
+          }
+        }
     },
 
     "Header": {
@@ -182,11 +192,11 @@
                     },
                     "postOffice": {
                         "title": "Post office",
-                        "placeholder": "Оберіть поштомат “Нова Пошта”"
+                        "numberPlacehloder": "Enter number of the “Nova Poshta” postomat",
+                        "placeholder": "Select the “Nova Poshta” postomat"
                     },
                     "addressDelivery": {
-                        "title": "Post office",
-                        "placeholder": "Оберіть поштомат “Нова Пошта”"
+                        "title": "Post office"
                     }
                 }
             },
@@ -225,7 +235,11 @@
 
     "AdminPanel": {
         "title": {
-            "products": "Products Management"
+            "products": "Products Management",
+            "subscribers": "Subscribers",
+            "orders": "Orders",
+            "userSettings": "User Settings",
+            "users": "Users Management"
         },
         "actions": {
             "addProduct": "Add Product",
@@ -235,7 +249,8 @@
         "products": {
             "tableHeads": {
                 "category": "Category",
-                "title": "Title"
+                "title": "Title",
+                "images": "Images"
             },
             "categories": {
                 "carabiner": "Carabiner",
@@ -243,7 +258,7 @@
                 "choker": "Choker",
                 "plate": "Plate",
                 "soapHolder": "Soap holder",
-                "tableIvan": "Ivan the table"
+                "tableIvan": "Table"
             },
             "tags": {
                 "bunny": "Bunny",
@@ -325,8 +340,84 @@
                         "invalidFileSizeMsg": "Invalid file size. Max size allowed limit is 5 MB."
                     }
                 }
-
+            }
+        },
+        "subscribers": {
+            "tableHeads": {
+                "language": "Language",
+                "status": "Status"
+            }
+        },
+        "orders": {
+            "tableHeads": {
+                "date": "Date",
+                "status": "Status",
+                "invoiceId": "Invoice ID",
+                "customerName": "Full name",
+                "deliveryRegion": "Delivery region",
+                "customerPhone": "Contact Phone",
+                "currency": "Currency",
+                "amount": "Amount",
+                "products": "Products"
+            },
+            "delivery": {
+                "regions": {
+                    "ukraine": "Ukraine",
+                    "europe": "Europe",
+                    "overseas": "Overseas"
+                },
+                "types": {
+                    "branch": "Branch",
+                    "postomat": "Postomat",
+                    "address": "Address"
+                }
+            }
+        }
+    },
+    "PrivacyPolicy": {
+        "pageName": "Privacy Policy",
+        "rules": {
+            "1": "ANUMO recognizes the importance of protecting the privacy of your personal data. We have instituted strict policies and security measures to protect the information you provide us.",
+            "2": "The Ukrainian company “ANUMO” is the controller of your personal data. The company's selected suppliers may process your personal data on ANUMO’s behalf and in accordance with our instructions as stated below and are thereby processors of your personal data. You may contact us at any time, please find our contact details below."
+        },
+        "dataPolicy": {
+            "personalDetails": {
+                "title": "Data is collected when you shop on our website or use our online services",
+                "contactDetails": {
+                    "title": "Contact details",
+                    "policy": "If you make a purchase online we will collect your name, address, e-mail address, telephone number, and country of residence. We will use your contact information to",
+                    "1": "process your purchase/orders and any returns, exchanges and complaints you may have relating to your purchase",
+                    "2": "communicate with you regarding your purchase and answer and administer any questions or comments you may have regarding our products or services. The legal basis is that it is necessary to process your data in order for us to be able to fulfill our contractual obligations to you under the purchase agreement. We will retain your data for as long as necessary for this purpose. We may also process your contact details to keep you informed, via email, SMS, letters, telephone, WeChat, Whatsapp and other social media, of our special events or promotions. You are entitled to reject our marketing messages at any time by clicking on the unsubscribe link included in each message or by contacting customer service at"
+                },
+                "creditCardDetails": {
+                    "title": "Credit card details",
+                    "policy": "If you make a purchase online and choose to pay by credit card, you will provide your credit card information on our website to finalize your purchase. Your credit card details will be protected using Global Sign Encryption. All the payments on the website are carried out by MONOBANK Payment System."
+                }
+            },
+            "newsletter": {
+                "title": "Newsletter",
+                "policy": "If you have subscribed to one of our newsletters, we will process your name, email address, country and information on whether you are interested in womenswear or menswear for the purpose of sending out such a newsletter. You are entitled to unsubscribe to our newsletter at any time by clicking on the unsubscribe link included in each newsletter or by contacting customer service at"
+            }
+        }
+    },
+    "PaymentAndDelivery": {
+        "pageName": "Payment and Delivery",
+        "shanovni": "Dear customers",
+        "general": "Please note that all shipments are from our warehouse in Kiyv (Ukraine). Due to the war in our country, there are slight changes in delivery terms.The production of the item will take till 10 business days.Please note that the brand is not responsible for local taxes.",
+        "delivery":  {
+            "exclude": "DELIVERY TO RUSSIA AND BELARUS IS NOT AVAILABLE. We are praying for peace! Stand with Ukraine!",
+            "international": {
+                "title": "International orders",
+                "info": "All international orders will be shipped by Ukrposhta service and DHL Express.",
+                "cost": {
+                    "standard": "Standard delivery - $30 (10-20 business days)",
+                    "express": "Standard delivery - $60 (5-10 business days)"
+                }
+            },
+            "Ukraine": {
+                "title": "Ukraine",
+                "info": "All orders within Ukraine we will be delivered via the Nova Poshta service. The delivery time during martial law is 2-5 business days."
             }
         }
     }
-}   
+} 

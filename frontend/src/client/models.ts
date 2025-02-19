@@ -65,6 +65,7 @@ export type ProductCreate = ProductBase & {
 export type ProductPublic = ProductBase & {
   id: string
   owner_id: string
+  created_at: Date
   images?: Array<ProductImage>;
 }
 
@@ -83,6 +84,7 @@ export type ProductUpdate = ProductBase & {
   images?: Array<ProductImage> | null;
 }
 
+
 export type CartProduct = {
   id: string
   category: ProductCategory;
@@ -100,14 +102,103 @@ export type CartProduct = {
   count: number
 };
 
+type BasketItem = {
+  productId: string
+  name: string
+  qty: number
+  sum: number
+  total: number
+  icon: string
+  code: string
+  unit?: string
+}
+type SaveCardData = {
+  saveCard: boolean // Ознака зберігання картки (токенізації) після оплати
+  walletId: string // Ідентифікатор гаманця користувача
+}
+type MerchantPaymentInfo = { // при активній звʼязці з ПРРО https://web.monobank.ua
+  reference: string // order id
+  destination: string // Призначення платежу
+  basketOrder: Array<BasketItem>
+  customerEmails: Array<string>
+  comment?: string 
+}
+export type PaymentCreate = {
+  amount: number;
+  ccy?: 980 | 840;  //(UKR HRYVNA | US DOLLAR)
+  merchantPaymInfo: MerchantPaymentInfo;
+  redirectUrl: string;
+  webHookUrl: string;
+  displayType?: string;
+  invoiceId?: string;
+
+  validity?: number; // Строк дії в секундах, за замовчуванням рахунок перестає бути дійсним через 24 години
+  paymentType?: "debit" | "hold" // Для значення hold термін складає 9 днів. Якщо через 9 днів холд не буде фіналізовано — він скасовується
+  qrId?: string; // Ідентифікатор QR-каси для встановлення суми оплати на існуючих QR-кас
+  code?: string; // Код терміналу субмерчанта, з апі “Список субмерчантів”.
+  saveCardData?: null | SaveCardData
+}
+
+export type PaymentCreateResponse = {
+  invoiceId: string
+  pageUrl: string
+}
+
+type Contacts = {
+  first_name: string
+  last_name: string
+  email: string
+  phone: string
+}
+export type DeliveryTypeUkraine = "branch" | "postomat" | "address"
+type DeliveryBase = {
+  region: "ukraine" | "europe" | "overseas" | null
+  country: string
+  city: string
+  postalCode?: string 
+  streetAddress?: string
+  type?: DeliveryTypeUkraine
+  warehouse?: string
+}
+
+type OrderBase = {
+  contacts: Contacts
+  delivery: DeliveryBase
+  amount: number
+  currency: "USD" | "UAH"
+  basketOrder: Array<BasketItem>
+  mailing: boolean
+  comment?: string
+  payment_status: "created" | "processing" | "hold" | "success" | "failure" | "reversed" | "expired"
+  created_at: Date
+}
+
+export type OrderCreate = OrderBase & {
+  id: string
+  invoiceId: string
+}
+
+export type OrderPublic = OrderBase & {
+  id: string
+  invoiceId: string
+}
+export type OrdersPublic = {
+  data: Array<OrderPublic>
+  count: number
+}
+
+
 export type ProductsPublic = {
   data: Array<ProductPublic>
   count: number
 }
 
-
-export type SubscriberPublic = {
+type SubscriberBase = {
   email: string
+}
+export type SubscriberCreate = SubscriberBase
+
+export type SubscriberPublic = SubscriberBase & {
   is_active?: boolean
   mailing_language?: string | null
   id: string

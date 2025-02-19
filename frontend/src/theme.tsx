@@ -22,6 +22,15 @@ const theme = extendTheme({
       darkSlate: "#252D3D",
       dim: "#A0AEC0",
     },
+    paymentStatus: {
+      created: "yellow",
+      processing: "#183f90", 
+      hold: "#FF9800",    
+      failure: "#E53E3E",    
+      reversed: "#e1e1e1",   
+      expired: "#E53E3E",
+      success: "#48BB78",
+    }
   },
   components: {
     Button: {
@@ -75,7 +84,6 @@ const mainTheme = extendTheme({
         fontFamily: "Inter, sans-serif",
         bg: 'white',
         color: 'black',
-        // overflowX: "hidden"
       },
       ".chakra-modal__overlay": {
         bg: "transparent !important",
@@ -138,7 +146,16 @@ const mainTheme = extendTheme({
           },
         },
       },
-    }
+    },
+    Select: {
+      baseStyle: {
+        field: {
+          "> option": {
+            backgroundColor: "transparent"
+          }
+        },
+      },
+    },
   },
 })
 

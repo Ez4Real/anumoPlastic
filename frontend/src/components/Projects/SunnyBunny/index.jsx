@@ -36,7 +36,7 @@ const SunnyBunny = () => {
           fontWeight={["700", "600"]}
           fontSize={["14px", "24px"]}
           colorScheme="transparent"
-        >/2022</Badge>
+        >/2024</Badge>
       </Heading>
       <Grid
         display={["flex", "grid"]}

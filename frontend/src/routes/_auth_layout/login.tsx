@@ -12,6 +12,7 @@ import {
   Link,
   Text,
   useBoolean,
+  useColorModeValue,
 } from "@chakra-ui/react"
 import {
   Link as RouterLink,
@@ -37,6 +38,7 @@ export const Route = createFileRoute("/_auth_layout/login")({
 })
 
 function Login() {
+  const logo = useColorModeValue("/logo-black.svg", "/logo.svg");
   const [show, setShow] = useBoolean()
   const { loginMutation, error, resetError } = useAuth()
   const {
@@ -78,7 +80,7 @@ function Login() {
         centerContent
       >
         <Image
-          src='/logo-black.svg'
+          src={logo}
           alt="Anumo logo"
           height="auto"
           maxW="2xs"

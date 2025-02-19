@@ -19,6 +19,7 @@ import {
   
   import { SubscribersService } from "../../../client/index.ts"
   import { PaginationFooter } from "../../../components/Common/PaginationFooter.tsx"
+import { useTranslation } from "react-i18next"
   
   const subscribersSearchSchema = z.object({
     page: z.number().catch(1),
@@ -29,7 +30,7 @@ import {
     validateSearch: (search) => subscribersSearchSchema.parse(search),
   })
   
-  const PER_PAGE = 5
+  const PER_PAGE = 9
   
   function getSubscribersQueryOptions({ page }: { page: number }) {
     return {
@@ -40,6 +41,7 @@ import {
   }
   
   function SubscribersTable() {
+    const { t } = useTranslation();
     const queryClient = useQueryClient()
     const { page } = Route.useSearch()
     const navigate = useNavigate({ from: Route.fullPath })
@@ -72,8 +74,8 @@ import {
               <Tr>
                 <Th>ID</Th>
                 <Th>Email</Th>
-                <Th>Language</Th>
-                <Th>Status</Th>
+                <Th>{t('AdminPanel.subscribers.tableHeads.language')}</Th>
+                <Th>{t('AdminPanel.subscribers.tableHeads.status')}</Th>
               </Tr>
             </Thead>
             {isPending ? (
@@ -132,10 +134,11 @@ import {
   }
   
   function Subscribers() {
+    const { t } = useTranslation();
     return (
       <Container maxW="full">
         <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12} pb={2}>
-          Subscribers
+         {t('AdminPanel.title.subscribers')}
         </Heading>
   
         <SubscribersTable />

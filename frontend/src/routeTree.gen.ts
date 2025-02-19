@@ -16,6 +16,8 @@ import { Route as LayoutImport } from './routes/_layout'
 import { Route as AuthlayoutImport } from './routes/_auth_layout'
 import { Route as MainlayoutIndexImport } from './routes/_main_layout/index'
 import { Route as MainlayoutThankYouImport } from './routes/_main_layout/thank-you'
+import { Route as MainlayoutPrivacyPolicyImport } from './routes/_main_layout/privacy-policy'
+import { Route as MainlayoutPaymentAndDeliveryImport } from './routes/_main_layout/payment-and-delivery'
 import { Route as MainlayoutContactUsImport } from './routes/_main_layout/contact-us'
 import { Route as MainlayoutCheckoutImport } from './routes/_main_layout/checkout'
 import { Route as AuthlayoutSignupImport } from './routes/_auth_layout/signup'
@@ -28,7 +30,10 @@ import { Route as MainlayoutProductsCategoryImport } from './routes/_main_layout
 import { Route as LayoutAdminUsersImport } from './routes/_layout/admin/users'
 import { Route as LayoutAdminSubscribersImport } from './routes/_layout/admin/subscribers'
 import { Route as LayoutAdminSettingsImport } from './routes/_layout/admin/settings'
-import { Route as LayoutAdminProductsImport } from './routes/_layout/admin/products'
+import { Route as LayoutAdminProductsIndexImport } from './routes/_layout/admin/products/index'
+import { Route as LayoutAdminOrdersIndexImport } from './routes/_layout/admin/orders/index'
+import { Route as LayoutAdminProductsIdImport } from './routes/_layout/admin/products/$id'
+import { Route as LayoutAdminOrdersIdImport } from './routes/_layout/admin/orders/$id'
 
 // Create/Update Routes
 
@@ -56,6 +61,17 @@ const MainlayoutThankYouRoute = MainlayoutThankYouImport.update({
   path: '/thank-you',
   getParentRoute: () => MainlayoutRoute,
 } as any)
+
+const MainlayoutPrivacyPolicyRoute = MainlayoutPrivacyPolicyImport.update({
+  path: '/privacy-policy',
+  getParentRoute: () => MainlayoutRoute,
+} as any)
+
+const MainlayoutPaymentAndDeliveryRoute =
+  MainlayoutPaymentAndDeliveryImport.update({
+    path: '/payment-and-delivery',
+    getParentRoute: () => MainlayoutRoute,
+  } as any)
 
 const MainlayoutContactUsRoute = MainlayoutContactUsImport.update({
   path: '/contact-us',
@@ -119,8 +135,23 @@ const LayoutAdminSettingsRoute = LayoutAdminSettingsImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutAdminProductsRoute = LayoutAdminProductsImport.update({
-  path: '/admin/products',
+const LayoutAdminProductsIndexRoute = LayoutAdminProductsIndexImport.update({
+  path: '/admin/products/',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutAdminOrdersIndexRoute = LayoutAdminOrdersIndexImport.update({
+  path: '/admin/orders/',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutAdminProductsIdRoute = LayoutAdminProductsIdImport.update({
+  path: '/admin/products/$id',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutAdminOrdersIdRoute = LayoutAdminOrdersIdImport.update({
+  path: '/admin/orders/$id',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -164,6 +195,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainlayoutContactUsImport
       parentRoute: typeof MainlayoutImport
     }
+    '/_main_layout/payment-and-delivery': {
+      preLoaderRoute: typeof MainlayoutPaymentAndDeliveryImport
+      parentRoute: typeof MainlayoutImport
+    }
+    '/_main_layout/privacy-policy': {
+      preLoaderRoute: typeof MainlayoutPrivacyPolicyImport
+      parentRoute: typeof MainlayoutImport
+    }
     '/_main_layout/thank-you': {
       preLoaderRoute: typeof MainlayoutThankYouImport
       parentRoute: typeof MainlayoutImport
@@ -171,10 +210,6 @@ declare module '@tanstack/react-router' {
     '/_main_layout/': {
       preLoaderRoute: typeof MainlayoutIndexImport
       parentRoute: typeof MainlayoutImport
-    }
-    '/_layout/admin/products': {
-      preLoaderRoute: typeof LayoutAdminProductsImport
-      parentRoute: typeof LayoutImport
     }
     '/_layout/admin/settings': {
       preLoaderRoute: typeof LayoutAdminSettingsImport
@@ -200,6 +235,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAdminIndexImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/admin/orders/$id': {
+      preLoaderRoute: typeof LayoutAdminOrdersIdImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/admin/products/$id': {
+      preLoaderRoute: typeof LayoutAdminProductsIdImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/admin/orders/': {
+      preLoaderRoute: typeof LayoutAdminOrdersIndexImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/admin/products/': {
+      preLoaderRoute: typeof LayoutAdminProductsIndexImport
+      parentRoute: typeof LayoutImport
+    }
   }
 }
 
@@ -213,15 +264,20 @@ export const routeTree = rootRoute.addChildren([
     AuthlayoutSignupRoute,
   ]),
   LayoutRoute.addChildren([
-    LayoutAdminProductsRoute,
     LayoutAdminSettingsRoute,
     LayoutAdminSubscribersRoute,
     LayoutAdminUsersRoute,
     LayoutAdminIndexRoute,
+    LayoutAdminOrdersIdRoute,
+    LayoutAdminProductsIdRoute,
+    LayoutAdminOrdersIndexRoute,
+    LayoutAdminProductsIndexRoute,
   ]),
   MainlayoutRoute.addChildren([
     MainlayoutCheckoutRoute,
     MainlayoutContactUsRoute,
+    MainlayoutPaymentAndDeliveryRoute,
+    MainlayoutPrivacyPolicyRoute,
     MainlayoutThankYouRoute,
     MainlayoutIndexRoute,
     MainlayoutProductsCategoryRoute,

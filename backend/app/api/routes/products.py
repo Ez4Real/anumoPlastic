@@ -8,7 +8,7 @@ from app.core.config import settings
 from app.api.deps import CurrentUser, UserOrNone, SessionDep
 from app.models import Product, ProductCreate, ProductUpdate, \
     ProductImage, ProductPublic, ProductsPublic, Message
-from app.utils import save_image_to_local
+from app.utils import save_image_to_local, delete_image_from_local
 
 router = APIRouter()
 
@@ -25,7 +25,7 @@ def read_products(
     if not current_user or current_user.is_superuser:
         count_statement = select(func.count()).select_from(Product)
         count = session.exec(count_statement).one()
-        statement = select(Product).offset(skip).limit(limit)
+        statement = select(Product).offset(skip).limit(limit).order_by(Product.created_at.desc())
         products = session.exec(statement).all()
 
     else:
@@ -42,15 +42,10 @@ def read_products(
             .limit(limit)
         )
         products = session.exec(statement).all()
-    # else:
-    #     count_statement = select(func.count()).select_from(Product)
-    #     count = session.exec(count_statement).one()
-    #     statement = select(Product).offset(skip).limit(limit)
-    #     products = session.exec(statement).all()
     return ProductsPublic(data=products, count=count)
 
 
-@router.get("/{category}", response_model=ProductsPublic)
+@router.get("/category/{category}", response_model=ProductsPublic)
 def read_products_by_category(
     session: SessionDep, category: str
 ) -> Any:
@@ -146,7 +141,7 @@ def update_product(
     
     if product_in.images:
         # !!!!!!!
-        session.query(ProductImage).filter(ProductImage.product_id == id).delete()
+        session.exec(ProductImage).filter(ProductImage.product_id == id).delete()
         for image_in in product_in.images:
             image = ProductImage.model_validate(image_in, update={"product_id": product.id})
             session.add(image)
@@ -169,6 +164,17 @@ def delete_product(
         raise HTTPException(status_code=404, detail="Product not found")
     if not current_user.is_superuser and (product.owner_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
+    
+    product_images = session.exec(
+        select(ProductImage).filter(ProductImage.product_id == product.id)
+    ).all()
+    for image in product_images:
+        deleted = delete_image_from_local(
+            image.url,
+            settings.UPLOAD_DIR
+        )
+        if deleted: session.delete(image)
+    
     session.delete(product)
     session.commit()
     return Message(message="Product deleted successfully")

@@ -297,7 +297,7 @@ function Product() {
                   </Button>
                   ) : (
                     <Link
-                      href="mailto:anumoplastic@gmail.com"
+                      href={`mailto:${ OpenAPI.ANUMO_EMAIL }`}
                       display="flex"
                       justifyContent="center"
                       fontSize="14px"

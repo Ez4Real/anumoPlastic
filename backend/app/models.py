@@ -1,9 +1,10 @@
 import uuid
+import json
 from datetime import datetime, timezone
 from typing import List, Optional
 from enum import Enum
 from sqlmodel import SQLModel, Field, Relationship, JSON
-from sqlalchemy import UniqueConstraint
+from sqlalchemy import UniqueConstraint, TypeDecorator
 from pydantic import BaseModel, EmailStr, field_validator
 from fastapi import UploadFile, File
 
@@ -69,6 +70,7 @@ class CarabinerTags(str, Enum):
 class ProductBase(SQLModel):
     # Required Product fields:
     category: ProductCategory = Field(index=True)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     title_en: str = Field(min_length=5, max_length=255)
     title_uk: str = Field(min_length=5, max_length=255)
     material_en: str = Field(min_length=5, max_length=255)
@@ -115,7 +117,6 @@ class ProductUpdate(ProductBase):
 
 class Product(ProductBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     owner_id: uuid.UUID = Field(
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
@@ -156,6 +157,118 @@ class ProductImage(ProductImageBase, table=True):
     )
     product: Product | None = Relationship(back_populates="images")
     order: int = Field(default=None)
+    
+
+# Order Models
+class Contacts(BaseModel):
+    first_name: str
+    last_name: str
+    email: EmailStr
+    phone: str
+
+
+class DeliveryRegion(str, Enum):
+    UKRAINE = "ukraine"
+    EUROPE = "europe"
+    OVERSEAS = "overseas"
+class DeliveryUkraine(str, Enum):
+    BRANCH = "branch"
+    POSTOMAT = "postomat"
+    ADDRESS = "address"
+    
+class Delivery(SQLModel):
+    region: DeliveryRegion
+    country: str = Field(max_length=255)
+    city: str = Field(max_length=255)
+    postalCode: str | None = Field(default=None, max_length=25)
+    streetAddress: str = Field(default=None, max_length=255)
+    type: DeliveryUkraine | None = Field(default=None)
+    warehouse: str | None = Field(default=None, max_length=255)
+
+class PydanticJSONType(TypeDecorator):
+    impl = JSON
+
+    def __init__(self, pydantic_model: type[BaseModel], *args, **kwargs):
+        self.pydantic_model = pydantic_model
+        super().__init__(*args, **kwargs)
+
+    def process_bind_param(self, value, dialect):
+        if value is None:
+            return None
+        return json.loads(value.json())
+
+    def process_result_value(self, value, dialect):
+        if value is None:
+            return None
+        return self.pydantic_model.model_validate(value)
+    
+    
+class CartProduct(SQLModel):
+    name: str = Field(min_length=5, max_length=255)
+    qty: int = Field(gt=0)
+    sum: int = Field(gt=0)
+    total: int = Field(gt=0)
+    icon: str
+    code: str
+    unit: str = Field(default="шт.")
+
+class PydanticJSONListType(TypeDecorator):
+    impl = JSON
+
+    def __init__(self, pydantic_model: type[BaseModel], *args, **kwargs):
+        self.pydantic_model = pydantic_model
+        super().__init__(*args, **kwargs)
+
+    def process_bind_param(self, value, dialect):
+        if value is None:
+            return None
+        return [json.loads(item.json()) for item in value]
+
+    def process_result_value(self, value, dialect):
+        if value is None:
+            return None
+        return [self.pydantic_model.model_validate(item) for item in value]
+
+
+class Currency(str, Enum):
+    USD = "USD"
+    UAH = "UAH"
+class PaymentStatus(str, Enum):
+    CREATED = "created"
+    PROCESSING = "processing"
+    HOLD = "hold"
+    SUCCESS = "success"
+    FAILURE = "failure"
+    REVERSED = "reversed"
+    EXPIRED = "expired"
+class OrderBase(SQLModel):
+    contacts: Contacts = Field(sa_type=PydanticJSONType(Contacts))
+    delivery: Delivery = Field(sa_type=PydanticJSONType(Delivery))
+    amount: int
+    currency: Currency
+    basketOrder: List[CartProduct] = Field(sa_type=PydanticJSONListType(CartProduct))
+    mailing: bool = Field(default=False)
+    comment: str
+    payment_status: PaymentStatus = Field(default="created")
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    
+    class Config:
+        arbitrary_types_allowed = True
+
+class OrderCreate(OrderBase):
+    invoiceId: str = Field(unique=True)
+    
+class Order(OrderBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    invoiceId: str = Field(unique=True)
+    
+class OrderPublic(OrderBase):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    invoiceId: str = Field(unique=True)
+
+class OrdersPublic(SQLModel):
+    data: List[OrderPublic]
+    count: int
     
 
 # JSON payload containing access token

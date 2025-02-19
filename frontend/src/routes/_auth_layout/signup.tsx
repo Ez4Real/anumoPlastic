@@ -9,6 +9,7 @@ import {
   Input,
   Link,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react"
 import {
   Link as RouterLink,
@@ -37,6 +38,7 @@ interface UserRegisterForm extends UserRegister {
 }
 
 function SignUp() {
+  const logo = useColorModeValue("/logo-black.svg", "/logo.svg");
   const { signUpMutation } = useAuth()
   const {
     register,
@@ -72,7 +74,7 @@ function SignUp() {
           centerContent
         >
           <Image
-            src='/logo-black.svg'
+            src={logo}
             alt="Anumo logo"
             height="auto"
             maxW="2xs"

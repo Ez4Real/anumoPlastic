@@ -15,6 +15,7 @@ import Appearance from "../../../components/UserSettings/Appearance"
 import ChangePassword from "../../../components/UserSettings/ChangePassword"
 import DeleteAccount from "../../../components/UserSettings/DeleteAccount"
 import UserInformation from "../../../components/UserSettings/UserInformation"
+import { useTranslation } from "react-i18next"
 
 const tabsConfig = [
   { title: "My profile", component: UserInformation },
@@ -28,6 +29,7 @@ export const Route = createFileRoute("/_layout/admin/settings")({
 })
 
 function UserSettings() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient()
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
   const finalTabs = currentUser?.is_superuser
@@ -37,7 +39,7 @@ function UserSettings() {
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} py={12}>
-        User Settings
+        {t('AdminPanel.title.userSettings')}
       </Heading>
       <Tabs variant="enclosed">
         <TabList>

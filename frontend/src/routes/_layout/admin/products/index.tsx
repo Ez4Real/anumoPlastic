@@ -20,23 +20,23 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useTranslation } from 'react-i18next';
 import { z } from "zod"
 
-import { ProductsService } from "../../../client/index.ts"
-import ActionsMenu from "../../../components/Common/ActionsMenu.tsx"
-import Navbar from "../../../components/Common/Navbar.tsx"
-import AddProduct from "../../../components/Products/AddProduct.tsx"
-import { PaginationFooter } from "../../../components/Common/PaginationFooter.tsx"
-import { OpenAPI } from "../../../client"
+import { ProductsService } from "../../../../client/index.ts"
+import ActionsMenu from "../../../../components/Common/ActionsMenu.tsx"
+import Navbar from "../../../../components/Common/Navbar.tsx"
+import AddProduct from "../../../../components/Products/AddProduct.tsx"
+import { PaginationFooter } from "../../../../components/Common/PaginationFooter.tsx"
+import { OpenAPI } from "../../../../client"
 
 const productsSearchSchema = z.object({
   page: z.number().catch(1),
 })
 
-export const Route = createFileRoute("/_layout/admin/products")({
+export const Route = createFileRoute("/_layout/admin/products/")({
   component: Products,
   validateSearch: (search) => productsSearchSchema.parse(search),
 })
 
-const PER_PAGE = 4
+const PER_PAGE = 7
 
 function getProductsQueryOptions({ page }: { page: number }) {
   return {
@@ -114,7 +114,7 @@ function ProductsTable() {
               <Th>ID</Th>
               <Th>{t('AdminPanel.products.tableHeads.category')}</Th>
               <Th>{t('AdminPanel.products.tableHeads.title')}</Th>
-              <Th>Images</Th>
+              <Th>{t('AdminPanel.products.tableHeads.images')}</Th>
               <Th>USD</Th>
               <Th>UAH</Th>
             </Tr>
@@ -133,7 +133,6 @@ function ProductsTable() {
             <Tbody>
               {products?.data
                 .slice()
-                .sort((a, b) => a.category.localeCompare(b.category))
                 .map((product) => (
                 <Tr key={product.id} opacity={isPlaceholderData ? 0.5 : 1}>
                   <Td sx={{ padding: '1rem .25rem !important' }}>
@@ -172,15 +171,6 @@ function ProductsTable() {
                   <Td maxWidth="125px">
                     ₴{product.price_uah.toFixed(2)}
                   </Td>
-
-                  {/* Not Required Field!!!
-                  <Td
-                    color={!product.description ? "ui.dim" : "inherit"}
-                    isTruncated
-                    maxWidth="150px"
-                  >
-                    {product.description || "N/A"}
-                  </Td> */}
                 </Tr>
               ))}
             </Tbody>

@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import  timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic.networks import EmailStr
 
@@ -35,16 +35,16 @@ def test_email(email_to: EmailStr) -> Message:
     "/newsletter-subscription/",
     status_code=201,
 )
-def newsletter_subscription(email_to: EmailStr, session: SessionDep) -> Message:
+def newsletter_subscription(session: SessionDep, subscriber_in: SubscriberCreate) -> Message:
     """
     Newsletter subscription emails
     """
+    email_to = subscriber_in.email
     subscriber = crud.get_subscriber_by_email(session=session, email=email_to)
     if not subscriber:
-        subscriber_in = SubscriberCreate(email=email_to)
         subscriber = crud.create_subscriber(session=session, subscriber_in=subscriber_in)
     if subscriber.is_active:
-        raise HTTPException(status_code=400, detail="Subscriber already exists.")
+        raise HTTPException(status_code=400, detail="Subscriber with this email already exists.")
     
     token = create_access_token(
         email_to,
@@ -58,18 +58,13 @@ def newsletter_subscription(email_to: EmailStr, session: SessionDep) -> Message:
     )
     
     logo_filename = 'logo-black.png'
-    logo_attachment = {
-        'filename': logo_filename,
-        'content_disposition': "inline",
-        'file_path': f"./assets/images/{logo_filename}",
-        'cid': logo_filename,
-    }
+    logo_data = open(f"./assets/images/{logo_filename}", "rb")
     
     send_email(
         email_to=email_to,
         subject=email_data.subject,
         html_content=email_data.html_content,
-        attachments=[logo_attachment],
+        attachments=[(logo_filename, logo_data, logo_filename)],
     )
     return Message(message="Newsletter subscription email sent")
 

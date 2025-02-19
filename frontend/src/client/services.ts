@@ -19,7 +19,13 @@ import type {
   ProductsPublic,
   ProductUpdate,
   SubscribersPublic,
-  SubscriberPublic
+  SubscriberPublic,
+  PaymentCreate,
+  OrderCreate,
+  PaymentCreateResponse,
+  OrderPublic,
+  SubscriberCreate,
+  OrdersPublic
 } from "./models"
 
 export type TDataLoginAccessToken = {
@@ -409,6 +415,9 @@ export type TDataReadProducts = {
 export type TDataReadProductsByCategory = {
   category: string
 }
+type TDataReadProductById = {
+  id: string
+}
 export type TDataCreateProduct = {
   requestBody: ProductCreate
 }
@@ -448,6 +457,28 @@ export class ProductsService {
   }
 
   /**
+   * Read Product By Id
+   * Get a specific order by id.
+   * @returns ProductPublic Successful Response
+   * @throws ApiError
+   */
+  public static readProductById(
+    data: TDataReadProductById,
+  ): CancelablePromise<ProductPublic> {
+    const { id } = data
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/products/{id}",
+      path: {
+        id: id,
+      },
+      errors: {
+        422: `Validation Error`,
+      },
+    })
+  }
+
+  /**
    * Read Products by Category
    * Retrieve products by category.
    * @returns ProductsPublic Successful Response
@@ -460,7 +491,7 @@ export class ProductsService {
   
     return __request(OpenAPI, {
       method: "GET",
-      url: `/api/v1/products/${category}`, 
+      url: `/api/v1/products/category/${category}`, 
       errors: {
         422: `Validation Error`,
       },
@@ -573,6 +604,9 @@ export class ProductsService {
   }
 }
 
+export type TDataCreateSubscriber = {
+  requestBody: SubscriberCreate
+}
 export type TDataReadSubscribers = {
   limit?: number
   skip?: number
@@ -606,6 +640,30 @@ export class SubscribersService {
   }
 
   /**
+   * Create Subscriber
+   * Retrieve message.
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static createSubscriber(
+    data: TDataCreateSubscriber,
+  ): CancelablePromise<Message> {
+    const { requestBody } = data
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/utils/newsletter-subscription/",
+      body: requestBody,
+      mediaType: "application/json",
+      headers: { 
+        "Content-Type": "application/json",
+      },
+      errors: {
+        422: `Validation Error`,
+      }
+    })
+  }
+
+  /**
    * Read Subscriber
    * Get product by ID.
    * @returns SubscriberPublic Successful Response
@@ -626,39 +684,7 @@ export class SubscribersService {
   }
 }
 
-type CartProduct = {
-  name: string
-  qty: number
-  sum: number
-  total: number
-  icon: string | null
-  code: string
-}
-type SaveCardData = {
-  saveCard: boolean // Ознака зберігання картки (токенізації) після оплати
-  walletId: string // Ідентифікатор гаманця користувача
-}
-type MerchantPaymentInfo = { // при активній звʼязці з ПРРО https://web.monobank.ua
-  reference: string // order id
-  destination: string // Призначення платежу
-  basketOrder: Array<CartProduct>
-  customerEmails: Array<string>
-  comment?: string 
-}
-export type PaymentCreate = {
-  amount: number;
-  ccy?: 980 | 840;  //(UKR HRYVNA | US DOLLAR)
-  merchantPaymInfo: MerchantPaymentInfo;
-  redirectUrl: string;
-  webHookUrl: string;
-  displayType: string;
 
-  validity?: number; // Строк дії в секундах, за замовчуванням рахунок перестає бути дійсним через 24 години
-  paymentType?: "debit" | "hold" // Для значення hold термін складає 9 днів. Якщо через 9 днів холд не буде фіналізовано — він скасовується
-  qrId?: string; // Ідентифікатор QR-каси для встановлення суми оплати на існуючих QR-кас
-  code?: string; // Код терміналу субмерчанта, з апі “Список субмерчантів”.
-  saveCardData?: null | SaveCardData
-}
 
 export type TDataPaymentCreate = {
   requestBody: PaymentCreate
@@ -667,17 +693,14 @@ export type TDataPaymentCreate = {
 export class PaymentsService {
   public static createPayment(
     data: TDataPaymentCreate,
-  ): CancelablePromise<PaymentCreate> {
+  ): CancelablePromise<PaymentCreateResponse> {
     const { requestBody } = data
-    console.log("\n\nBody: ", requestBody);
-    
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/v1/payments/create",
       body: requestBody,
       mediaType: "application/json",
-      headers: {
-        "X-Token": OpenAPI.MONO_API_TOKEN, 
+      headers: { 
         "Content-Type": "application/json",
       },
       errors: {
@@ -685,4 +708,83 @@ export class PaymentsService {
       }
     })
   }
+}
+
+
+type TDataOrderCreate = {
+  requestBody: OrderCreate
+}
+type TDataReadOrders = {
+  limit?: number
+  skip?: number
+}
+type TDataReadOrderById = {
+  id: string
+}
+
+export class OrdersService {
+
+  public static createOrder(
+    data: TDataOrderCreate
+  ): CancelablePromise<OrderPublic> {
+    const { requestBody } = data
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/orders/create",
+      body: requestBody,
+      mediaType: "application/json",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      errors: {
+        422: `Validation Error`,
+      },
+    });
+  }
+
+  /**
+   * Read Orders
+   * Retrieve orders.
+   * @returns OrdersPublic Successful Response
+   * @throws ApiError
+   */
+  public static readOrders(
+    data: TDataReadOrders = {},
+  ): CancelablePromise<OrdersPublic> {
+    const { limit = 100, skip = 0 } = data
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/orders/",
+      query: {
+        skip,
+        limit,
+      },
+      errors: {
+        422: `Validation Error`,
+      },
+    })
+  }
+
+  /**
+   * Read Order By Id
+   * Get a specific order by id.
+   * @returns OrderPublic Successful Response
+   * @throws ApiError
+   */
+  public static readOrderById(
+    data: TDataReadOrderById,
+  ): CancelablePromise<OrderPublic> {
+    const { id } = data
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/orders/{id}",
+      path: {
+        id: id,
+      },
+      errors: {
+        422: `Validation Error`,
+      },
+    })
+  }
+
 }

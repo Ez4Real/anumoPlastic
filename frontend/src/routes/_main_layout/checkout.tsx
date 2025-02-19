@@ -1,10 +1,9 @@
-import { Link as RouterLink, createFileRoute } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 import {
   Box,
   Button,
   Checkbox,
   Container,
-  CSSReset,
   Flex,
   FormControl,
   FormLabel,
@@ -13,31 +12,28 @@ import {
   Heading,
   Image,
   Input,
-  Link,
   RadioGroup,
   Select,
   Text,
   Textarea,
   VStack
 } from "@chakra-ui/react"
+import { v4 as uuidv4 } from "uuid";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import CustomIcon from "../../components/Common/CustomIcon";
 import { FiMail } from "react-icons/fi";
 import { useCart } from "../../context/CartContext";
 import ProductCounter from "../../components/ProductCounter";
-import { ApiError, OpenAPI, PaymentCreate, PaymentsService } from "../../client";
+import { ApiError, OrderCreate, OpenAPI, PaymentCreate, PaymentsService, OrdersService, DeliveryTypeUkraine } from "../../client";
 import { useMutation } from "@tanstack/react-query";
-import { type SubmitHandler, useForm, FormProvider } from "react-hook-form"
+import { type SubmitHandler, useForm, Controller, FormProvider } from "react-hook-form"
 import CustomRadio from "../../components/Common/CustomRadio";
-import { debounce } from "lodash";
 
-// !!!!!
-import axios from "axios";
 import BranchFormGroup, { Branch } from "../../components/Common/Forms/BranchFormGroup";
-import PostOfficeFormGroup from "../../components/Common/Forms/postOfficeFormGroup";
 import AddressFormGroup from "../../components/Common/Forms/AddressFormGroup";
-// import BranchFormGroup from "../../components/Common/Forms/BranchFormGroup"
+import { handleError } from "../../utils";
+import useCustomToast from "../../hooks/useCustomToast";
 
 
 export const Route = createFileRoute("/_main_layout/checkout")({
@@ -47,129 +43,147 @@ export const Route = createFileRoute("/_main_layout/checkout")({
 
 function Checkout() {
   const { t, i18n } = useTranslation();
-  const currentLang = i18n.language;
+  const currentLang: "en" | "ua" = i18n.language as "en" | "ua";
   const apiBaseUrl = OpenAPI.BASE
-  const { state, closeCart } = useCart();
+  const { state } = useCart();
+  const showToast = useCustomToast()
 
-  const [mailing, setMailing] = useState<boolean>(false);
-  const [deliveryRegion, setDeliveryRegion] = useState<string>("");
-  const [deliveryMethod, setDeliveryMethod] = useState<string>("Branch");
-  const [city, setCity] = useState("");
-  const [branchNumber, setBranchNumber] = useState<string>("");
-  const [branchOptions, setBranchOptions] = useState<Array<Branch>>([]);
+  if (state.cartItems.length === 0) {
+    window.location.href = '/#shopBlock-homepage';
+  }
 
+  const productPrice = currentLang === "en" ? "price_usd" : "price_uah"
 
-  useEffect(() => {
-    const fetchWarehouses = debounce(async () => {
-      if (city && branchNumber) {
-        console.log("\nCity: ", city);
-        console.log("\nbranchNumber", branchNumber);
-        console.log("\nbranchNumber", branchNumber);
-
-        try {
-          const response = await axios.post('https://api.novaposhta.ua/v2.0/json/', {
-            apiKey: OpenAPI.NOVA_POSHTA_TOKEN,
-            modelName: 'Address',
-            calledMethod: 'getWarehouses',
-            methodProperties: {
-              CityName: city,
-              // FindByString: deliberyMeth
-              WarehouseId: branchNumber
-            },
-          });
-          setBranchOptions(response.data.data); 
-          console.log(response.data.data); 
-        } catch (error) {
-          console.error('Error fetching branches:', error);
-        }
-      }
-    }, 500);
-
-    fetchWarehouses();
-  }, [city, branchNumber]);
-
-
-
-
+  const basketOrder = state.cartItems.map((item) => ({
+    productId: item.id,
+    name: currentLang === "en" ? item.title_en : item.title_uk,
+    qty: item.count,
+    sum: (currentLang === "en" ? item[productPrice] : item[productPrice]) * 100,
+    total: (currentLang === "en" ? item[productPrice] : item[productPrice]) * item.count * 100,
+    icon: `${apiBaseUrl}${item.image?.url}`,
+    code: item.id,
+    unit: "шт",
+  }))
 
   const subtotal = state.cartItems.reduce(
     (sum, item) => sum + (
-      currentLang === "en"
-        ? item.price_usd
-        : item.price_uah) * item.count, 0
+      currentLang === "en" ? item[productPrice] : item[productPrice]) * item.count, 0
   )
   const deliveryPrice = currentLang === "en" ? 30 : 1250
   const total = subtotal + deliveryPrice;
 
-  // console.log(state.cartItems)
+  const Currency: Record<"en" | "ua", {
+    name: "USD" | "UAH";
+    ccy: 840 | 980 
+  }> = {
+    ua: {
+      name: "UAH",
+      ccy: 980
+    },
+    en: {
+      name: "USD",
+      ccy: 840
+    }
+  }
 
-  const methods = useForm<PaymentCreate>({
+  const ccy = Currency[currentLang].ccy;
+  const currency = Currency[currentLang].name;  
+  
+  const methods = useForm<OrderCreate>({
     mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {
-      amount: total * 100,
-      ccy: currentLang === "en" ? 840 : 980,
-      merchantPaymInfo: {
-        reference: "84d0070ee4e44667b31371d8f8813947",
-        destination: "Оплата за товар(и)",
-        customerEmails: ["butilka05roma@gmail.com"],
-        basketOrder: state.cartItems.map((item) => ({
-          name: currentLang === "en" ? item.title_en : item.title_uk,
-          qty: item.count,
-          sum: (currentLang === "en" ? item.price_usd : item.price_uah) * 100,
-          total: (currentLang === "en" ? item.price_usd : item.price_uah) * item.count * 100,
-          icon: `${apiBaseUrl}${item.image?.url}`, 
-          code: "SOME PRODUCT CODE", 
-        })),
+      invoiceId: "",
+      contacts: {
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: ""
       },
-      // webHookUrl: `${OpenAPI.BASE}/api/v1/payments/callback`,
-      webHookUrl: "http://127.0.0.1:8000/api/v1/payments/callback",
-      // redirectUrl: '/thank-you',
-      redirectUrl: 'http://localhost:5173/thank-you',
-      // displayType: "iframe",
-      paymentType: "debit"
-
-    },
-  })
-
-
-  const mutation = useMutation({
-    mutationFn: (data: PaymentCreate) =>
-      PaymentsService.createPayment({ requestBody: data })
-        .then(response => 
-          // @ts-ignore
-          window.location.href = response.pageUrl
-          // console.log(response)
-        )
-        .catch(error => console.error("Payment Failed:", error)),
-    onSuccess: (data, variables, context) => {
-      // if (response) {
-        console.log("\n\nVariables", variables);
-        console.log(variables);
-      //   console.log(response);
-        
-        // window.location.href = response.pageUrl; // Redirect to Monobank payment page
-
-        // navigate({ to: "/login" })
-    },
-    onError: (err: ApiError) => {
-      console.log("\n\nFAILED!!!");
-      console.log(err);
+      delivery: {
+        region: null,
+        country: "",
+        city: "",
+        postalCode: "",
+        streetAddress: "",
+        type: "branch",
+        warehouse: ""
+      },
+      amount: total * 100,
+      currency: currency,
+      basketOrder: basketOrder,
+      mailing: false,
+      comment: ""
     }
   })
 
-  const onSubmit: SubmitHandler<PaymentCreate> = async (data) => {
-      mutation.mutate(data);
-  };
-
   const {
     register,
+    control,
+    watch,
     handleSubmit,
-    setError,
-    clearErrors,
-    formState: { errors, isSubmitting },
+    getValues,
+    setValue,
+    formState: { isSubmitting },
   } = methods
 
+  useEffect(() => {
+    setValue("currency", currency);
+  }, [currentLang]);
+
+
+  const mailing = getValues('mailing')
+  const [email] = useState<string>("");
+  const deliveryRegion = watch('delivery.region');
+  const deliveryMethod = getValues("delivery.type");
+  
+  const [warehouseNumber, setWarehouseNumber] = useState<any>("");
+  const [warehouseOptions, setWarehouseOptions] = useState<Array<Branch>>([]);
+
+
+  const serialisePaymentData = (): PaymentCreate => ({
+    amount: total * 100,
+    // amount: 1, 
+    ccy: ccy,
+    merchantPaymInfo: {
+      reference: uuidv4(), 
+      destination: "Тестова Оплата",
+      customerEmails: email? [email] : [],
+      basketOrder: basketOrder,
+    },
+    webHookUrl: `${OpenAPI.BASE}/api/v1/payments/callback`,
+    redirectUrl: "http://localhost:5173/thank-you",
+  });
+
+
+  const mutation = useMutation({
+    mutationFn: async (data: OrderCreate) => {
+      try {
+        const paymentResponse = await PaymentsService.createPayment({
+          requestBody: serialisePaymentData(),
+        });
+        const orderData = { ...data, invoiceId: paymentResponse.invoiceId }
+        const orderResponse = OrdersService.createOrder({
+          requestBody: orderData
+        });
+  
+        window.open(paymentResponse.pageUrl, "_blank", "noopener,noreferrer");
+        // window.location.href = paymentResponse.pageUrl;
+  
+        return orderResponse;
+      } catch (error) {
+        console.error("❌ Error:", error);
+        throw error;
+      }
+    },
+    onError: (err: ApiError) => {
+      handleError(err, showToast)
+    },
+  })
+
+  const onSubmit: SubmitHandler<OrderCreate> = (data) => {
+    mutation.mutate(data);
+  };
 
   return (
     <Container px={["24px", "46px"]}>
@@ -200,6 +214,11 @@ function Checkout() {
                 <GridItem>
                   <FormControl>
                     <Input
+                      {...register("contacts.first_name", {
+                        required: "First name is required",
+                        setValueAs: (value: string) => value.trim(),
+                      })}
+                      isRequired
                       border="1px solid #A4A2A2"
                       fontSize="14px"
                       p="12px"
@@ -211,6 +230,11 @@ function Checkout() {
                 </GridItem>
                 <FormControl>
                   <Input
+                    {...register("contacts.last_name", {
+                      required: "Last name is required",
+                      setValueAs: (value: string) => value.trim(),
+                    })}
+                    isRequired
                     placeholder={t('Checkout.lastNamePlaceholder')}
                     border="1px solid #A4A2A2"
                     fontSize="14px"
@@ -222,6 +246,12 @@ function Checkout() {
               </Grid>
               <FormControl mt="16px">
                 <Input
+                  type="email"
+                  {...register("contacts.email", {
+                    required: "Email is required",
+                    setValueAs: (value: string) => value.trim(),
+                  })}
+                  isRequired
                   placeholder={t('Checkout.emailPlaceholder')}
                   border="1px solid #A4A2A2"
                   fontSize="14px"
@@ -229,50 +259,66 @@ function Checkout() {
                 />
               </FormControl>
 
-              <Flex mt="16px" alignItems="center" h="24px">
-                <Checkbox
-                  isChecked={mailing}
-                  onChange={() => setMailing(!mailing)}
-                  icon={<CustomIcon
-                    icon={FiMail}
-                    isChecked={mailing}
-                    isIndeterminate={false}
-                  />}
-                  isRequired={false}
-                  boxSize="24px"
-                  justifyContent="center"
-                  borderRadius="6px"
-                  border="1px solid black"
-                  colorScheme="black"
-                  _hover={{
-                    bg: "rgba(0, 0, 0, 0.75)",
-                    ".chakra-checkbox__control": {
-                      color: "white"
-                    }
-                  }}
-                  _checked={{
-                    bg: "black",
-                  }}
-                  sx={{
-                    ".chakra-checkbox__control": {
-                      border: "none",
-                      transition: "all 0.2s ease-in-out",
-                      color: "black"
-                    },
-                    ".chakra-checkbox__control[data-checked]": {
-                      color: "white",
-                    },
-                  }}
-                >
-                </Checkbox>
-                <Text
-                  fontSize="14px"
-                  ml="16px"
-                >{t('Checkout.emailMeCheckbox')}</Text>
-              </Flex>
+              <FormControl mt="16px">
+                <Controller
+                  name="mailing"
+                  control={control}
+                  render={({ field }) => (
+                  <Flex
+                    {...field}
+                    onClick={() => field.onChange(!field.value)}
+                    alignItems="center"
+                    h="24px"
+                    cursor="pointer"
+                  >
+                    <Checkbox
+                      isChecked={field.value}
+                      icon={<CustomIcon
+                        icon={FiMail}
+                        isChecked={mailing}
+                        isIndeterminate={false}
+                      />}
+                      boxSize="24px"
+                      justifyContent="center"
+                      borderRadius="6px"
+                      border="1px solid black"
+                      colorScheme="black"
+                      _hover={{
+                        bg: "rgba(0, 0, 0, 0.75)",
+                        ".chakra-checkbox__control": {
+                          color: "white"
+                        }
+                      }}
+                      _checked={{
+                        bg: "black",
+                      }}
+                      sx={{
+                        ".chakra-checkbox__control": {
+                          border: "none",
+                          transition: "all 0.2s ease-in-out",
+                          color: "black"
+                        },
+                        ".chakra-checkbox__control[data-checked]": {
+                          color: "white",
+                        },
+                      }}
+                    />
+                    <Text
+                      fontSize="14px"
+                      ml="16px"
+                    >{t('Checkout.emailMeCheckbox')}</Text>
+                  </Flex>
+                  )}
+                />
+              </FormControl>
 
               <FormControl mt="16px">
                 <Input
+                  {...register("contacts.phone", {
+                    required: "Phone is required",
+                    setValueAs: (value: string) => value.replace(/\D/g, ""),
+                  })}
+                  isRequired
                   type="tel"
                   placeholder={t('Checkout.phonePlaceholder')}
                   border="1px solid #A4A2A2"
@@ -289,100 +335,134 @@ function Checkout() {
                 mt="24px"
               >{t('Checkout.delivery.formTitle')}</Heading>
 
-              <CSSReset />
+              <Controller
+                name="delivery.region"
+                control={control}
+                rules={{ required: "Please select a delivery region" }} 
+                render={({ field }) => (
+                  <RadioGroup
+                    {...field}
+                    onChange={(value) => {
+                      // !!!!!!!!!!! КОСТЫЛЬ
+                      if (value === "ukraine") {
+                        setValue("delivery.country", "Ukraine")
+                        setValue("delivery.type", "branch")
+                      } else {
+                        setValue("delivery.type", "address")
+                        setValue("delivery.warehouse", "")
+                      } 
+                      field.onChange(value)
+                    }}
+                    value={field.value as string | undefined}
+                    fontWeight="600"
+                    mt={["16px", "20px"]}
+                  >
+                    <VStack align="start">
+                      <CustomRadio value="ukraine" label={t("Checkout.delivery.Ukraine.title")} />
+                      {deliveryRegion === "ukraine" && (
+                        <>
+                          <Select
+                            {...register("delivery.type")}
+                            onChange={(e) => {
+                              
+                              setValue("delivery.type", e.target.value as DeliveryTypeUkraine)
+                              setWarehouseNumber("")
+                              setWarehouseOptions([])
+                            }}
+                            borderRadius={0}
+                            fontSize="14px"
+                            borderColor="#A4A2A2"
+                            color="#3A3A3A"
+                            display="flex"
+                            mt="1rem"
+                            sx={{
+                              "option:checked": {
+                                background: "#F1F1F1",
+                              },
+                            }}
+                          >
+                            <option value='branch'>
+                              {t("Checkout.delivery.Ukraine.select.branchTitle")}
+                            </option>
+                            <option value='postomat'>
+                              {t("Checkout.delivery.Ukraine.select.postOfficeTitle")}
+                            </option>
+                            <option value='address'>
+                              {t("Checkout.delivery.Ukraine.select.addressDeliveryTitle")}
+                            </option>
+                          </Select>
+                          <VStack w="100%" spacing={0}>
+                            {/* City Selection */}
+                            {deliveryMethod !== "address" && (
+                              <FormControl mt="14px">
+                                <FormLabel fontSize={["20px", "16px"]} fontWeight={["600", "700"]} mb="12px">
+                                  {t('Checkout.delivery.Ukraine.select.city.title')}
+                                </FormLabel>
+                                <Input
+                                  isRequired
+                                  {...register("delivery.city", {
+                                    setValueAs: (value: string) => value.trim(),
+                                  })}
+                                  placeholder={t('Checkout.delivery.Ukraine.select.city.placeholder')}
+                                  border="1px solid #A4A2A2"
+                                  color="#3A3A3A"
+                                  fontSize="14px"
+                                  padding="12px"
+                                />
+                              </FormControl>
+                            )}
 
-              <RadioGroup
-                onChange={setDeliveryRegion}
-                value={deliveryRegion}
-                fontWeight="600"
-                mt={["16px", "20px"]}
-              >
-                <VStack align="start">
-                  <CustomRadio value="ukraine" label={t("Checkout.delivery.Ukraine.title")}/>
-                  {deliveryRegion === "ukraine" && (
-                  <>
-                    <Select
-                      value={deliveryMethod}
-                      onChange={(e) => {
-                        setDeliveryMethod(e.target.value)
-                        setBranchNumber("")
-                      }}
-                      borderRadius={0}
-                      fontSize="14px"
-                      borderColor="#A4A2A2"
-                      color="#3A3A3A"
-                      display="flex"
-                      mt="1rem"
-                      sx={{
-                        "option:checked": {
-                          background: "#F1F1F1",
-                        },
-                      }}
-                    >
-                      <option value='Branch'>
-                        {t("Checkout.delivery.Ukraine.select.branchTitle")}
-                      </option>
-                      <option value='Postomat'>
-                        {t("Checkout.delivery.Ukraine.select.postOfficeTitle")}
-                      </option>
-                      <option value='address-delivery'>
-                        {t("Checkout.delivery.Ukraine.select.addressDeliveryTitle")}
-                      </option>
-                    </Select>
-                    <VStack w="100%" spacing={0}>
-                      {/* City Selection */}
-                      { deliveryMethod !== "address-delivery" && (
-                      <FormControl mt="14px">
-                        <FormLabel fontSize={["20px", "16px"]} fontWeight={["600", "700"]} mb="12px">
-                          {t('Checkout.delivery.Ukraine.select.city.title')}
-                        </FormLabel>
-                        <Input
-                          value={city}
-                          onChange={(e) => {
-                            setCity(e.target.value);
-                          }}
-                          placeholder={t('Checkout.delivery.Ukraine.select.city.placeholder')}
-                          border="1px solid #A4A2A2"
-                          color="#3A3A3A"
-                          fontSize="14px"
-                          padding="12px"
-                        />
-                      </FormControl>
+                            {/* Branch Selection */}
+                            {deliveryMethod === "branch" && (
+                              <BranchFormGroup
+                                warehouses={warehouseOptions}
+                                setWarehouses={setWarehouseOptions}
+                                warehouseTypes={[
+                                  "9a68df70-0267-42a8-bb5c-37f427e36ee4",
+                                  "841339c7-591a-42e2-8233-7a0a00f0ed6f"
+                                ]}
+                                warehouseNumber={warehouseNumber}
+                                setWarehouseNumber={setWarehouseNumber}
+                                label={t("Checkout.delivery.Ukraine.select.branch.title")}
+                                placeholder={t("Checkout.delivery.Ukraine.select.branch.placeholder")}
+                                numberPlaceholder={t('Checkout.delivery.Ukraine.select.branch.numberPlacehloder')}
+                              />
+                            )}
+                            {deliveryMethod === "postomat" && (
+                              <BranchFormGroup
+                                warehouses={warehouseOptions}
+                                setWarehouses={setWarehouseOptions}
+                                warehouseTypes={[
+                                  "f9316480-5f2d-425d-bc2c-ac7cd29decf0"
+                                ]}
+                                warehouseNumber={warehouseNumber}
+                                setWarehouseNumber={setWarehouseNumber}
+                                label={t("Checkout.delivery.Ukraine.select.postOffice.title")}
+                                placeholder={t("Checkout.delivery.Ukraine.select.postOffice.placeholder")}
+                                numberPlaceholder={t('Checkout.delivery.Ukraine.select.postOffice.numberPlacehloder')}
+                              />
+                            )}
+                            {deliveryMethod === "address" && (
+                              <AddressFormGroup
+                                countryValue="Ukraine"
+                              />
+                            )}
+                          </VStack>
+                        </>
                       )}
 
-                      {/* Branch Selection */}
-                      { deliveryMethod === "Branch" && (
-                        <BranchFormGroup
-                          branchOptions={branchOptions}
-                          setBranchNumber={setBranchNumber}
-                        />
+                      <CustomRadio value="europe" label={t("Checkout.delivery.europe.title")} mt="1rem" />
+                      {deliveryRegion === "europe" && (
+                        <AddressFormGroup apiEndpoint="/region/europe" />
                       )}
-                      { deliveryMethod === "Postomat" && (
-                        <PostOfficeFormGroup
-                          titleLabel={t("Checkout.delivery.Ukraine.select.postOffice.title")}
-                          placeholder={t('Checkout.delivery.Ukraine.select.postOffice.placeholder')}
-                          branchOptions={branchOptions}
-                        />
+                      <CustomRadio value="overseas" label={t("Checkout.delivery.overseas.title")} mt="1rem" />
+                      {deliveryRegion === "overseas" && (
+                        <AddressFormGroup regions={["americas", "oceania", "africa"]} />
                       )}
-                      { deliveryMethod === "address-delivery" && (
-                        <AddressFormGroup
-                          countryValue="UA"
-                        />
-                      )}
-                    </VStack>
-                  </>
-                  )}
-                  
-                  <CustomRadio value="europe" label={t("Checkout.delivery.europe.title")}  mt="1rem"/>
-                  { deliveryRegion === "europe" && (
-                    <AddressFormGroup apiEndpoint="/region/europe" />
-                  )}
-                  <CustomRadio value="overseas" label={t("Checkout.delivery.overseas.title")}  mt="1rem"/>
-                  { deliveryRegion === "overseas" && (
-                    <AddressFormGroup regions={["americas", "oceania", "africa"]} />
-                  )}
-                </VStack >
-              </RadioGroup>
+                    </VStack >
+                  </RadioGroup>
+                )}
+              />
 
               <FormControl mt="24px">
                 <FormLabel
@@ -392,6 +472,9 @@ function Checkout() {
                 > {t('Checkout.orderCommentTitle')}
                 </FormLabel>
                 <Textarea
+                  {...register("comment", {
+                    setValueAs: (value: string) => value.trim(),
+                  })}
                   resize="vertical"
                   fontSize="14px"
                   border="1px solid rgb(164, 162, 162)"
@@ -456,7 +539,6 @@ function Checkout() {
                   {t('Checkout.placeOrder')}
                 </Button>
               </Box>
-
             </Container>
           </ FormProvider>
         </GridItem>
@@ -464,30 +546,7 @@ function Checkout() {
         <GridItem></GridItem>
 
         <GridItem>
-          {state.cartItems.length === 0 ? (
-            <Flex
-              flexDirection="column"
-              justifyContent="flex-start"
-              textAlign="center"
-            >
-              <Text fontSize="16px" fontWeight="600">{t('Header.emptyCart')}</Text>
-              <Text fontSize="14px" >{t('Header.emptyCartHint')}</Text>
-              <Link
-                as={RouterLink}
-                to="/"
-                hash="shopBlock-homepage"
-                onClick={closeCart}
-                color="black"
-                fontSize="14px"
-                fontWeight="600"
-                mt="4rem"
-                textDecoration="underline"
-                style={{
-                  textUnderlinePosition: "under"
-                }}
-              >{t('Header.cartShopLink')}</Link>
-            </Flex>
-          ) : (
+          {state.cartItems.length !== 0 && (
             <>
               <Heading
                 fontSize={["20px", "24px"]}
@@ -496,9 +555,8 @@ function Checkout() {
               >{t('Checkout.orderSummaryTitle')}</Heading>
 
               {state.cartItems.map((item, index) => {
-                const itemTotalUSD = item.price_usd * item.count;
-                const itemTotalUAH = item.price_uah * item.count;
-
+                const itemTotal = item[productPrice] * item.count
+                
                 return (
                   <Box key={index} mb={["1rem", "1.5rem"]}>
                     <Grid
@@ -536,9 +594,7 @@ function Checkout() {
                         >
                           <ProductCounter productId={item.id} count={item.count} />
                           <Box fontWeight="700">
-                            {currentLang === "en"
-                              ? `$${itemTotalUSD.toFixed(2)}`
-                              : `₴${itemTotalUAH.toFixed(2)}`}
+                            { itemTotal.toFixed(2) }
                           </Box>
                         </Flex>
                       </GridItem>

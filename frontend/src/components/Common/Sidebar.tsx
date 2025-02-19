@@ -25,7 +25,7 @@ const Sidebar = () => {
   const bgColor = useColorModeValue("ui.light", "ui.dark")
   const textColor = useColorModeValue("ui.dark", "ui.light")
   const secBgColor = useColorModeValue("ui.secondary", "ui.darkSlate")
-  const logoFilter = useColorModeValue("invert(1)", "none");
+  const logo = useColorModeValue("/logo-black.svg", "/logo.svg");
   const languageSeparatorColor = useColorModeValue("ui.dark", "ui.light");
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -55,7 +55,7 @@ const Sidebar = () => {
             <Flex flexDir="column" justify="space-between">
               <Box>
                 <Image
-                  src="logo.svg"
+                  src={logo}
                   alt="Anumo Logo"
                   p={6}
                   />
@@ -118,12 +118,10 @@ const Sidebar = () => {
         >
           <Box>
             <Image
-              src="logo.svg"
+              src={logo}
               alt="Anumo Logo"
-              w="180px"
               maxW="2xs"
               p={6}
-              filter={logoFilter}
             />
             <SidebarItems />
           </Box>

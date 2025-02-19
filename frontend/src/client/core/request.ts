@@ -364,11 +364,7 @@ export const request = <T>(
           statusText: response.statusText,
           body: responseHeader ?? responseBody,
         }
-
-        // console.log("\nRequest Response", response);
-        console.log("\nRequest Response", result);
         
-
         catchErrorCodes(options, result)
 
         resolve(result.body)

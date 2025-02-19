@@ -1,6 +1,7 @@
 import { Box, Heading } from '@chakra-ui/react';
 import './index.css'
 import { useTranslation } from 'react-i18next';
+import { OpenAPI } from '../../client';
 
 const Cooperation = () => {
   const { t } = useTranslation();
@@ -13,7 +14,7 @@ const Cooperation = () => {
           lineHeight={["51px", "58px"]}
         >{t('HomePage.cooperation')}?</Heading>
         <div className='emailContainer'>
-            <span>anumoplastic@gmail.com</span>
+            <span>{ OpenAPI.ANUMO_EMAIL }</span>
         </div>
     </Box>
   );

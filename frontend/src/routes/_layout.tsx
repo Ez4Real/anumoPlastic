@@ -24,7 +24,7 @@ function Layout() {
     <ChakraProvider theme={theme}>
       <Flex maxW="large" h="auto" position="relative" >
         <Sidebar />
-        <Box flex="1" h="100%" overflowX="hidden">
+        <Box flex="1" overflowX="hidden">
           {isLoading ? (
             <Flex justify="center" align="center" height="100vh" width="full">
               <Spinner size="xl" color="ui.main" />

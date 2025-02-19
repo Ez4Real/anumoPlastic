@@ -6,17 +6,18 @@ import {
   MenuList,
   useDisclosure,
 } from "@chakra-ui/react"
-import { FiMoreVertical } from "react-icons/fi";
+import { FiFileText, FiMoreVertical } from "react-icons/fi";
 import { FiEdit, FiTrash } from "react-icons/fi"
 
-import type { ProductPublic, UserPublic } from "../../client"
+import { Link as RouterLink } from "@tanstack/react-router"
+import type { OrderPublic, ProductPublic, UserPublic } from "../../client"
 import EditUser from "../Admin/EditUser"
 import EditProduct from "../Products/EditProduct"
 import Delete from "./DeleteAlert"
 
 interface ActionsMenuProps {
   type: string
-  value: ProductPublic | UserPublic
+  value: ProductPublic | UserPublic | OrderPublic
   disabled?: boolean
 }
 
@@ -35,6 +36,14 @@ const ActionsMenu = ({ type, value, disabled }: ActionsMenuProps) => {
           display="flex"
           />
         <MenuList>
+          {type === "Product" && (
+            <MenuItem
+              as={RouterLink}
+              to={value.id}
+              icon={<FiFileText fontSize="16px" />}
+            >Details
+            </MenuItem>
+          )}
           <MenuItem
             onClick={editUserModal.onOpen}
             icon={<FiEdit fontSize="16px" />}
@@ -62,6 +71,7 @@ const ActionsMenu = ({ type, value, disabled }: ActionsMenuProps) => {
             onClose={editUserModal.onClose}
           />
         )}
+        
         <Delete
           type={type}
           id={value.id}

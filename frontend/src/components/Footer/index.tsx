@@ -1,18 +1,71 @@
 import SwitchLocalization from '../SwitchLocalization';
-import { Box, Container, Flex, FormControl, FormLabel, Grid, GridItem, Image, Input, Link, List, ListItem, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  FormControl,
+  FormLabel,
+  Grid,
+  GridItem,
+  Image,
+  Input,
+  Link,
+  List,
+  ListItem, 
+  useBreakpointValue,
+  VisuallyHidden
+} from "@chakra-ui/react";
 import { Link as RouterLink } from "@tanstack/react-router"
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { ApiError, SubscriberCreate, SubscribersService } from '../../client';
+import { handleError } from '../../utils';
+import useCustomToast from '../../hooks/useCustomToast';
+import { useMutation } from '@tanstack/react-query';
 
 const Footer = () => {
   const { t } = useTranslation();
-
   const isMobile = useBreakpointValue({ base: true, sm: false });
+  const showToast = useCustomToast()
+
+  const methods = useForm<SubscriberCreate>({
+    mode: "onBlur",
+    criteriaMode: "all",
+    defaultValues: {
+      email: ""
+    }
+  })
+
+  const {
+    register,
+    handleSubmit
+  } = methods
+
+  const mutation = useMutation({
+    mutationFn: async (data: SubscriberCreate) => {
+      await SubscribersService.createSubscriber({ requestBody: data });
+
+      showToast(
+        t('HomePage.mailing.onSuccessToast.success'),
+        t('HomePage.mailing.onSuccessToast.created'),
+        "success"
+      )
+    },
+    onError: (err: ApiError) => {
+      handleError(err, showToast);
+    },
+  })
+
+  const onSubmit: SubmitHandler<SubscriberCreate> = (data) => {
+    mutation.mutate(data);
+  };
+
 
   return (
     <Container
       as="footer"
       p={["180px 24px 80px", "90px 46px"]}
-      
     >
       <Grid
         display={["flex", "grid"]}
@@ -33,26 +86,39 @@ const Footer = () => {
               h="24px"
             ></Image>
           </Box>
-          <Box>
-          <FormControl>
-            <FormLabel
-              fontSize="14px"
-              fontWeight="400"
-              m={0}
-              mb={-2}
-            >{t('Footer.newsletter')}
-            </FormLabel>
-            <Input
-              type="email"
-              border="none"
-              borderBottom="1px solid black"
-              placeholder={t('Footer.emailPlaceholder')}
-              fontSize="12px"
-              h="auto"
-              w={["100%", "75%"]}
-              p=".5rem 0"
-            />
-          </FormControl>
+          <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+            <FormControl>
+              <FormLabel
+                fontSize="14px"
+                fontWeight="400"
+                m={0}
+                mb={-2}
+              >{t('Footer.newsletter')}
+              </FormLabel>
+              <Input
+                {...register("email", {
+                  setValueAs: (value: string) => value.trim(),
+                })}
+                type="email"
+                isRequired
+                border="none"
+                borderBottom="1px solid black"
+                placeholder={t('Footer.emailPlaceholder')}
+                fontSize="14px"
+                h="auto"
+                w={["100%", "75%"]}
+                p=".5rem 0"
+                // onKeyDown={(e) => {
+                //   if (e.key === "Enter") {
+                //     // e.preventDefault();
+                //     handleSubmit(onSubmit)();
+                //   }
+                // }}
+              />
+              <VisuallyHidden>
+                <Button type="submit">Submit</Button>
+              </VisuallyHidden>
+            </FormControl>
           </Box>
           
         </GridItem>
