@@ -81,27 +81,18 @@ const EditProduct = ({ product, isOpen, onClose }: EditProductProps) => {
           <ModalHeader>Edit Product</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl isInvalid={!!errors.title}>
-              <FormLabel htmlFor="title">Title</FormLabel>
+            <FormControl isInvalid={!!errors.title_en}>
+              <FormLabel htmlFor="title_en">EN Title</FormLabel>
               <Input
-                id="title"
-                {...register("title", {
-                  required: "Title is required",
+                id="title_en"
+                {...register("title_en", {
+                  required: "English Title is required",
                 })}
                 type="text"
               />
-              {errors.title && (
-                <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+              {errors.title_en && (
+                <FormErrorMessage>{errors.title_en.message}</FormErrorMessage>
               )}
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel htmlFor="description">Description</FormLabel>
-              <Input
-                id="description"
-                {...register("description")}
-                placeholder="Description"
-                type="text"
-              />
             </FormControl>
           </ModalBody>
           <ModalFooter gap={3}>

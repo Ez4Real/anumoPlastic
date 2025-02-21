@@ -246,7 +246,7 @@ function Main() {
               my={[0, "1em"]}
             >
               {['Carabiner', 'Book holder', 'Choker', 'Plate', 'Soap holder', 'Ivan the table']
-               .map((category, index) => (
+               .map((category) => (
                 <ListItem key={category}>
                   <Link
                     as={RouterLink}
