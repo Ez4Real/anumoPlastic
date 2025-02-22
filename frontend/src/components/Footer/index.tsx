@@ -139,9 +139,21 @@ const Footer = () => {
               textDecoration="underline"
               m={0}
             >
-              <ListItem>{t('Footer.privacyPolicyLink')}</ListItem>
-              <ListItem>{t('Footer.paymentDeliveryLink')}</ListItem>
-              <ListItem>{t('Footer.returnsLink')}</ListItem>
+              <ListItem
+                as={RouterLink}
+                to="/privacy-policy/"
+                display="block"
+              >{t('Footer.privacyPolicyLink')}</ListItem>
+              <ListItem
+                as={RouterLink}
+                to="/payment-and-delivery/"
+                display="block"
+              >{t('Footer.paymentDeliveryLink')}</ListItem>
+              <ListItem
+                as={RouterLink}
+                to="/returns-policy/"
+                display="block"
+              >{t('Footer.returnsLink')}</ListItem>
             </List>
             { !isMobile && <SwitchLocalization />}
           </Flex>

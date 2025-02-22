@@ -16,6 +16,7 @@ import { Route as LayoutImport } from './routes/_layout'
 import { Route as AuthlayoutImport } from './routes/_auth_layout'
 import { Route as MainlayoutIndexImport } from './routes/_main_layout/index'
 import { Route as MainlayoutThankYouImport } from './routes/_main_layout/thank-you'
+import { Route as MainlayoutReturnsPolicyImport } from './routes/_main_layout/returns-policy'
 import { Route as MainlayoutPrivacyPolicyImport } from './routes/_main_layout/privacy-policy'
 import { Route as MainlayoutPaymentAndDeliveryImport } from './routes/_main_layout/payment-and-delivery'
 import { Route as MainlayoutContactUsImport } from './routes/_main_layout/contact-us'
@@ -59,6 +60,11 @@ const MainlayoutIndexRoute = MainlayoutIndexImport.update({
 
 const MainlayoutThankYouRoute = MainlayoutThankYouImport.update({
   path: '/thank-you',
+  getParentRoute: () => MainlayoutRoute,
+} as any)
+
+const MainlayoutReturnsPolicyRoute = MainlayoutReturnsPolicyImport.update({
+  path: '/returns-policy',
   getParentRoute: () => MainlayoutRoute,
 } as any)
 
@@ -203,6 +209,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainlayoutPrivacyPolicyImport
       parentRoute: typeof MainlayoutImport
     }
+    '/_main_layout/returns-policy': {
+      preLoaderRoute: typeof MainlayoutReturnsPolicyImport
+      parentRoute: typeof MainlayoutImport
+    }
     '/_main_layout/thank-you': {
       preLoaderRoute: typeof MainlayoutThankYouImport
       parentRoute: typeof MainlayoutImport
@@ -278,6 +288,7 @@ export const routeTree = rootRoute.addChildren([
     MainlayoutContactUsRoute,
     MainlayoutPaymentAndDeliveryRoute,
     MainlayoutPrivacyPolicyRoute,
+    MainlayoutReturnsPolicyRoute,
     MainlayoutThankYouRoute,
     MainlayoutIndexRoute,
     MainlayoutProductsCategoryRoute,

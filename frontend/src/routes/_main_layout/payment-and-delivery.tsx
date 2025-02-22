@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next";
 import { Container, Text, VStack, ListItem, UnorderedList, Heading } from "@chakra-ui/react";
 import BreadCrumb from "../../components/BreadCrumb";
+import { OpenAPI } from "../../client";
 
 export const Route = createFileRoute("/_main_layout/payment-and-delivery")({
   component: ThankYou,
@@ -19,38 +20,31 @@ function ThankYou() {
       alignItems="flex-start"
       spacing={0}
     >
-      <Text>
-        {t('PaymentAndDelivery.shanovni')},
+      <Heading
+        fontSize={["16px", "18px"]}
+        fontWeight="600"
+      >{t('PaymentAndDelivery.Ukraine.title')}:</Heading>
+      <Text mt="10px">
+        {t('PaymentAndDelivery.Ukraine.info')}
       </Text>
-      <Text mt="16px">
-        {t('PaymentAndDelivery.general')}
-      </Text>
-
-      <UnorderedList>
-        <ListItem fontWeight="600">{t('PaymentAndDelivery.delivery.exclude')}</ListItem>
-      </UnorderedList>
 
       <Heading
         fontSize={["16px", "18px"]}
         fontWeight="600"
-      >{t('PaymentAndDelivery.delivery.international.title')}:</Heading>
-      <Text mt="16px">
-        {t('PaymentAndDelivery.delivery.international.info')}
+        mt="16px"
+      >{t('PaymentAndDelivery.international.title')}:</Heading>
+      <Text mt="10px">
+        {t('PaymentAndDelivery.international.info')}
       </Text>
 
-      <UnorderedList>
-        <ListItem>{t('PaymentAndDelivery.delivery.international.cost.standard')}</ListItem>
-        <ListItem>{t('PaymentAndDelivery.delivery.international.cost.express')}</ListItem>
+      <UnorderedList spacing={6}>
+        <ListItem>{t('PaymentAndDelivery.international.cost')}</ListItem>
+        <ListItem fontWeight="600">{t('PaymentAndDelivery.international.exclude')}</ListItem>
       </UnorderedList>
 
-      <Heading
-        fontSize={["16px", "18px"]}
-        fontWeight="600"
-      >{t('PaymentAndDelivery.delivery.Ukraine.title')}:</Heading>
-      <Text mt="16px">
-        {t('PaymentAndDelivery.delivery.Ukraine.info')}
+      <Text mt="6px">
+        {t('PaymentAndDelivery.general')}{ OpenAPI.ANUMO_EMAIL }.
       </Text>
-
     </VStack>
   </Container>
   );

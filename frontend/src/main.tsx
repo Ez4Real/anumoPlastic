@@ -10,7 +10,6 @@ import './i18n';
 OpenAPI.BASE = import.meta.env.VITE_API_URL
 OpenAPI.ANUMO_EMAIL = import.meta.env.VITE_API_ANUMO_EMAIL
 OpenAPI.MONO_API_DOMAIN = import.meta.env.VITE_API_MONO_DOMAIN
-OpenAPI.NOVA_POSHTA_TOKEN = import.meta.env.NOVA_POSHTA_API_TOKEN
 
 OpenAPI.TOKEN = async () => {
   return localStorage.getItem("access_token") || ""

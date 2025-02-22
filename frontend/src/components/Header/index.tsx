@@ -189,12 +189,12 @@ const Header = ({ isWhiteTheme = false }) => {
                       pb={["24px", ".75rem"]}
                     >
                       <Link
-                      as={RouterLink}
-                      to={to}
-                      params={params}
-                      hash={hash}
-                      color="black"
-                      onClick={handleLinkClick}
+                        as={RouterLink}
+                        to={to}
+                        params={params}
+                        hash={hash}
+                        color="black"
+                        onClick={handleLinkClick}
                       > {label}
                       </Link>
                     </ListItem>
@@ -216,9 +216,27 @@ const Header = ({ isWhiteTheme = false }) => {
                       p={0}
                       m={0}
                     >
-                    <ListItem pb=".375rem">{t('Footer.privacyPolicyLink')}</ListItem>
-                    <ListItem pb=".375rem">{t('Footer.paymentDeliveryLink')}</ListItem>
-                    <ListItem pb=".375rem">{t('Footer.returnsLink')}</ListItem>
+                    <ListItem
+                      as={RouterLink}
+                      to="/privacy-policy/"
+                      onClick={handleLinkClick}
+                      display="block"
+                      pb=".375rem"
+                    >{t('Footer.privacyPolicyLink')}</ListItem>
+                    <ListItem
+                      as={RouterLink}
+                      to="/payment-and-delivery/"
+                      onClick={handleLinkClick}
+                      display="block"
+                      pb=".375rem"
+                    >{t('Footer.paymentDeliveryLink')}</ListItem>
+                    <ListItem
+                      as={RouterLink}
+                      to="/returns-policy/"
+                      onClick={handleLinkClick}
+                      display="block"
+                      pb=".375rem"
+                    >{t('Footer.returnsLink')}</ListItem>
                     </UnorderedList>
                     
                     <SwitchLocalization />

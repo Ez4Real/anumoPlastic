@@ -377,46 +377,61 @@
     "PrivacyPolicy": {
         "pageName": "Privacy Policy",
         "rules": {
-            "1": "ANUMO recognizes the importance of protecting the privacy of your personal data. We have instituted strict policies and security measures to protect the information you provide us.",
-            "2": "The Ukrainian company “ANUMO” is the controller of your personal data. The company's selected suppliers may process your personal data on ANUMO’s behalf and in accordance with our instructions as stated below and are thereby processors of your personal data. You may contact us at any time, please find our contact details below."
-        },
-        "dataPolicy": {
-            "personalDetails": {
-                "title": "Data is collected when you shop on our website or use our online services",
-                "contactDetails": {
-                    "title": "Contact details",
-                    "policy": "If you make a purchase online we will collect your name, address, e-mail address, telephone number, and country of residence. We will use your contact information to",
-                    "1": "process your purchase/orders and any returns, exchanges and complaints you may have relating to your purchase",
-                    "2": "communicate with you regarding your purchase and answer and administer any questions or comments you may have regarding our products or services. The legal basis is that it is necessary to process your data in order for us to be able to fulfill our contractual obligations to you under the purchase agreement. We will retain your data for as long as necessary for this purpose. We may also process your contact details to keep you informed, via email, SMS, letters, telephone, WeChat, Whatsapp and other social media, of our special events or promotions. You are entitled to reject our marketing messages at any time by clicking on the unsubscribe link included in each message or by contacting customer service at"
-                },
-                "creditCardDetails": {
-                    "title": "Credit card details",
-                    "policy": "If you make a purchase online and choose to pay by credit card, you will provide your credit card information on our website to finalize your purchase. Your credit card details will be protected using Global Sign Encryption. All the payments on the website are carried out by MONOBANK Payment System."
-                }
-            },
-            "newsletter": {
-                "title": "Newsletter",
-                "policy": "If you have subscribed to one of our newsletters, we will process your name, email address, country and information on whether you are interested in womenswear or menswear for the purpose of sending out such a newsletter. You are entitled to unsubscribe to our newsletter at any time by clicking on the unsubscribe link included in each newsletter or by contacting customer service at"
-            }
+            "1": "We collect contact details (name, email, phone number, and shipping address) when you fill out a contact form or place an order. Payment data is processed by third-party services and is not stored by us. To improve our website and for analytics, we record your IP address, browser type, operating system, and the use of cookies.",
+            "2": "Collected data is used to process requests, enhance the website, communicate with you (with your consent), and comply with legal requirements.",
+            "3": "We use cookies to store preferences and collect statistics. You can disable them in your browser, but this may affect website functionality.",
+            "4": "You have the right to know what data we store, request corrections or deletions, and withdraw your consent for processing.",
+            "5": "For privacy-related inquiries, contact us at anumoplastic@gmail.com. The latest version of this policy is always available on our website. We may update it without prior notice, so we recommend reviewing this section periodically."
         }
     },
     "PaymentAndDelivery": {
         "pageName": "Payment and Delivery",
+        "Ukraine": {
+            "title": "Ukraine",
+            "info": "All orders within Ukraine will be delivered by Nova Poshta. Delivery time during martial law is 2-5 business days. Tariffs are determined by Nova Poshta and paid by the final recipient."
+        },
+        "international": {
+            "title": "International Orders",
+            "info": "All international orders are shipped via Ukrposhta and DHL Express.",
+            "cost": "Standard shipping – $30 (10-20 business days).",
+            "exclude": "WE DO NOT SHIP TO Russia, Belarus, China or North Korea."
+        },
+        "general": "The production time for custom products and delivery details are discussed individually via direct communication on our Instagram page or via email at "
+    },
+    "RefundPolicy": {
+        "pageName": "Refund policy",
         "shanovni": "Dear customers",
-        "general": "Please note that all shipments are from our warehouse in Kiyv (Ukraine). Due to the war in our country, there are slight changes in delivery terms.The production of the item will take till 10 business days.Please note that the brand is not responsible for local taxes.",
-        "delivery":  {
-            "exclude": "DELIVERY TO RUSSIA AND BELARUS IS NOT AVAILABLE. We are praying for peace! Stand with Ukraine!",
-            "international": {
-                "title": "International orders",
-                "info": "All international orders will be shipped by Ukrposhta service and DHL Express.",
-                "cost": {
-                    "standard": "Standard delivery - $30 (10-20 business days)",
-                    "express": "Standard delivery - $60 (5-10 business days)"
-                }
-            },
-            "Ukraine": {
-                "title": "Ukraine",
-                "info": "All orders within Ukraine we will be delivered via the Nova Poshta service. The delivery time during martial law is 2-5 business days."
+        "returnPeriod": {
+            "title": "You can return the product within 14 days after receiving the product.",
+            "info": {
+                "1": "To be eligible for a return, your item must be in the same condition that you received it, unworn or unused, with tags, and in its original packaging. You’ll also need the receipt or proof of purchase.",
+                "2": "To start a return process, please contact us via Instagram or email ",
+                "3": "If your return request is accepted, we’ll send you a return shipping label, as well as instructions on how and where to send your package. Items sent back to us without requesting a return first will not be accepted."
+            }
+        },
+        "damagesAndIssues": {
+            "title": "Damages and issues",
+            "info": "Please inspect your order upon reception and contact us immediately if the item is defective, damaged or if you received a wrong item, so that we can evaluate and solve the issue."
+        },
+        "exceptions": {
+            "title": "Exceptions / non-returnable items",
+            "info": {
+                "1": "Custom-made items are non-refundable and non-exchangeable. Please get in touch if you have questions or concerns about your specific item.",
+                "2": "Unfortunately, we cannot accept returns on sale items or gift cards."
+            }
+        },
+        "exchanges": {
+            "title": "Exchanges",
+            "info": {
+                "1": "The fastest way to ensure you get what you want is to return the item you have, and once the return is accepted, make a separate purchase for the new item.",
+                "2": "European Union 14 day cooling off period Notwithstanding the above, if the merchandise is being shipped into the European Union, you have the right to cancel or return your order within 14 days, for any reason and without a justification. As above, your item must be in the same condition that you received it, unworn or unused, with tags, and in its original packaging. You’ll also need the receipt or proof of purchase."
+            }
+        },
+        "refunds": {
+            "title": "Refunds",
+            "info": {
+                "1": "We will notify you once we’ve received and inspected your return, and let you know if the refund was approved or not.",
+                "2": "If approved, you’ll be automatically refunded on your original payment method within 10 business days. Please remember it can take some time for your bank or credit card company to process and post the refund too. If more than 15 business days have passed since we’ve approved your return, please contact us at "
             }
         }
     }
