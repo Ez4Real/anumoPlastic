@@ -1,50 +1,51 @@
-import { useEffect, useRef } from "react";
-import { HStack, Box, Image, IconButton } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
-import { type ImageItem } from "../../client"
-import { DragDropContext,
-         Droppable,
-         Draggable,
-         DroppableProvided,
-         DraggableProvided
-       } from "react-beautiful-dnd";
+import { DeleteIcon } from "@chakra-ui/icons"
+import { Box, HStack, IconButton, Image } from "@chakra-ui/react"
+import { useEffect, useRef } from "react"
+import {
+  DragDropContext,
+  Draggable,
+  type DraggableProvided,
+  Droppable,
+  type DroppableProvided,
+} from "react-beautiful-dnd"
+import type { ImageItem } from "../../client"
 
 interface ImagesContainerProps {
-  images: Array<ImageItem>;
-  setImages: React.Dispatch<React.SetStateAction<Array<ImageItem>>>;
-  onRemove: (id: string) => void;
-  scrollbarColor: string;
+  images: Array<ImageItem>
+  setImages: React.Dispatch<React.SetStateAction<Array<ImageItem>>>
+  onRemove: (id: string) => void
+  scrollbarColor: string
 }
 
 const ImagesOrderingContainer = ({
-    images,
-    setImages,
-    onRemove,
-    scrollbarColor
+  images,
+  setImages,
+  onRemove,
+  scrollbarColor,
 }: ImagesContainerProps) => {
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
- 
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
+    const container = scrollContainerRef.current
+    if (!container) return
 
     const handleWheel = (evt: WheelEvent) => {
-      evt.preventDefault();
-      container.scrollLeft += evt.deltaY / 3;
-    };
+      evt.preventDefault()
+      container.scrollLeft += evt.deltaY / 3
+    }
 
-    container.addEventListener("wheel", handleWheel);
-    return () => container.removeEventListener("wheel", handleWheel);
-  }, []);
+    container.addEventListener("wheel", handleWheel)
+    return () => container.removeEventListener("wheel", handleWheel)
+  }, [])
 
   const handleDragEnd = (result: any) => {
-    if (!result.destination) return;
+    if (!result.destination) return
 
-    const reordered = Array.from(images);
-    const [moved] = reordered.splice(result.source.index, 1);
-    reordered.splice(result.destination.index, 0, moved);
-    setImages(reordered);
-  };
+    const reordered = Array.from(images)
+    const [moved] = reordered.splice(result.source.index, 1)
+    reordered.splice(result.destination.index, 0, moved)
+    setImages(reordered)
+  }
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -52,8 +53,8 @@ const ImagesOrderingContainer = ({
         {(provided: DroppableProvided) => (
           <HStack
             ref={(node) => {
-              scrollContainerRef.current = node;
-              provided.innerRef(node);
+              scrollContainerRef.current = node
+              provided.innerRef(node)
             }}
             mt={4}
             pb=".5rem"
@@ -67,11 +68,7 @@ const ImagesOrderingContainer = ({
             {...provided.droppableProps}
           >
             {images.map((img, index) => (
-              <Draggable
-                key={img.id}
-                draggableId={img.id}
-                index={index}
-              >
+              <Draggable key={img.id} draggableId={img.id} index={index}>
                 {(draggableProvided: DraggableProvided) => (
                   <Box
                     ref={draggableProvided.innerRef}
@@ -108,7 +105,7 @@ const ImagesOrderingContainer = ({
         )}
       </Droppable>
     </DragDropContext>
-  );
-};
+  )
+}
 
-export default ImagesOrderingContainer;
+export default ImagesOrderingContainer

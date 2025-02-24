@@ -5,7 +5,7 @@ import { routeTree } from "./routeTree.gen"
 
 // import { StrictMode } from "react"
 import { OpenAPI } from "./client"
-import './i18n';
+import "./i18n"
 
 OpenAPI.BASE = import.meta.env.VITE_API_URL
 OpenAPI.ANUMO_EMAIL = import.meta.env.VITE_API_ANUMO_EMAIL
@@ -26,8 +26,8 @@ declare module "@tanstack/react-router" {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+  <QueryClientProvider client={queryClient}>
+    <RouterProvider router={router} />
+  </QueryClientProvider>,
   // </StrictMode>
 )

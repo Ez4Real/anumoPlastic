@@ -21,10 +21,10 @@ import {
 } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
 
+import { Suspense } from "react"
 import type { Body_login_login_access_token as AccessToken } from "../../client"
 import useAuth, { isLoggedIn } from "../../hooks/useAuth"
 import { emailPattern } from "../../utils"
-import { Suspense } from "react"
 
 export const Route = createFileRoute("/_auth_layout/login")({
   component: Login,
@@ -38,7 +38,7 @@ export const Route = createFileRoute("/_auth_layout/login")({
 })
 
 function Login() {
-  const logo = useColorModeValue("/logo-black.svg", "/logo.svg");
+  const logo = useColorModeValue("/logo-black.svg", "/logo.svg")
   const [show, setShow] = useBoolean()
   const { loginMutation, error, resetError } = useAuth()
   const {
@@ -69,79 +69,79 @@ function Login() {
   return (
     <>
       <Suspense>
-      <Container
-        as="form"
-        onSubmit={handleSubmit(onSubmit)}
-        h="100vh"
-        maxW="sm"
-        alignItems="stretch"
-        justifyContent="center"
-        gap={4}
-        centerContent
-      >
-        <Image
-          src={logo}
-          alt="Anumo logo"
-          height="auto"
-          maxW="2xs"
-          alignSelf="center"
-          mb={4}
-        />
-        <FormControl id="username" isInvalid={!!errors.username || !!error}>
-          <Input
-            id="username"
-            {...register("username", {
-              required: "Username is required",
-              pattern: emailPattern,
-            })}
-            placeholder="Email"
-            type="email"
-            required
+        <Container
+          as="form"
+          onSubmit={handleSubmit(onSubmit)}
+          h="100vh"
+          maxW="sm"
+          alignItems="stretch"
+          justifyContent="center"
+          gap={4}
+          centerContent
+        >
+          <Image
+            src={logo}
+            alt="Anumo logo"
+            height="auto"
+            maxW="2xs"
+            alignSelf="center"
+            mb={4}
           />
-          {errors.username && (
-            <FormErrorMessage>{errors.username.message}</FormErrorMessage>
-          )}
-        </FormControl>
-        <FormControl id="password" isInvalid={!!error}>
-          <InputGroup>
+          <FormControl id="username" isInvalid={!!errors.username || !!error}>
             <Input
-              {...register("password", {
-                required: "Password is required",
+              id="username"
+              {...register("username", {
+                required: "Username is required",
+                pattern: emailPattern,
               })}
-              type={show ? "text" : "password"}
-              placeholder="Password"
+              placeholder="Email"
+              type="email"
               required
             />
-            <InputRightElement
-              color="ui.dim"
-              _hover={{
-                cursor: "pointer",
-              }}
-            >
-              <Icon
-                as={show ? ViewOffIcon : ViewIcon}
-                onClick={setShow.toggle}
-                aria-label={show ? "Hide password" : "Show password"}
+            {errors.username && (
+              <FormErrorMessage>{errors.username.message}</FormErrorMessage>
+            )}
+          </FormControl>
+          <FormControl id="password" isInvalid={!!error}>
+            <InputGroup>
+              <Input
+                {...register("password", {
+                  required: "Password is required",
+                })}
+                type={show ? "text" : "password"}
+                placeholder="Password"
+                required
+              />
+              <InputRightElement
+                color="ui.dim"
+                _hover={{
+                  cursor: "pointer",
+                }}
               >
-                {show ? <ViewOffIcon /> : <ViewIcon />}
-              </Icon>
-            </InputRightElement>
-          </InputGroup>
-          {error && <FormErrorMessage>{error}</FormErrorMessage>}
-        </FormControl>
-        <Link as={RouterLink} to="/recover-password" color="blue.500">
-          Forgot password?
-        </Link>
-        <Button variant="primary" type="submit" isLoading={isSubmitting}>
-          Log In
-        </Button>
-        <Text>
-          Don't have an account?{" "}
-          <Link as={RouterLink} to="/signup" color="blue.500">
-            Sign up
+                <Icon
+                  as={show ? ViewOffIcon : ViewIcon}
+                  onClick={setShow.toggle}
+                  aria-label={show ? "Hide password" : "Show password"}
+                >
+                  {show ? <ViewOffIcon /> : <ViewIcon />}
+                </Icon>
+              </InputRightElement>
+            </InputGroup>
+            {error && <FormErrorMessage>{error}</FormErrorMessage>}
+          </FormControl>
+          <Link as={RouterLink} to="/recover-password" color="blue.500">
+            Forgot password?
           </Link>
-        </Text>
-      </Container>
+          <Button variant="primary" type="submit" isLoading={isSubmitting}>
+            Log In
+          </Button>
+          <Text>
+            Don't have an account?{" "}
+            <Link as={RouterLink} to="/signup" color="blue.500">
+              Sign up
+            </Link>
+          </Text>
+        </Container>
       </Suspense>
     </>
   )

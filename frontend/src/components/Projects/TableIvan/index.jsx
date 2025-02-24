@@ -1,15 +1,7 @@
-
-
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import "./index.css"
-import { useTranslation } from 'react-i18next';
-import { useState } from "react";
 
-import tableIvan from "/assets/images/projects/tableIvan/tableIvan.png"
-import tableIvan_1 from "/assets/images/projects/tableIvan/tableIvan_1.png"
-import tableIvan_2 from "/assets/images/projects/tableIvan/tableIvan_2.png"
-import tableIvan_3 from "/assets/images/projects/tableIvan/tableIvan_3.png"
-import tableIvan_4 from "/assets/images/projects/tableIvan/tableIvan_4.png"
-import tableIvan_5 from "/assets/images/projects/tableIvan/tableIvan_5.png"
 import {
   Badge,
   Box,
@@ -20,9 +12,14 @@ import {
   Heading,
   Image,
   Text,
-  useBreakpointValue
-} from "@chakra-ui/react";
-
+  useBreakpointValue,
+} from "@chakra-ui/react"
+import tableIvan from "/assets/images/projects/tableIvan/tableIvan.png"
+import tableIvan_1 from "/assets/images/projects/tableIvan/tableIvan_1.png"
+import tableIvan_2 from "/assets/images/projects/tableIvan/tableIvan_2.png"
+import tableIvan_3 from "/assets/images/projects/tableIvan/tableIvan_3.png"
+import tableIvan_4 from "/assets/images/projects/tableIvan/tableIvan_4.png"
+import tableIvan_5 from "/assets/images/projects/tableIvan/tableIvan_5.png"
 
 // const TableIvan = () => {
 //   const { t, i18n } = useTranslation();
@@ -30,13 +27,12 @@ import {
 //   const [expandDescription, setExpandDescription] = useState(false);
 //   const description_1 = t('ProjectsPage.projects.tableIvan.description_1');
 //   const sliceEndNumber = i18n.language === 'en' ? 455 : 478;
-//   const truncatedDescription = `${description_1.slice(0, sliceEndNumber)} ...`;  
+//   const truncatedDescription = `${description_1.slice(0, sliceEndNumber)} ...`;
 
 //   const isMobile = useBreakpointValue({ base: true, sm: false });
 //   const titleFontSize = useBreakpointValue({ base: "18px", sm: "60px" });
-//   const gridGap = useBreakpointValue({ base: "16px", sm: "46px" }); 
+//   const gridGap = useBreakpointValue({ base: "16px", sm: "46px" });
 
-  
 //   return (
 //     <>
 //     <Container px="0">
@@ -55,8 +51,6 @@ import {
 //         >/2024</Badge>
 //       </Heading>
 //     </Container>
-
-
 
 //     <div className='projectComponent-container'>
 //       <p className='projectTitle'>{t('ProjectsPage.projects.tableIvan.title')}<span >/2024</span></p>

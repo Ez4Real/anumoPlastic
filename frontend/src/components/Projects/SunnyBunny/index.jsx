@@ -1,8 +1,5 @@
+import { useTranslation } from "react-i18next"
 
-
-import { useTranslation } from 'react-i18next';
-
-import sunnyBunnyImage from "/assets/images/projects/sunnyBunnyAward/image.png"
 import {
   Badge,
   Box,
@@ -13,22 +10,19 @@ import {
   Heading,
   Image,
   Text,
-  useBreakpointValue
-} from "@chakra-ui/react";
-
+  useBreakpointValue,
+} from "@chakra-ui/react"
+import sunnyBunnyImage from "/assets/images/projects/sunnyBunnyAward/image.png"
 
 const SunnyBunny = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const titleFontSize = useBreakpointValue({ base: "18px", sm: "60px" });
+  const titleFontSize = useBreakpointValue({ base: "18px", sm: "60px" })
 
   return (
     <Container px="0">
-      <Heading
-        fontWeight="700"
-        fontSize={titleFontSize}
-        mb={["24px", "46px"]}
-      >{t('ProjectsPage.projects.sunnyBunny.title')}
+      <Heading fontWeight="700" fontSize={titleFontSize} mb={["24px", "46px"]}>
+        {t("ProjectsPage.projects.sunnyBunny.title")}
         <Badge
           position="relative"
           top={["-1px", "-.25rem"]}
@@ -36,7 +30,9 @@ const SunnyBunny = () => {
           fontWeight={["700", "600"]}
           fontSize={["14px", "24px"]}
           colorScheme="transparent"
-        >/2024</Badge>
+        >
+          /2024
+        </Badge>
       </Heading>
       <Grid
         display={["flex", "grid"]}
@@ -45,21 +41,18 @@ const SunnyBunny = () => {
         gap={["16px", "2.75rem"]}
       >
         <GridItem alignContent="end">
-          <Text
-            fontSize={["14px", "16px"]}
-          >{t('ProjectsPage.projects.sunnyBunny.description')}</Text>
+          <Text fontSize={["14px", "16px"]}>
+            {t("ProjectsPage.projects.sunnyBunny.description")}
+          </Text>
         </GridItem>
         <GridItem>
           <Box>
-            <Image
-              src={sunnyBunnyImage}
-              alt="Sunny Bunny Award"
-            ></Image>
+            <Image src={sunnyBunnyImage} alt="Sunny Bunny Award" />
           </Box>
         </GridItem>
       </Grid>
     </Container>
-  );
-};
+  )
+}
 
-export default SunnyBunny;
+export default SunnyBunny

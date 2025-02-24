@@ -11,7 +11,6 @@ export type HTTPValidationError = {
   detail?: Array<ValidationError>
 }
 
-
 enum ProductCategory {
   CARABINER = "Carabiner",
   BOOK_HOLDER = "Book holder",
@@ -29,78 +28,77 @@ export enum CarabinerTags {
 }
 
 type ProductImage = {
-  url: string;
-  alt_text?: string | undefined; 
-  order: number;   
+  url: string
+  alt_text?: string | undefined
+  order: number
 }
 export type CartProductImageItem = {
-  url: string;
-  alt_text?: string | undefined; 
+  url: string
+  alt_text?: string | undefined
 }
 export type ImageItem = {
-  id: string;
-  file: File;
-  url: string;
+  id: string
+  file: File
+  url: string
 }
 
 type ProductBase = {
-  category: ProductCategory;
-  title_en: string;
-  title_uk: string;
-  material_en: string;
-  material_uk: string;
-  price_usd: number;
-  price_uah: number;
-  size_en: string | Array<string>;
-  size_uk: string | Array<string>;
-  weight_en?: string | null;       
-  weight_uk?: string | null;       
-  tag?: CarabinerTags | null;      
+  category: ProductCategory
+  title_en: string
+  title_uk: string
+  material_en: string
+  material_uk: string
+  price_usd: number
+  price_uah: number
+  size_en: string | Array<string>
+  size_uk: string | Array<string>
+  weight_en?: string | null
+  weight_uk?: string | null
+  tag?: CarabinerTags | null
 }
 
 export type ProductCreate = ProductBase & {
-  images?: Array<ProductImage> | null; 
-};
+  images?: Array<ProductImage> | null
+}
 
 export type ProductPublic = ProductBase & {
   id: string
   owner_id: string
   created_at: Date
-  images?: Array<ProductImage>;
+  images?: Array<ProductImage>
 }
 
 export type ProductUpdate = ProductBase & {
-  category?: ProductCategory | null;
-  title_en?: string | null;
-  title_uk?: string | null;
-  material_en?: string | null;
-  material_uk?: string | null;
-  price_usd?: number | null;
-  price_uah?: number | null;
-  size_en: string | Array<string> | null;
-  size_uk: string | Array<string> | null;
-  weight_en?: string | null;       
-  weight_uk?: string | null;  
-  images?: Array<ProductImage> | null;
+  category?: ProductCategory | null
+  title_en?: string | null
+  title_uk?: string | null
+  material_en?: string | null
+  material_uk?: string | null
+  price_usd?: number | null
+  price_uah?: number | null
+  size_en: string | Array<string> | null
+  size_uk: string | Array<string> | null
+  weight_en?: string | null
+  weight_uk?: string | null
+  images?: Array<ProductImage> | null
 }
-
 
 export type CartProduct = {
   id: string
-  category: ProductCategory;
-  title_en: string;
-  title_uk: string;
-  material_en: string;
-  material_uk: string;
-  price_usd: number;
-  price_uah: number;
-  size: string;
-  weight_en?: string | null;       
-  weight_uk?: string | null;       
-  tag?: CarabinerTags | null;      
-  image?: CartProductImageItem | null;
+  category: ProductCategory
+  title_en: string
+  title_uk: string
+  material_en: string
+  material_uk: string
+  price_usd: number
+  price_uah: number
+  size: string
+  weight_en?: string | null
+  weight_uk?: string | null
+  tag?: CarabinerTags | null
+  image?: CartProductImageItem | null
   count: number
-};
+}
 
 type BasketItem = {
   productId: string
@@ -116,26 +114,27 @@ type SaveCardData = {
   saveCard: boolean // Ознака зберігання картки (токенізації) після оплати
   walletId: string // Ідентифікатор гаманця користувача
 }
-type MerchantPaymentInfo = { // при активній звʼязці з ПРРО https://web.monobank.ua
+type MerchantPaymentInfo = {
+  // при активній звʼязці з ПРРО https://web.monobank.ua
   reference: string // order id
   destination: string // Призначення платежу
   basketOrder: Array<BasketItem>
   customerEmails: Array<string>
-  comment?: string 
+  comment?: string
 }
 export type PaymentCreate = {
-  amount: number;
-  ccy?: 980 | 840;  //(UKR HRYVNA | US DOLLAR)
-  merchantPaymInfo: MerchantPaymentInfo;
-  redirectUrl: string;
-  webHookUrl: string;
-  displayType?: string;
-  invoiceId?: string;
+  amount: number
+  ccy?: 980 | 840 //(UKR HRYVNA | US DOLLAR)
+  merchantPaymInfo: MerchantPaymentInfo
+  redirectUrl: string
+  webHookUrl: string
+  displayType?: string
+  invoiceId?: string
 
-  validity?: number; // Строк дії в секундах, за замовчуванням рахунок перестає бути дійсним через 24 години
+  validity?: number // Строк дії в секундах, за замовчуванням рахунок перестає бути дійсним через 24 години
   paymentType?: "debit" | "hold" // Для значення hold термін складає 9 днів. Якщо через 9 днів холд не буде фіналізовано — він скасовується
-  qrId?: string; // Ідентифікатор QR-каси для встановлення суми оплати на існуючих QR-кас
-  code?: string; // Код терміналу субмерчанта, з апі “Список субмерчантів”.
+  qrId?: string // Ідентифікатор QR-каси для встановлення суми оплати на існуючих QR-кас
+  code?: string // Код терміналу субмерчанта, з апі “Список субмерчантів”.
   saveCardData?: null | SaveCardData
 }
 
@@ -155,7 +154,7 @@ type DeliveryBase = {
   region: "ukraine" | "europe" | "overseas" | null
   country: string
   city: string
-  postalCode?: string 
+  postalCode?: string
   streetAddress?: string
   type?: DeliveryTypeUkraine
   warehouse?: string
@@ -169,7 +168,14 @@ type OrderBase = {
   basketOrder: Array<BasketItem>
   mailing: boolean
   comment?: string
-  payment_status: "created" | "processing" | "hold" | "success" | "failure" | "reversed" | "expired"
+  payment_status:
+    | "created"
+    | "processing"
+    | "hold"
+    | "success"
+    | "failure"
+    | "reversed"
+    | "expired"
   created_at: Date
 }
 
@@ -186,7 +192,6 @@ export type OrdersPublic = {
   data: Array<OrderPublic>
   count: number
 }
-
 
 export type ProductsPublic = {
   data: Array<ProductPublic>

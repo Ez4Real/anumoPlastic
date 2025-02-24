@@ -38,7 +38,7 @@ interface UserRegisterForm extends UserRegister {
 }
 
 function SignUp() {
-  const logo = useColorModeValue("/logo-black.svg", "/logo.svg");
+  const logo = useColorModeValue("/logo-black.svg", "/logo.svg")
   const { signUpMutation } = useAuth()
   const {
     register,

@@ -10,23 +10,23 @@ import {
   Image,
   Text,
   useColorModeValue,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { FiLogOut, FiMenu } from "react-icons/fi"
 
 import type { UserPublic } from "../../client"
 import useAuth from "../../hooks/useAuth"
-import SidebarItems from "./SidebarItems"
 import SwitchLocalization from "../SwitchLocalization"
+import SidebarItems from "./SidebarItems"
 
 const Sidebar = () => {
   const queryClient = useQueryClient()
   const bgColor = useColorModeValue("ui.light", "ui.dark")
   const textColor = useColorModeValue("ui.dark", "ui.light")
   const secBgColor = useColorModeValue("ui.secondary", "ui.darkSlate")
-  const logo = useColorModeValue("/logo-black.svg", "/logo.svg");
-  const languageSeparatorColor = useColorModeValue("ui.dark", "ui.light");
+  const logo = useColorModeValue("/logo-black.svg", "/logo.svg")
+  const languageSeparatorColor = useColorModeValue("ui.dark", "ui.light")
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { logout } = useAuth()
@@ -54,11 +54,7 @@ const Sidebar = () => {
           <DrawerBody py={8}>
             <Flex flexDir="column" justify="space-between">
               <Box>
-                <Image
-                  src={logo}
-                  alt="Anumo Logo"
-                  p={6}
-                  />
+                <Image src={logo} alt="Anumo Logo" p={6} />
                 <SidebarItems onClose={onClose} />
                 <Flex
                   as="button"
@@ -93,7 +89,6 @@ const Sidebar = () => {
                   fontSize=".875rem"
                 />
               </Box>
-              
             </Flex>
           </DrawerBody>
         </DrawerContent>
@@ -117,12 +112,7 @@ const Sidebar = () => {
           borderRadius={12}
         >
           <Box>
-            <Image
-              src={logo}
-              alt="Anumo Logo"
-              maxW="2xs"
-              p={6}
-            />
+            <Image src={logo} alt="Anumo Logo" maxW="2xs" p={6} />
             <SidebarItems />
           </Box>
           <Box
@@ -131,17 +121,12 @@ const Sidebar = () => {
             justifyContent="space-between"
           >
             {currentUser?.email && (
-              <Text
-                color={textColor}
-                noOfLines={2}
-                fontSize="sm"
-                maxW="180px"
-              >
+              <Text color={textColor} noOfLines={2} fontSize="sm" maxW="180px">
                 Logged in as: {currentUser.email}
               </Text>
             )}
             <SwitchLocalization
-              containerWidth="2rem"   
+              containerWidth="2rem"
               separatorLineColor={languageSeparatorColor}
               fontSize=".875rem"
             />

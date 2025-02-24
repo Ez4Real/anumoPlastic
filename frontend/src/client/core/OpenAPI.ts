@@ -34,7 +34,7 @@ export type OpenAPIConfig = {
   RESULT?: TResult
   TOKEN?: string | Resolver<string> | undefined
   USERNAME?: string | Resolver<string> | undefined
-  ANUMO_EMAIL: string,
+  ANUMO_EMAIL: string
   MONO_API_DOMAIN: string
   NOVA_POSHTA_TOKEN: string
   VERSION: string

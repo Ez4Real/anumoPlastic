@@ -1,11 +1,5 @@
+import { useTranslation } from "react-i18next"
 
-
-import { useTranslation } from 'react-i18next';
-
-import soapHolders from "/assets/images/projects/soapHolders/soapHolders.png"
-import soapHolders_1 from "/assets/images/projects/soapHolders/soapHolders_1.png"
-import soapHolders_2 from "/assets/images/projects/soapHolders/soapHolders_2.png"
-import soapHolders_3 from "/assets/images/projects/soapHolders/soapHolders_3.png"
 import {
   Badge,
   Box,
@@ -16,15 +10,18 @@ import {
   Heading,
   Image,
   Text,
-  useBreakpointValue
-} from "@chakra-ui/react";
-
+  useBreakpointValue,
+} from "@chakra-ui/react"
+import soapHolders from "/assets/images/projects/soapHolders/soapHolders.png"
+import soapHolders_1 from "/assets/images/projects/soapHolders/soapHolders_1.png"
+import soapHolders_2 from "/assets/images/projects/soapHolders/soapHolders_2.png"
+import soapHolders_3 from "/assets/images/projects/soapHolders/soapHolders_3.png"
 
 const ElementRowBlock = ({
   soapHolderImg1,
   soapHolderImg2,
   topColumnSpan = 1,
-  bottomColumnSpan = 1
+  bottomColumnSpan = 1,
 }) => (
   <>
     <GridItem colSpan={topColumnSpan}>
@@ -33,7 +30,7 @@ const ElementRowBlock = ({
         src={soapHolderImg1}
         h="100%"
         objectFit="cover"
-      ></Image>
+      />
     </GridItem>
     <GridItem colSpan={bottomColumnSpan}>
       <Image
@@ -41,25 +38,21 @@ const ElementRowBlock = ({
         src={soapHolderImg2}
         h="100%"
         objectFit="cover"
-      ></Image>
+      />
     </GridItem>
   </>
 )
 
-
 const SoapHolders = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const isMobile = useBreakpointValue({ base: true, sm: false });
-  const titleFontSize = useBreakpointValue({ base: "18px", sm: "60px" });
+  const isMobile = useBreakpointValue({ base: true, sm: false })
+  const titleFontSize = useBreakpointValue({ base: "18px", sm: "60px" })
 
   return (
     <Container px="0">
-      <Heading
-        fontWeight="700"
-        fontSize={titleFontSize}
-        mb={["24px", "46px"]}
-      >{t('ProjectsPage.projects.soapHolders.title')}
+      <Heading fontWeight="700" fontSize={titleFontSize} mb={["24px", "46px"]}>
+        {t("ProjectsPage.projects.soapHolders.title")}
         <Badge
           position="relative"
           top={["-1px", "-.25rem"]}
@@ -67,29 +60,25 @@ const SoapHolders = () => {
           fontWeight={["700", "600"]}
           fontSize={["14px", "24px"]}
           colorScheme="transparent"
-        >/2024</Badge>
+        >
+          /2024
+        </Badge>
       </Heading>
       {isMobile ? (
-        <Grid
-          templateColumns="1fr 1fr"
-          gap="16px"
-        >
+        <Grid templateColumns="1fr 1fr" gap="16px">
           <ElementRowBlock
             soapHolderImg1={soapHolders_3}
             soapHolderImg2={soapHolders_2}
             topColumnSpan={2}
-          ></ElementRowBlock>
+          />
           <ElementRowBlock
             soapHolderImg1={soapHolders}
             soapHolderImg2={soapHolders_1}
             bottomColumnSpan={2}
-          ></ElementRowBlock>
+          />
         </Grid>
       ) : (
-        <Flex
-          direction="column"
-          gap="46px"
-        >
+        <Flex direction="column" gap="46px">
           <Grid
             gridTemplateColumns="325px 600px"
             gap="46px"
@@ -98,23 +87,18 @@ const SoapHolders = () => {
             <ElementRowBlock
               soapHolderImg1={soapHolders_2}
               soapHolderImg2={soapHolders_3}
-            ></ElementRowBlock>
+            />
           </Grid>
-          <Grid
-            gridTemplateColumns="415px 320px"
-            gap="46px"
-          >
+          <Grid gridTemplateColumns="415px 320px" gap="46px">
             <ElementRowBlock
               soapHolderImg1={soapHolders_1}
               soapHolderImg2={soapHolders}
-            ></ElementRowBlock>
+            />
           </Grid>
         </Flex>
       )}
-
     </Container>
-  );
-};
+  )
+}
 
-
-export default SoapHolders;
+export default SoapHolders

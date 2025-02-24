@@ -1,16 +1,15 @@
-import { theme } from "../theme";
-import { ChakraProvider } from "@chakra-ui/react";
-import { createFileRoute, Outlet } from "@tanstack/react-router"
+import { ChakraProvider } from "@chakra-ui/react"
+import { Outlet, createFileRoute } from "@tanstack/react-router"
+import { theme } from "../theme"
 
-export const Route = createFileRoute('/_auth_layout')({
+export const Route = createFileRoute("/_auth_layout")({
   component: AuthLayout,
-});
+})
 
 function AuthLayout() {
-
-    return (
-      <ChakraProvider theme={theme}>
-        <Outlet />
-      </ChakraProvider>
-    );
+  return (
+    <ChakraProvider theme={theme}>
+      <Outlet />
+    </ChakraProvider>
+  )
 }

@@ -18,12 +18,12 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useEffect } from "react"
 import { z } from "zod"
 
+import { useTranslation } from "react-i18next"
 import { type UserPublic, UsersService } from "../../../client/index.ts"
 import AddUser from "../../../components/Admin/AddUser.tsx"
 import ActionsMenu from "../../../components/Common/ActionsMenu.tsx"
 import Navbar from "../../../components/Common/Navbar.tsx"
 import { PaginationFooter } from "../../../components/Common/PaginationFooter.tsx"
-import { useTranslation } from "react-i18next"
 
 const usersSearchSchema = z.object({
   page: z.number().catch(1),
@@ -50,7 +50,9 @@ function UsersTable() {
   const { page } = Route.useSearch()
   const navigate = useNavigate({ from: Route.fullPath })
   const setPage = (page: number) =>
-    navigate({ search: (prev: {[key: number]: string}) => ({ ...prev, page }) })
+    navigate({
+      search: (prev: { [key: number]: string }) => ({ ...prev, page }),
+    })
 
   const {
     data: users,
@@ -149,11 +151,11 @@ function UsersTable() {
 }
 
 function Admin() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
-        {t('AdminPanel.title.users')}
+        {t("AdminPanel.title.users")}
       </Heading>
 
       <Navbar type={"User"} addModalAs={AddUser} />

@@ -1,4 +1,3 @@
-import SwitchLocalization from '../SwitchLocalization';
 import {
   Box,
   Button,
@@ -12,61 +11,59 @@ import {
   Input,
   Link,
   List,
-  ListItem, 
+  ListItem,
+  VisuallyHidden,
   useBreakpointValue,
-  VisuallyHidden
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"
+import { useMutation } from "@tanstack/react-query"
 import { Link as RouterLink } from "@tanstack/react-router"
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import { ApiError, SubscriberCreate, SubscribersService } from '../../client';
-import { handleError } from '../../utils';
-import useCustomToast from '../../hooks/useCustomToast';
-import { useMutation } from '@tanstack/react-query';
+import { type SubmitHandler, useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
+import {
+  type ApiError,
+  type SubscriberCreate,
+  SubscribersService,
+} from "../../client"
+import useCustomToast from "../../hooks/useCustomToast"
+import { handleError } from "../../utils"
+import SwitchLocalization from "../SwitchLocalization"
 
 const Footer = () => {
-  const { t } = useTranslation();
-  const isMobile = useBreakpointValue({ base: true, sm: false });
+  const { t } = useTranslation()
+  const isMobile = useBreakpointValue({ base: true, sm: false })
   const showToast = useCustomToast()
 
   const methods = useForm<SubscriberCreate>({
     mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {
-      email: ""
-    }
+      email: "",
+    },
   })
 
-  const {
-    register,
-    handleSubmit
-  } = methods
+  const { register, handleSubmit } = methods
 
   const mutation = useMutation({
     mutationFn: async (data: SubscriberCreate) => {
-      await SubscribersService.createSubscriber({ requestBody: data });
+      await SubscribersService.createSubscriber({ requestBody: data })
 
       showToast(
-        t('HomePage.mailing.onSuccessToast.success'),
-        t('HomePage.mailing.onSuccessToast.created'),
-        "success"
+        t("HomePage.mailing.onSuccessToast.success"),
+        t("HomePage.mailing.onSuccessToast.created"),
+        "success",
       )
     },
     onError: (err: ApiError) => {
-      handleError(err, showToast);
+      handleError(err, showToast)
     },
   })
 
   const onSubmit: SubmitHandler<SubscriberCreate> = (data) => {
-    mutation.mutate(data);
-  };
-
+    mutation.mutate(data)
+  }
 
   return (
-    <Container
-      as="footer"
-      p={["180px 24px 80px", "90px 46px"]}
-    >
+    <Container as="footer" p={["180px 24px 80px", "90px 46px"]}>
       <Grid
         display={["flex", "grid"]}
         flexDirection={["column", "row"]}
@@ -76,24 +73,13 @@ const Footer = () => {
           display={["flex", "block"]}
           flexDirection={["column-reverse", "row"]}
         >
-          <Box
-            mt={["48px", 0]}
-            mb="48px"
-          >
-            <Image
-              src='/logo-black.svg'
-              alt='Anumo Logo Black'
-              h="24px"
-            ></Image>
+          <Box mt={["48px", 0]} mb="48px">
+            <Image src="/logo-black.svg" alt="Anumo Logo Black" h="24px" />
           </Box>
           <Box as="form" onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
-              <FormLabel
-                fontSize="14px"
-                fontWeight="400"
-                m={0}
-                mb={-2}
-              >{t('Footer.newsletter')}
+              <FormLabel fontSize="14px" fontWeight="400" m={0} mb={-2}>
+                {t("Footer.newsletter")}
               </FormLabel>
               <Input
                 {...register("email", {
@@ -103,7 +89,7 @@ const Footer = () => {
                 isRequired
                 border="none"
                 borderBottom="1px solid black"
-                placeholder={t('Footer.emailPlaceholder')}
+                placeholder={t("Footer.emailPlaceholder")}
                 fontSize="14px"
                 h="auto"
                 w={["100%", "75%"]}
@@ -120,12 +106,8 @@ const Footer = () => {
               </VisuallyHidden>
             </FormControl>
           </Box>
-          
         </GridItem>
-        <GridItem
-          display="flex"
-          alignItems="end"
-        >
+        <GridItem display="flex" alignItems="end">
           <Flex
             w="100%"
             justifyContent="space-between"
@@ -139,23 +121,21 @@ const Footer = () => {
               textDecoration="underline"
               m={0}
             >
-              <ListItem
-                as={RouterLink}
-                to="/privacy-policy/"
-                display="block"
-              >{t('Footer.privacyPolicyLink')}</ListItem>
+              <ListItem as={RouterLink} to="/privacy-policy/" display="block">
+                {t("Footer.privacyPolicyLink")}
+              </ListItem>
               <ListItem
                 as={RouterLink}
                 to="/payment-and-delivery/"
                 display="block"
-              >{t('Footer.paymentDeliveryLink')}</ListItem>
-              <ListItem
-                as={RouterLink}
-                to="/returns-policy/"
-                display="block"
-              >{t('Footer.returnsLink')}</ListItem>
+              >
+                {t("Footer.paymentDeliveryLink")}
+              </ListItem>
+              <ListItem as={RouterLink} to="/returns-policy/" display="block">
+                {t("Footer.returnsLink")}
+              </ListItem>
             </List>
-            { !isMobile && <SwitchLocalization />}
+            {!isMobile && <SwitchLocalization />}
           </Flex>
         </GridItem>
       </Grid>
@@ -167,24 +147,26 @@ const Footer = () => {
           gap={["12px", "22px"]}
         >
           <Link
-              className='Link'
-              as={RouterLink}
-              to="https://www.instagram.com/anumoplastic"
-              isExternal
-            ><span>INSTAGRAM</span></Link>
-            <Link
-              className='Link'
-              as={RouterLink}
-              to="https://www.tiktok.com/@anumoplastic"
-              isExternal
-            ><span>TIKTOK</span></Link>
+            className="Link"
+            as={RouterLink}
+            to="https://www.instagram.com/anumoplastic"
+            isExternal
+          >
+            <span>INSTAGRAM</span>
+          </Link>
+          <Link
+            className="Link"
+            as={RouterLink}
+            to="https://www.tiktok.com/@anumoplastic"
+            isExternal
+          >
+            <span>TIKTOK</span>
+          </Link>
         </Flex>
-        { isMobile && <SwitchLocalization />}
+        {isMobile && <SwitchLocalization />}
       </Flex>
     </Container>
+  )
+}
 
-
-  );
-};
-
-export default Footer;
+export default Footer

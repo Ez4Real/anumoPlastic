@@ -15,7 +15,6 @@ const Navbar = ({ type, addModalAs }: NavbarProps) => {
   return (
     <>
       <Flex py={8} gap={4}>
-
         {/* TODO: Complete search functionality */}
         {/* <InputGroup w={{ base: '100%', md: 'auto' }}>
           <InputLeftElement pointerEvents='none'>

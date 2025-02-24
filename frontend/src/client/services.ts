@@ -6,26 +6,26 @@ import type {
   Body_login_login_access_token,
   Message,
   NewPassword,
-  Token,
-  UserPublic,
-  UpdatePassword,
-  UserCreate,
-  UserRegister,
-  UsersPublic,
-  UserUpdate,
-  UserUpdateMe,
+  OrderCreate,
+  OrderPublic,
+  OrdersPublic,
+  PaymentCreate,
+  PaymentCreateResponse,
   ProductCreate,
   ProductPublic,
-  ProductsPublic,
   ProductUpdate,
-  SubscribersPublic,
-  SubscriberPublic,
-  PaymentCreate,
-  OrderCreate,
-  PaymentCreateResponse,
-  OrderPublic,
+  ProductsPublic,
   SubscriberCreate,
-  OrdersPublic
+  SubscriberPublic,
+  SubscribersPublic,
+  Token,
+  UpdatePassword,
+  UserCreate,
+  UserPublic,
+  UserRegister,
+  UserUpdate,
+  UserUpdateMe,
+  UsersPublic,
 } from "./models"
 
 export type TDataLoginAccessToken = {
@@ -58,7 +58,7 @@ export class LoginService {
       formData: formData,
       mediaType: "application/x-www-form-urlencoded",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -93,7 +93,7 @@ export class LoginService {
         email,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -114,7 +114,7 @@ export class LoginService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -136,7 +136,7 @@ export class LoginService {
         email,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -188,7 +188,7 @@ export class UsersService {
         limit,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -209,7 +209,7 @@ export class UsersService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -256,7 +256,7 @@ export class UsersService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -277,7 +277,7 @@ export class UsersService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -298,7 +298,7 @@ export class UsersService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -320,7 +320,7 @@ export class UsersService {
         user_id: userId,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -344,7 +344,7 @@ export class UsersService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -364,7 +364,7 @@ export class UsersService {
         user_id: userId,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -390,7 +390,7 @@ export class UtilsService {
         email_to: emailTo,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -451,7 +451,7 @@ export class ProductsService {
         limit,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -473,7 +473,7 @@ export class ProductsService {
         id: id,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -485,17 +485,17 @@ export class ProductsService {
    * @throws ApiError
    */
   public static readProductsByCategory(
-    data: TDataReadProductsByCategory
+    data: TDataReadProductsByCategory,
   ): CancelablePromise<ProductsPublic> {
-    const { category } = data;
-  
+    const { category } = data
+
     return __request(OpenAPI, {
       method: "GET",
-      url: `/api/v1/products/category/${category}`, 
+      url: `/api/v1/products/category/${category}`,
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
-    });
+    })
   }
 
   /**
@@ -514,7 +514,7 @@ export class ProductsService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -526,17 +526,17 @@ export class ProductsService {
    * @throws ApiError
    */
   public static uploadImages(
-    formData: FormData
-  ): CancelablePromise<{ urls: string[] }> {    
+    formData: FormData,
+  ): CancelablePromise<{ urls: string[] }> {
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/v1/products/upload-images",
       body: formData,
       mediaType: "multipart/form-data",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
-    });
+    })
   }
 
   /**
@@ -545,7 +545,9 @@ export class ProductsService {
    * @returns ProductPublic Successful Response
    * @throws ApiError
    */
-  public static readProduct(data: TDataReadProduct): CancelablePromise<ProductPublic> {
+  public static readProduct(
+    data: TDataReadProduct,
+  ): CancelablePromise<ProductPublic> {
     const { id } = data
     return __request(OpenAPI, {
       method: "GET",
@@ -554,7 +556,7 @@ export class ProductsService {
         id,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -578,7 +580,7 @@ export class ProductsService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -589,7 +591,9 @@ export class ProductsService {
    * @returns Message Successful Response
    * @throws ApiError
    */
-  public static deleteProduct(data: TDataDeleteProduct): CancelablePromise<Message> {
+  public static deleteProduct(
+    data: TDataDeleteProduct,
+  ): CancelablePromise<Message> {
     const { id } = data
     return __request(OpenAPI, {
       method: "DELETE",
@@ -598,7 +602,7 @@ export class ProductsService {
         id,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -634,7 +638,7 @@ export class SubscribersService {
         limit,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -654,12 +658,12 @@ export class SubscribersService {
       url: "/api/v1/utils/newsletter-subscription/",
       body: requestBody,
       mediaType: "application/json",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
       },
       errors: {
-        422: `Validation Error`,
-      }
+        422: "Validation Error",
+      },
     })
   }
 
@@ -669,7 +673,9 @@ export class SubscribersService {
    * @returns SubscriberPublic Successful Response
    * @throws ApiError
    */
-  public static readSubscriber(data: TDataReadSubscriber): CancelablePromise<SubscriberPublic> {
+  public static readSubscriber(
+    data: TDataReadSubscriber,
+  ): CancelablePromise<SubscriberPublic> {
     const { id } = data
     return __request(OpenAPI, {
       method: "GET",
@@ -678,13 +684,11 @@ export class SubscribersService {
         id,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
 }
-
-
 
 export type TDataPaymentCreate = {
   requestBody: PaymentCreate
@@ -700,16 +704,15 @@ export class PaymentsService {
       url: "/api/v1/payments/create",
       body: requestBody,
       mediaType: "application/json",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
       },
       errors: {
-        422: `Validation Error`,
-      }
+        422: "Validation Error",
+      },
     })
   }
 }
-
 
 type TDataOrderCreate = {
   requestBody: OrderCreate
@@ -723,9 +726,8 @@ type TDataReadOrderById = {
 }
 
 export class OrdersService {
-
   public static createOrder(
-    data: TDataOrderCreate
+    data: TDataOrderCreate,
   ): CancelablePromise<OrderPublic> {
     const { requestBody } = data
     return __request(OpenAPI, {
@@ -737,9 +739,9 @@ export class OrdersService {
         "Content-Type": "application/json",
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
-    });
+    })
   }
 
   /**
@@ -760,7 +762,7 @@ export class OrdersService {
         limit,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -782,9 +784,8 @@ export class OrdersService {
         id: id,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
-
 }
