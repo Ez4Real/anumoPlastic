@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next";
-import { Container, Text, VStack, OrderedList, ListItem, UnorderedList, Heading } from "@chakra-ui/react";
+import { Container, Text, VStack, Heading } from "@chakra-ui/react";
 import BreadCrumb from "../../components/BreadCrumb";
 import { OpenAPI } from "../../client";
 
