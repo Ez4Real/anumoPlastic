@@ -1,5 +1,5 @@
+import type { TFunction } from "i18next"
 import type { ApiError, ImageItem } from "./client"
-import { TFunction } from "i18next"
 
 export const emailPattern = {
   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -53,44 +53,52 @@ export const handleError = (err: ApiError, showToast: any) => {
   showToast("Error", errorMessage, "error")
 }
 
-export const customSmoothScroll = (targetPosition: number, duration: number): void => {
-  const startPosition = window.scrollY;
-  const distance = targetPosition - startPosition;
+export const customSmoothScroll = (
+  targetPosition: number,
+  duration: number,
+): void => {
+  const startPosition = window.scrollY
+  const distance = targetPosition - startPosition
 
-  const scrollStep = (timestamp: number, startTime: number = timestamp): void => {
-    const progress = Math.min((timestamp - startTime) / duration, 1);
-    window.scrollTo(0, startPosition + distance * progress);
+  const scrollStep = (
+    timestamp: number,
+    startTime: number = timestamp,
+  ): void => {
+    const progress = Math.min((timestamp - startTime) / duration, 1)
+    window.scrollTo(0, startPosition + distance * progress)
 
     if (progress < 1) {
-      requestAnimationFrame((timestamp) => scrollStep(timestamp, startTime));
+      requestAnimationFrame((timestamp) => scrollStep(timestamp, startTime))
     }
-  };
+  }
 
-  requestAnimationFrame(scrollStep);
-};
+  requestAnimationFrame(scrollStep)
+}
 
 export const validateImage = (
   file: File,
   index: number,
   allowedFormats: string[],
   t: TFunction,
-  maxSizeMB: number = 10
+  maxSizeMB = 10,
 ): { image: ImageItem | null; error: string | null } => {
-
   if (!allowedFormats.includes(file.type)) {
     return {
       image: null,
       error: t("AdminPanel.products.addProduct.fields.images.invalidFormatMsg"),
-    };
+    }
   }
 
   if (file.size > maxSizeMB * 1024 * 1024) {
     return {
       image: null,
-      error: t("AdminPanel.products.addProduct.fields.images.invalidFileSizeMsg", {
-        size: maxSizeMB,
-      }),
-    };
+      error: t(
+        "AdminPanel.products.addProduct.fields.images.invalidFileSizeMsg",
+        {
+          size: maxSizeMB,
+        },
+      ),
+    }
   }
 
   return {
@@ -100,5 +108,5 @@ export const validateImage = (
       url: URL.createObjectURL(file),
     },
     error: null,
-  };
-};
+  }
+}

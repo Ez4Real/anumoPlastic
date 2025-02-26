@@ -24,13 +24,13 @@ const theme = extendTheme({
     },
     paymentStatus: {
       created: "yellow",
-      processing: "#183f90", 
-      hold: "#FF9800",    
-      failure: "#E53E3E",    
-      reversed: "#e1e1e1",   
+      processing: "#183f90",
+      hold: "#FF9800",
+      failure: "#E53E3E",
+      reversed: "#e1e1e1",
       expired: "#E53E3E",
       success: "#48BB78",
-    }
+    },
   },
   components: {
     Button: {
@@ -82,8 +82,8 @@ const mainTheme = extendTheme({
         fontSize: "16px",
         lineHeight: "normal",
         fontFamily: "Inter, sans-serif",
-        bg: 'white',
-        color: 'black',
+        bg: "white",
+        color: "black",
       },
       ".chakra-modal__overlay": {
         bg: "transparent !important",
@@ -96,24 +96,24 @@ const mainTheme = extendTheme({
         my: "1em",
       },
       "input, textarea": {
-        colorScheme: 'light',
+        colorScheme: "light",
         color: "black",
         borderRadius: "0 !important",
         _placeholder: {
           color: "black",
         },
         _hover: {
-          borderColor: "black !important"
-        }
-      }
-    }
+          borderColor: "black !important",
+        },
+      },
+    },
   },
   components: {
     Container: {
       baseStyle: {
         maxW: "unset",
         px: ["24px", "46px"],
-        overflow: "hidden"
+        overflow: "hidden",
       },
     },
     Heading: {
@@ -126,7 +126,7 @@ const mainTheme = extendTheme({
         backgroundColor: "black",
         borderRadius: 0,
         color: "white",
-        textUnderlinePosition: "under"
+        textUnderlinePosition: "under",
       },
       variants: {
         unstyled: {
@@ -151,8 +151,8 @@ const mainTheme = extendTheme({
       baseStyle: {
         field: {
           "> option": {
-            backgroundColor: "transparent"
-          }
+            backgroundColor: "transparent",
+          },
         },
       },
     },

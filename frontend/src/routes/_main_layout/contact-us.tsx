@@ -1,33 +1,31 @@
-import BreadCrumb from '../../components/BreadCrumb';
-import { useTranslation } from 'react-i18next';
 import {
   Box,
+  Button,
   Container,
   Flex,
   FormControl,
   FormLabel,
   Grid,
   GridItem,
-  Text,
   Image,
   Input,
+  Text,
   Textarea,
-  Button
-} from '@chakra-ui/react';
+} from "@chakra-ui/react"
 import { createFileRoute } from "@tanstack/react-router"
-
+import { useTranslation } from "react-i18next"
+import BreadCrumb from "../../components/BreadCrumb"
 
 export const Route = createFileRoute("/_main_layout/contact-us")({
   component: ContactUs,
 })
 
-
 function ContactUs() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
-    <Container className='content'>
-      <BreadCrumb pageName={t('ContactUs.pageName')} />
+    <Container className="content">
+      <BreadCrumb pageName={t("ContactUs.pageName")} />
 
       <Grid
         display={["flex", "grid"]}
@@ -38,11 +36,9 @@ function ContactUs() {
         <GridItem>
           <Container as="form" p="0 !important">
             <Box>
-              <Text
-                fontWeight="700"
-                fontSize="14px"
-                mb="6px"
-              >{t('ContactUs.nameLabel')}</Text>
+              <Text fontWeight="700" fontSize="14px" mb="6px">
+                {t("ContactUs.nameLabel")}
+              </Text>
               <Flex gap="25px">
                 <FormControl>
                   <Input
@@ -58,7 +54,8 @@ function ContactUs() {
                     color="#6E6E70"
                     mt="6px"
                     mb={0}
-                  >{t('ContactUs.firstNameLabel')}
+                  >
+                    {t("ContactUs.firstNameLabel")}
                   </FormLabel>
                 </FormControl>
                 <FormControl>
@@ -75,17 +72,15 @@ function ContactUs() {
                     color="#6E6E70"
                     mt="6px"
                     mb={0}
-                  >{t('ContactUs.lastNameLabel')}
+                  >
+                    {t("ContactUs.lastNameLabel")}
                   </FormLabel>
                 </FormControl>
               </Flex>
             </Box>
             <FormControl mt="20px">
-              <FormLabel
-                fontWeight="700"
-                fontSize="14px"
-                mb="6px"
-              >{t('ContactUs.emailLabel')}
+              <FormLabel fontWeight="700" fontSize="14px" mb="6px">
+                {t("ContactUs.emailLabel")}
               </FormLabel>
               <Input
                 border="1px solid #A4A2A2"
@@ -95,11 +90,8 @@ function ContactUs() {
               />
             </FormControl>
             <FormControl mt="20px">
-              <FormLabel
-                fontWeight="700"
-                fontSize="14px"
-                mb="6px"
-              >{t('ContactUs.subjectLabel')}
+              <FormLabel fontWeight="700" fontSize="14px" mb="6px">
+                {t("ContactUs.subjectLabel")}
               </FormLabel>
               <Input
                 border="1px solid #A4A2A2"
@@ -109,11 +101,8 @@ function ContactUs() {
               />
             </FormControl>
             <FormControl mt="20px">
-              <FormLabel
-                fontWeight="700"
-                fontSize="14px"
-                mb="10px"
-              >{t('ContactUs.messageLabel')}
+              <FormLabel fontWeight="700" fontSize="14px" mb="10px">
+                {t("ContactUs.messageLabel")}
               </FormLabel>
               <Textarea
                 resize="none"
@@ -132,26 +121,20 @@ function ContactUs() {
                 fontWeight="700"
                 textDecoration="underline"
               >
-                {t('ContactUs.submitLabel')}
+                {t("ContactUs.submitLabel")}
               </Button>
             </Box>
           </Container>
         </GridItem>
-        <Grid
-          gridTemplateColumns={"1fr 1fr"}
-          gap={["25px", 0]}
-        >
+        <Grid gridTemplateColumns={"1fr 1fr"} gap={["25px", 0]}>
           <GridItem order={[2, 1]}>
             <Box>
-              <Image
-                src='/contact-us.png'
-                alt='Anumo Carabiner'
-              ></Image>
+              <Image src="/contact-us.png" alt="Anumo Carabiner" />
             </Box>
           </GridItem>
-          <GridItem order={[1, 2]}></GridItem>
+          <GridItem order={[1, 2]} />
         </Grid>
       </Grid>
     </Container>
-  );
-};
+  )
+}

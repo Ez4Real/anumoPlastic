@@ -1,7 +1,13 @@
 import { Box, Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
-import { FiBriefcase, FiSettings, FiUsers, FiMail, FiShoppingCart } from "react-icons/fi"
+import {
+  FiBriefcase,
+  FiMail,
+  FiSettings,
+  FiShoppingCart,
+  FiUsers,
+} from "react-icons/fi"
 
 import type { UserPublic } from "../../client"
 
@@ -37,7 +43,7 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
         style: {
           background: bgActive,
           borderRadius: "12px",
-        }
+        },
       }}
       color={textColor}
       onClick={onClose}

@@ -1,10 +1,10 @@
-import { Radio } from "@chakra-ui/react";
+import { Radio } from "@chakra-ui/react"
 
 interface ProductSizeFieldProps {
-    value: string
-    label: string
-    mt?: string
-  }
+  value: string
+  label: string
+  mt?: string
+}
 
 const CustomRadio = ({ value, label, mt = "0" }: ProductSizeFieldProps) => {
   return (
@@ -20,21 +20,22 @@ const CustomRadio = ({ value, label, mt = "0" }: ProductSizeFieldProps) => {
           position: "relative",
         },
         _checked: {
-        _before: {
-          content: '""',
-          backgroundColor: "#3A3A3A",
-          boxSize: "10px",
-          borderRadius: "50%",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          _before: {
+            content: '""',
+            backgroundColor: "#3A3A3A",
+            boxSize: "10px",
+            borderRadius: "50%",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          },
         },
-      },
-    }}
-    >{label}
+      }}
+    >
+      {label}
     </Radio>
-  );
-};
+  )
+}
 
-export default CustomRadio;
+export default CustomRadio

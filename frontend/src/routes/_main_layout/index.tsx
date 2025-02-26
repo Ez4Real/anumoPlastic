@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query"
-import { Link as RouterLink, createFileRoute } from "@tanstack/react-router"
 import {
   Box,
   Container,
@@ -13,22 +11,22 @@ import {
   ListItem,
   Spinner,
   Text,
-  useBreakpointValue
-} from '@chakra-ui/react';
-import { useRef, useState } from 'react';
-import { OpenAPI, ProductsService } from "../../client";
-import { useTranslation } from 'react-i18next';
-import Cooperation from '../../components/Cooperation'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+  useBreakpointValue,
+} from "@chakra-ui/react"
+import { useQuery } from "@tanstack/react-query"
+import { Link as RouterLink, createFileRoute } from "@tanstack/react-router"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import "swiper/css"
+import { Swiper, SwiperSlide, SwiperRef } from "swiper/react"
+import { OpenAPI, ProductsService } from "../../client"
+import Cooperation from "../../components/Cooperation"
 
-
-import homepageImg from '/assets/images/homepage.png';
-import mbHomepageImg from '/assets/images/mbHomepage.png';
+import homepageImg from "/assets/images/homepage.png"
+import mbHomepageImg from "/assets/images/mbHomepage.png"
 import prod4 from "/assets/images/projects/alltrueest/alltrueest_2.png"
 import prod5 from "/assets/images/projects/tabletopGiraffe/tabletop56x65.png"
-import prod6 from '/assets/productImages/prod6.png'
-
+import prod6 from "/assets/productImages/prod6.png"
 
 export const Route = createFileRoute("/_main_layout/")({
   component: Main,
@@ -36,49 +34,43 @@ export const Route = createFileRoute("/_main_layout/")({
 
 function getProductsQueryOptions() {
   return {
-    queryFn: () =>
-      ProductsService.readProducts(),
+    queryFn: () => ProductsService.readProducts(),
     queryKey: ["products"],
   }
 }
 
-
 type DropdownsState = {
-  [key: string]: boolean;
-};
+  [key: string]: boolean
+}
 
 function Main() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const apiBaseUrl = OpenAPI.BASE
-  const sliderRef = useRef(null)
-  const [dropdowns, setDropdowns] = useState<DropdownsState>({});
+  const sliderRef = useRef<SwiperRef>(null)
+  const [dropdowns, setDropdowns] = useState<DropdownsState>({})
 
   const slidesSpaceBetween = useBreakpointValue({ base: 12, sm: 32 })
   const slidesPerView = useBreakpointValue({ base: 2.25, sm: 2.5 })
 
-  const {
-    data: products,
-    isPending,
-  } = useQuery({
+  const { data: products, isPending } = useQuery({
     ...getProductsQueryOptions(),
   })
-
 
   const toggleDropdown = (dropdownName: string) => {
     setDropdowns((prevState) => ({
       ...prevState,
       [dropdownName]: !prevState[dropdownName],
-    }));
-  };
+    }))
+  }
 
   return (
     <>
       <Box h={["840px", "auto"]}>
         <Image
-         src={useBreakpointValue({ base: mbHomepageImg, sm: homepageImg })}
-         alt="Anumo banner"
-         objectFit="cover"
-         boxSize="100%"
+          src={useBreakpointValue({ base: mbHomepageImg, sm: homepageImg })}
+          alt="Anumo banner"
+          objectFit="cover"
+          boxSize="100%"
         />
       </Box>
       <Container>
@@ -98,62 +90,64 @@ function Main() {
           templateColumns={["146px 172px", "50% 50%"]}
           gap={["24px", "1rem"]}
         >
-          <GridItem fontWeight="600" flex="1"
-          >
+          <GridItem fontWeight="600" flex="1">
             <Text
               m={0}
               fontWeight={["500", "600"]}
               fontSize={["16px", "32px"]}
               lineHeight={["19px", "normal"]}
-            >[Anúmo] — (ukr. ану́мо) a decisive and bold call to action.</Text>
+            >
+              [Anúmo] — (ukr. ану́мо) a decisive and bold call to action.
+            </Text>
           </GridItem>
           <GridItem flex="1">
             <Text
               m={0}
               fontSize={["16px", "32px"]}
               lineHeight={["19px", "normal"]}
-            >{t('HomePage.anumoAbout')}.</Text>
+            >
+              {t("HomePage.anumoAbout")}.
+            </Text>
             <List
               spacing={[0, ".5rem"]}
               style={{
-                textUnderlinePosition: "under"
+                textUnderlinePosition: "under",
               }}
               mb="24px"
             >
-              {['material', 'production', 'inspiration', 'values'].map((item) => (
-                <ListItem
-                  key={item}
-                >
-                  <Link
-                    onClick={() => toggleDropdown(item)}
-                    textDecoration="underline"
-                    display={["list-item", "flex"]}
-                    mt='12px'
-                    fontWeight={["500", "600"]}
-                    fontSize={["16px", "28px"]}
-                    cursor="pointer"
-                  >
-                    {t(`HomePage.${item}.title`)}
-                  </Link>
-                  {dropdowns[item] && (
-                    <Box
-                      fontSize={["14px", "24px"]}
-                      m={["8px 0 12px 0", "16px 0 24px 0"]}
+              {["material", "production", "inspiration", "values"].map(
+                (item) => (
+                  <ListItem key={item}>
+                    <Link
+                      onClick={() => toggleDropdown(item)}
+                      textDecoration="underline"
+                      display={["list-item", "flex"]}
+                      mt="12px"
+                      fontWeight={["500", "600"]}
+                      fontSize={["16px", "28px"]}
+                      cursor="pointer"
                     >
-                      {t(`HomePage.${item}.description`)}
-                    </Box>
-                  )}
-                </ListItem>
-              ))}
+                      {t(`HomePage.${item}.title`)}
+                    </Link>
+                    {dropdowns[item] && (
+                      <Box
+                        fontSize={["14px", "24px"]}
+                        m={["8px 0 12px 0", "16px 0 24px 0"]}
+                      >
+                        {t(`HomePage.${item}.description`)}
+                      </Box>
+                    )}
+                  </ListItem>
+                ),
+              )}
             </List>
           </GridItem>
         </Grid>
-        <Text 
-          m={0}
-          fontSize={["1rem", "2rem"]}
-        >{t('HomePage.aboutPolicy')}.</Text>
+        <Text m={0} fontSize={["1rem", "2rem"]}>
+          {t("HomePage.aboutPolicy")}.
+        </Text>
         <Heading
-          id='shopBlock-homepage'
+          id="shopBlock-homepage"
           as="h3"
           size="xl"
           fontSize={["32px", "64px"]}
@@ -161,7 +155,7 @@ function Main() {
           mt={["90px", "4rem"]}
           mb={["24px", "2rem"]}
         >
-          {t('HomePage.shopTitle')}
+          {t("HomePage.shopTitle")}
         </Heading>
 
         {isPending ? (
@@ -169,7 +163,7 @@ function Main() {
             <Spinner size="xl" speed="1s" color="ui.main" />
           </Flex>
         ) : (
-          <Box >
+          <Box>
             <Swiper
               ref={sliderRef}
               autoplay
@@ -177,7 +171,7 @@ function Main() {
               slidesPerView={slidesPerView}
               loop={true}
               style={{
-                overflow: 'visible'
+                overflow: "visible",
               }}
             >
               {products?.data
@@ -195,7 +189,7 @@ function Main() {
                           as={RouterLink}
                           to="/products/$category"
                           params={{ category: product.category }}
-                          hash='root'
+                          hash="root"
                         >
                           <Image
                             src={`${apiBaseUrl}${product.images[0].url}`}
@@ -207,13 +201,15 @@ function Main() {
                         </Link>
                       </Box>
                     </SwiperSlide>
-                  ) : null
+                  ) : null,
                 )}
             </Swiper>
             <Flex m={["24px 0 32px", "3rem 0 4rem"]}>
               <Box
                 /* @ts-ignore */
-                onClick={() => {sliderRef?.current?.swiper.slideNext()}}
+                onClick={() => {
+                  sliderRef?.current?.swiper.slideNext();
+                }}
                 w={["46px", "auto"]}
               >
                 <Image src="/arrow-right.svg" alt="Next Slide" />
@@ -222,21 +218,19 @@ function Main() {
           </Box>
         )}
 
-        <Grid
-          templateColumns="repeat(2, 1fr)"
-          gap='1rem'
-        >
-          <GridItem
-            fontSize={["16px", "40px"]}
-            fontWeight="600"
-          >/{t('HomePage.enjoyResponsibility')}/</GridItem>
+        <Grid templateColumns="repeat(2, 1fr)" gap="1rem">
+          <GridItem fontSize={["16px", "40px"]} fontWeight="600">
+            /{t("HomePage.enjoyResponsibility")}/
+          </GridItem>
           <GridItem mb={["4rem", 0]}>
             <Text
               m={0}
               fontSize={["16px", "40px"]}
               fontWeight="600"
               textAlign={["end", "start"]}
-            >{t('HomePage.categoriesTitle')}</Text>
+            >
+              {t("HomePage.categoriesTitle")}
+            </Text>
             <List
               display={["flex", "block"]}
               flexDirection="column"
@@ -245,8 +239,14 @@ function Main() {
               p={0}
               my={[0, "1em"]}
             >
-              {['Carabiner', 'Book holder', 'Choker', 'Plate', 'Soap holder', 'Ivan the table']
-               .map((category) => (
+              {[
+                "Carabiner",
+                "Book holder",
+                "Choker",
+                "Plate",
+                "Soap holder",
+                "Ivan the table",
+              ].map((category) => (
                 <ListItem key={category}>
                   <Link
                     as={RouterLink}
@@ -254,11 +254,13 @@ function Main() {
                     hash="root"
                     fontSize={["14px", "32px"]}
                     display={["list-item", "flex"]}
-                    mt='10px'
+                    mt="10px"
                     color="black"
                     mr={0}
                     // mr={[index % 3 === 2 ? "10px" : 0, 0]}
-                  > {t(`HomePage.${category}`)}
+                  >
+                    {" "}
+                    {t(`HomePage.${category}`)}
                   </Link>
                 </ListItem>
               ))}
@@ -273,23 +275,20 @@ function Main() {
             fontWeight={["600", "700"]}
             mb={["24px", "2rem"]}
           >
-            {t('HomePage.projectsTitle')}
+            {t("HomePage.projectsTitle")}
           </Heading>
           <Grid
-            templateColumns='repeat(2, 1fr)'
+            templateColumns="repeat(2, 1fr)"
             display={["flex", "grid"]}
-            flexDirection={["column", "unset"]}>
-            <GridItem mb={["20px","4rem"]}>
+            flexDirection={["column", "unset"]}
+          >
+            <GridItem mb={["20px", "4rem"]}>
               <Box>
-                <Image
-                  src={prod4}
-                  alt="productImage"
-                  w="100%"
-                ></Image>
+                <Image src={prod4} alt="productImage" w="100%" />
                 <Link
                   as={RouterLink}
                   to="/projects/$index"
-                  params={{ index: '9' }}
+                  params={{ index: "9" }}
                   hash="projectsSlider"
                   color="black"
                   fontWeight={["600", "700"]}
@@ -297,70 +296,63 @@ function Main() {
                   display="block"
                   mt={["16px", "24px"]}
                 >
-                  {t('HomePage.alltrueestTitle')}
+                  {t("HomePage.alltrueestTitle")}
                 </Link>
                 <Text
                   m=".75rem 0"
                   fontSize={["12px", "20px"]}
                   lineHeight={["15px", "normal"]}
-                >{t('HomePage.alltrueestDesc')}.
+                >
+                  {t("HomePage.alltrueestDesc")}.
                 </Text>
-                <Text
-                  m=".75rem 0"
-                  fontSize={["12px", "20px"]}
-                >{t('HomePage.alltrueestFrom')}.
+                <Text m=".75rem 0" fontSize={["12px", "20px"]}>
+                  {t("HomePage.alltrueestFrom")}.
                 </Text>
               </Box>
             </GridItem>
-              <Grid
-                templateColumns='repeat(2, 1fr)'
-                gap={["24px", "40px"]}
-                pl={["0", "40px"]}
-                alignItems="end"
-              >
-                <GridItem>
-                  <Image
-                    src={prod5}
-                    w="100%"
-                  ></Image>
-                  <Link
-                    as={RouterLink}
-                    to="/projects/$index"
-                    params={{ index: '2' }}
-                    hash="projectsSlider"
-                    color="black"
-                    fontWeight={["600", "800"]}
-                    fontSize={["12px", "16px"]}
-                    lineHeight={["15px", "19px"]}
-                    my="1em"
-                    display="block"
-                    height="1.75rem"
-                  >
-                    {t('HomePage.giraffeTitle')}
-                  </Link>
-                </GridItem>
-                <GridItem>
-                  <Image
-                    src={prod6}
-                    w="100%"
-                  ></Image>
-                  <Link
-                    as={RouterLink}
-                    to="/projects/$index"
-                    params={{ index: '7' }}
-                    hash="projectsSlider"
-                    color="black"
-                    fontWeight={["600", "800"]}
-                    fontSize={["12px", "16px"]}
-                    lineHeight={["15px", "19px"]}
-                    my="1em"
-                    display="block"
-                    height="1.75rem"
-                  >
-                    {t('HomePage.hypermobileTitle')}
-                  </Link>
-                </GridItem>
-              </Grid>
+            <Grid
+              templateColumns="repeat(2, 1fr)"
+              gap={["24px", "40px"]}
+              pl={["0", "40px"]}
+              alignItems="end"
+            >
+              <GridItem>
+                <Image src={prod5} w="100%" />
+                <Link
+                  as={RouterLink}
+                  to="/projects/$index"
+                  params={{ index: "2" }}
+                  hash="projectsSlider"
+                  color="black"
+                  fontWeight={["600", "800"]}
+                  fontSize={["12px", "16px"]}
+                  lineHeight={["15px", "19px"]}
+                  my="1em"
+                  display="block"
+                  height="1.75rem"
+                >
+                  {t("HomePage.giraffeTitle")}
+                </Link>
+              </GridItem>
+              <GridItem>
+                <Image src={prod6} w="100%" />
+                <Link
+                  as={RouterLink}
+                  to="/projects/$index"
+                  params={{ index: "7" }}
+                  hash="projectsSlider"
+                  color="black"
+                  fontWeight={["600", "800"]}
+                  fontSize={["12px", "16px"]}
+                  lineHeight={["15px", "19px"]}
+                  my="1em"
+                  display="block"
+                  height="1.75rem"
+                >
+                  {t("HomePage.hypermobileTitle")}
+                </Link>
+              </GridItem>
+            </Grid>
           </Grid>
           <Text
             textAlign="end"
@@ -371,19 +363,19 @@ function Main() {
             <Link
               as={RouterLink}
               to="/projects/$index"
-              params={{ index: '0' }}
+              params={{ index: "0" }}
               hash="projectsSlider"
               color="black"
               style={{
-                textUnderlinePosition: "under"
+                textUnderlinePosition: "under",
               }}
             >
-              {t('HomePage.viewAll')}
+              {t("HomePage.viewAll")}
             </Link>
           </Text>
         </Box>
         <Cooperation />
       </Container>
     </>
-  );
-};
+  )
+}

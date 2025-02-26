@@ -6,7 +6,7 @@ import {
   MenuList,
   useDisclosure,
 } from "@chakra-ui/react"
-import { FiFileText, FiMoreVertical } from "react-icons/fi";
+import { FiFileText, FiMoreVertical } from "react-icons/fi"
 import { FiEdit, FiTrash } from "react-icons/fi"
 
 import { Link as RouterLink } from "@tanstack/react-router"
@@ -34,14 +34,15 @@ const ActionsMenu = ({ type, value, disabled }: ActionsMenuProps) => {
           icon={<FiMoreVertical />}
           variant="unstyled"
           display="flex"
-          />
+        />
         <MenuList>
           {type === "Product" && (
             <MenuItem
               as={RouterLink}
               to={value.id}
               icon={<FiFileText fontSize="16px" />}
-            >Details
+            >
+              Details
             </MenuItem>
           )}
           <MenuItem
@@ -71,7 +72,7 @@ const ActionsMenu = ({ type, value, disabled }: ActionsMenuProps) => {
             onClose={editUserModal.onClose}
           />
         )}
-        
+
         <Delete
           type={type}
           id={value.id}

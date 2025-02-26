@@ -107,29 +107,23 @@ export const $ProductBase = {
       type: "any-of",
       contains: [
         { type: "string" },
-        { type: "array", items: { type: "string" } }
+        { type: "array", items: { type: "string" } },
       ],
     },
     size_uk: {
       type: "any-of",
       contains: [
         { type: "string" },
-        { type: "array", items: { type: "string" } }
+        { type: "array", items: { type: "string" } },
       ],
     },
     weight_en: {
       type: "any-of",
-      contains: [
-        { type: "string", maxLength: 50 },
-        { type: "null" },
-      ],
+      contains: [{ type: "string", maxLength: 50 }, { type: "null" }],
     },
     weight_uk: {
       type: "any-of",
-      contains: [
-        { type: "string", maxLength: 50 },
-        { type: "null" },
-      ],
+      contains: [{ type: "string", maxLength: 50 }, { type: "null" }],
     },
     tag: {
       type: "any-of",
@@ -142,16 +136,16 @@ export const $ProductBase = {
       ],
     },
   },
-} as const;
+} as const
 
 //@ts-ignore
-const $ProductImage = { 
+const $ProductImage = {
   properties: {
     url: { type: "string", isRequired: true },
     alt_text: { type: "string", maxLength: 255 },
     order: { type: "number", isRequired: true },
   },
-} as const;
+} as const
 
 export const $ProductCreate = {
   allOf: [
@@ -168,7 +162,7 @@ export const $ProductCreate = {
       },
     },
   ],
-} as const;
+} as const
 
 export const $ProductPublic = {
   allOf: [
@@ -188,7 +182,7 @@ export const $ProductPublic = {
       },
     },
   ],
-} as const;
+} as const
 
 export const $ProductUpdate = {
   allOf: [
@@ -197,7 +191,7 @@ export const $ProductUpdate = {
         Object.entries($ProductBase.properties).map(([key, value]) => [
           key,
           { ...value, isRequired: false },
-        ])
+        ]),
       ),
     },
     {
@@ -220,7 +214,7 @@ export const $ProductUpdate = {
       },
     },
   ],
-} as const;
+} as const
 
 export const $ProductsPublic = {
   properties: {
@@ -237,7 +231,6 @@ export const $ProductsPublic = {
     },
   },
 } as const
-
 
 export const $SubscriberPublic = {
   properties: {
@@ -270,7 +263,7 @@ export const $SubscriberPublic = {
       format: "uuid",
     },
   },
-} as const;
+} as const
 
 export const $SubscribersPublic = {
   properties: {
