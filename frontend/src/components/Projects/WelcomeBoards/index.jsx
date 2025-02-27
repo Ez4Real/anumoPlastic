@@ -32,7 +32,8 @@ const WelcomeBoards = () => {
           pl={[".25rem", ".375rem"]}
           fontWeight={["700", "600"]}
           fontSize={["14px", "24px"]}
-          colorScheme="transparent"
+          bg="transparent"
+          color="black"
         >
           /2021
         </Badge>

@@ -90,7 +90,7 @@ const Footer = () => {
                 border="none"
                 borderBottom="1px solid black"
                 placeholder={t("Footer.emailPlaceholder")}
-                fontSize="14px"
+                fontSize="12px"
                 h="auto"
                 w={["100%", "75%"]}
                 p=".5rem 0"

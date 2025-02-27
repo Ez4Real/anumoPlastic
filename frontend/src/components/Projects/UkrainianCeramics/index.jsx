@@ -85,7 +85,8 @@ const UkrainianCeramics = () => {
           pl="0.375rem"
           fontWeight="600"
           fontSize="24px"
-          colorScheme="transparent"
+          bg="transparent"
+          color="black"
         >
           /2022
         </Badge>

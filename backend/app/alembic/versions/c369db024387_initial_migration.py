@@ -38,7 +38,7 @@ def upgrade():
     )
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
     op.create_table('product',
-    sa.Column('category', sa.Enum('CARABINER', 'BOOK_HOLDER', 'CHOKER', 'PLATE', 'SOAP_HOLDER', name='productcategory'), nullable=False),
+    sa.Column('category', sa.Enum('CARABINER', 'BOOK_HOLDER', 'CHOKER', 'PLATE', 'SOAP_HOLDER', 'IVAN_THE_TABLE', name='productcategory'), nullable=False),
     sa.Column('title_en', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
     sa.Column('title_uk', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),
     sa.Column('material_en', sqlmodel.sql.sqltypes.AutoString(length=255), nullable=False),

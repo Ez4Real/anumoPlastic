@@ -26,7 +26,7 @@ def parse_cors(v: Any) -> list[str] | str:
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         # Use top level .env file (one level above ./backend/)
-        env_file="../.env",
+        env_file=".env",
         env_ignore_empty=True,
         extra="ignore",
     )
@@ -34,9 +34,9 @@ class Settings(BaseSettings):
     SECRET_KEY: str = secrets.token_urlsafe(32)
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
-    FRONTEND_HOST: str = "http://localhost:5173"
+    FRONTEND_HOST: str = "http://127.1.4.101:3000"
     BACKEND_HOST: str
-    ENVIRONMENT: Literal["local", "staging", "production"] = "local"
+    ENVIRONMENT: Literal["local", "staging", "production"]
     
     MONOBANK_ACQUIRING_API: str = "https://api.monobank.ua"
     REACT_APP_MONO_ACQUIRE_TOKEN: str
@@ -125,13 +125,20 @@ class Settings(BaseSettings):
         return self
     
     UPLOAD_DIR: Path = Path("uploads/productImages")
-    MEDIA_DIR: Path = Path("media/productImages")
-
     @model_validator(mode="after")
     def _ensure_upload_dir_exists(self) -> Self:
         """Ensure the upload directory exists."""
         self.UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
         return self
 
-
+    MEDIA_DIR: Path = Path()
+    @model_validator(mode="after")
+    def _set_images_media_dir(self) -> Self:
+        """Set correct Images Media Directory"""
+        if self.ENVIRONMENT == "production":
+            self.MEDIA_DIR = Path("uploads/productImages")
+        else:
+            self.MEDIA_DIR = Path("media/productImages")
+        return self
+    
 settings = Settings()  # type: ignore
