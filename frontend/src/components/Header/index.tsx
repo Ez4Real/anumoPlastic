@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next"
 import { useCart } from "../../context/CartContext"
 import Cart from "../Cart"
 import SwitchLocalization from "../SwitchLocalization"
+import BurgerMenu from "../Common/BurgerMenu"
 
 const Header = ({ isWhiteTheme = false }) => {
   const { t } = useTranslation()
@@ -30,9 +31,6 @@ const Header = ({ isWhiteTheme = false }) => {
   const { isCartOpen, openCart, closeCart } = useCart()
 
   const logoSrc = isWhiteTheme ? "/logo.svg" : "/logo-black.svg"
-  const menuIconSrc = isWhiteTheme
-    ? "/menu-burger.svg"
-    : "/menu-burger-black.svg"
   const cartIconSrc = isWhiteTheme
     ? "/shopping-bag.svg"
     : "/shopping-bag-black.svg"
@@ -59,16 +57,11 @@ const Header = ({ isWhiteTheme = false }) => {
               <Image w="192px" src={logoSrc} alt="Anumo Logo" />
             </Link>
           </Box>
-          <Flex justifyContent="center" w="100%" textAlign="center">
-            <Button
-              onClick={toggleMenu}
-              variant="unstyled"
-              display="flex"
-              p="6px"
-            >
-              <Image src={menuIconSrc} alt="Burger Menu" />
-            </Button>
-          </Flex>
+          <BurgerMenu
+            isWhiteTheme={isWhiteTheme}
+            isOpen={isMenuOpen}
+            toggleMenu={toggleMenu}
+          />
           <Flex justifyContent="flex-end" w="100%">
             <Button onClick={openCart} variant="unstyled" display="flex">
               <Image src={cartIconSrc} alt="Shopping Bag" />
@@ -110,16 +103,10 @@ const Header = ({ isWhiteTheme = false }) => {
                         />
                       </Link>
                     </Box>
-                    <Flex justifyContent="center" w="100%" textAlign="center">
-                      <Button
-                        onClick={toggleMenu}
-                        variant="unstyled"
-                        display="flex"
-                        p="6px"
-                      >
-                        <Image src="/menu-burger-black.svg" alt="Burger Menu" />
-                      </Button>
-                    </Flex>
+                    <BurgerMenu
+                      isOpen={isMenuOpen}
+                      toggleMenu={toggleMenu}
+                    />
                   </>
                 )}
                 <Flex justifyContent="flex-end" w="100%">

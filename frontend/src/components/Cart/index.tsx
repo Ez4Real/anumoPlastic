@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next"
 import { OpenAPI } from "../../client"
 import { useCart } from "../../context/CartContext"
 import ProductCounter from "../ProductCounter"
+import BurgerMenu from "../Common/BurgerMenu"
 
 interface CartProps {
   isOpen: boolean
@@ -79,16 +80,10 @@ const Cart = ({ isOpen, onClose, handleLinkClick, toggleMenu }: CartProps) => {
                     <Image w="192px" src="/logo-black.svg" alt="Anumo Logo" />
                   </Link>
                 </Box>
-                <Flex justifyContent="center" w="100%" textAlign="center">
-                  <Button
-                    onClick={toggleMenu}
-                    variant="unstyled"
-                    display="flex"
-                    p="6px"
-                  >
-                    <Image src="/menu-burger-black.svg" alt="Burger Menu" />
-                  </Button>
-                </Flex>
+                <BurgerMenu
+                  isOpen={false}
+                  toggleMenu={toggleMenu}
+                />
               </>
             )}
             <Flex justifyContent="flex-end" w="100%">
