@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next"
 
 import {
+  AspectRatio,
   Badge,
   Box,
   Container,
@@ -20,25 +21,29 @@ import soapHolders_3 from "/assets/images/projects/soapHolders/soapHolders_3.png
 const ElementRowBlock = ({
   soapHolderImg1,
   soapHolderImg2,
+  img1AspectRatio,
+  img2AspectRatio,
   topColumnSpan = 1,
   bottomColumnSpan = 1,
 }) => (
   <>
     <GridItem colSpan={topColumnSpan}>
-      <Image
-        alt="Soap Holder"
-        src={soapHolderImg1}
-        h="100%"
-        objectFit="cover"
-      />
+      <AspectRatio ratio={img1AspectRatio} h="100%">
+        <Image
+          src={soapHolderImg1}
+          alt="Soap Holder"
+          objectFit='cover'
+        />
+      </AspectRatio>  
     </GridItem>
     <GridItem colSpan={bottomColumnSpan}>
-      <Image
-        alt="Soap Holder"
-        src={soapHolderImg2}
-        h="100%"
-        objectFit="cover"
-      />
+      <AspectRatio ratio={img2AspectRatio} h="100%">
+        <Image
+          src={soapHolderImg2}
+          alt="Soap Holder"
+          objectFit='cover'
+        />
+      </AspectRatio>  
     </GridItem>
   </>
 )
@@ -71,29 +76,37 @@ const SoapHolders = () => {
             soapHolderImg1={soapHolders_3}
             soapHolderImg2={soapHolders_2}
             topColumnSpan={2}
+            img1AspectRatio={342 / 243}
+            img2AspectRatio={163 / 215}
           />
           <ElementRowBlock
             soapHolderImg1={soapHolders}
             soapHolderImg2={soapHolders_1}
             bottomColumnSpan={2}
+            img1AspectRatio={163 / 215}
+            img2AspectRatio={342 / 277}
           />
         </Grid>
       ) : (
         <Flex direction="column" gap="46px">
           <Grid
-            gridTemplateColumns="325px 600px"
+            gridTemplateColumns="283px 600px"
             gap="46px"
             justifyContent="end"
           >
             <ElementRowBlock
               soapHolderImg1={soapHolders_2}
               soapHolderImg2={soapHolders_3}
+              img1AspectRatio={283 / 426}
+              img2AspectRatio={600 / 425}
             />
           </Grid>
           <Grid gridTemplateColumns="415px 320px" gap="46px">
             <ElementRowBlock
               soapHolderImg1={soapHolders_1}
               soapHolderImg2={soapHolders}
+              img1AspectRatio={415 /336}
+              img2AspectRatio={20 / 21}
             />
           </Grid>
         </Flex>

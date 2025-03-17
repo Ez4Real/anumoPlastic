@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next"
 
 import {
+  AspectRatio,
   Badge,
   Box,
   Container,
@@ -44,7 +45,7 @@ const Chokers = () => {
       <Grid
         display={["flex", "grid"]}
         flexDirection={["column", "row"]}
-        templateColumns={["none", "50% 46%"]}
+        templateColumns={["none", "1.1fr 1fr"]}
         gap={gridGap}
       >
         <Flex
@@ -52,9 +53,13 @@ const Chokers = () => {
           justifyContent="space-between"
           alignItems="flex-end"
         >
-          <Box>
-            <Image src={chokers} alt="Choker" />
-          </Box>
+          <AspectRatio ratio={[226 / 287, 465 / 590]} w="100%">
+            <Image
+              src={chokers}
+              alt="Choker"
+              objectFit='cover'
+            />
+          </AspectRatio>  
           {!isMobile && (
             <Text fontSize="16px">
               {t("ProjectsPage.projects.chokers.description")}
@@ -62,12 +67,26 @@ const Chokers = () => {
           )}
         </Flex>
         <Flex direction={["row-reverse", "column"]} gap={gridGap}>
-          <Box w="100%">
-            <Image src={chokers_1} alt="Choker" h="100%" objectFit="cover" />
-          </Box>
-          <Box w="100%">
-            <Image src={chocker2Img} alt="Choker" h="100%" objectFit="cover" />
-          </Box>
+          <AspectRatio
+            ratio={[105 / 125, 420 / 500]}
+            w="100%"
+          >
+            <Image
+              src={chokers_1}
+              alt="Choker"
+              objectFit='cover'
+            />
+          </AspectRatio>  
+          <AspectRatio
+            ratio={[105 / 125, 420 / 350]}
+            w="100%"
+          >
+            <Image
+              src={chocker2Img}
+              alt="Choker"
+              objectFit='cover'
+            />
+          </AspectRatio>
         </Flex>
       </Grid>
       {isMobile && (

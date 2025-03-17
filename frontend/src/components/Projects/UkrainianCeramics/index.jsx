@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next"
 
 import {
+  AspectRatio,
   Badge,
   Box,
   Container,
@@ -25,17 +26,38 @@ const LeftBlockColumn = () => {
   return (
     <>
       <Box order={[0, 0]}>
-        <Image src={gorschykX} alt="Gorschyk X" />
+        <AspectRatio ratio={[11 / 14, 4 / 5]}>
+          <Image
+            src={gorschykX}
+            alt="Gorschyk X"
+            objectFit='cover'
+          />
+        </AspectRatio>
       </Box>
       <Box order={[3, 1]}>
-        <Image src={gorschykH} alt="Gorschyk H" />
+        <AspectRatio ratio={[11 / 14, 4 / 5]}>
+          <Image
+            src={gorschykH}
+            alt="Gorschyk H"
+            objectFit='cover'
+          />
+        </AspectRatio>
       </Box>
       <Box
         order={[4, 2]}
         display={["flex", "block"]}
         justifyContent={["flex-end", "flex-start"]}
       >
-        <Image width={["50%", "100%"]} src={gorschykH_1} alt="Gorschyk H" />
+        <AspectRatio
+          ratio={[5 / 6, 4 / 5]}
+          width={["50%", "100%"]}
+        >
+          <Image
+            src={gorschykH_1}
+            alt="Gorschyk H"
+            objectFit='cover'
+          />
+        </AspectRatio>
       </Box>
     </>
   )
@@ -46,22 +68,42 @@ const RightBlockColumn = ({ gridGap }) => {
   return (
     <>
       <Grid templateColumns="repeat(2, 1fr)" gap={gridGap} order={[1, 0]}>
-        <Box>
-          <Image h="100%" src={gorschykX_1} alt="Gorschyk X" />
-        </Box>
-        <Box>
-          <Image h="100%" src={gorschykX_2} alt="Gorschyk X" />
-        </Box>
-        <Box>
-          <Image h="100%" src={glechyk_1} alt="Glechyk" />
-        </Box>
-        <Box>
-          <Image h="100%" src={glechyk_2} alt="Glechyk" />
-        </Box>
+        <AspectRatio ratio={[8 / 10, 4 / 5]}>
+          <Image
+            src={gorschykX_1}
+            alt="Gorschyk X"
+            objectFit='cover'
+          />
+        </AspectRatio>
+        <AspectRatio ratio={[8 / 10, 4 / 5]}>
+          <Image
+            src={gorschykX_2}
+            alt="Gorschyk X"
+            objectFit='cover'
+          />
+        </AspectRatio>
+        <AspectRatio ratio={[8 / 10, 4 / 5]}>
+          <Image
+            src={glechyk_1}
+            alt="Gorschyk"
+            objectFit='cover'
+          />
+        </AspectRatio>
+        <AspectRatio ratio={[8 / 10, 4 / 5]}>
+          <Image
+            src={glechyk_2}
+            alt="Gorschyk"
+            objectFit='cover'
+          />
+        </AspectRatio>
       </Grid>
-      <Box order={[2, 1]}>
-        <Image src={glechyk} alt="Glechyk" />
-      </Box>
+      <AspectRatio ratio={[11 / 14, 486 / 603]} order={[2, 1]}>
+        <Image
+          src={glechyk}
+          alt="Glechyk"
+          objectFit='cover'
+        />
+      </AspectRatio>
       <Text fontSize={["12px", "16px"]} order={[5, 2]}>
         {t("ProjectsPage.projects.ukrainianCeramics.description")}
       </Text>

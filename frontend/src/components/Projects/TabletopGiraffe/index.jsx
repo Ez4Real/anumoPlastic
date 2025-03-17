@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next"
 
 import {
+  AspectRatio,
   Badge,
   Box,
   Container,
@@ -57,7 +58,13 @@ const TabletopGiraffe = () => {
       <Box>
         <Grid templateColumns={["70%", "30%", "1fr 1fr"]}>
           <GridItem>
-            <Image src={tabletop56x65} alt="TABLETOP MOBLE “GIRAFFE”" />
+            <AspectRatio ratio={[120 / 131, 465 / 508]}>
+              <Image
+                src={tabletop56x65}
+                alt="TABLETOP MOBLE “GIRAFFE”"
+                objectFit='cover'
+              />
+            </AspectRatio>
           </GridItem>
           <GridItem />
         </Grid>
@@ -65,27 +72,34 @@ const TabletopGiraffe = () => {
           {t("ProjectsPage.projects.tabletopGiraffe.option1")}
         </Text>
         <Grid
-          templateColumns="46% 50%"
+          templateColumns={["1fr 1fr", ".9fr 1fr"]}
           gap={["16px", "46px"]}
           justifyItems="end"
           mt={["24px", "46px"]}
         >
           <GridItem w={["100%", "60%"]}>
-            <Image
-              src={tabletop54x55_1}
-              alt="TABLETOP MOBLE “GIRAFFE”"
+            <AspectRatio
+              ratio={[10 / 13, 256 / 307]}
               h={["100%", "auto"]}
-              objectFit="cover"
-            />
+            >
+              <Image
+                src={tabletop54x55_1}
+                alt="TABLETOP MOBLE “GIRAFFE”"
+                objectFit='cover'
+              />
+            </AspectRatio>
             {!isMobile && <BottomDescription />}
           </GridItem>
-          <GridItem>
-            <Image
-              src={tabletop54x55}
-              alt="TABLETOP MOBLE “GIRAFFE”"
-              h="100%"
-              objectFit="cover"
-            ></Image>
+          <GridItem w="100%">
+            <AspectRatio
+              ratio={[10 / 13, 231 / 278]}
+            >
+              <Image
+                src={tabletop54x55}
+                alt="TABLETOP MOBLE “GIRAFFE”"
+                objectFit='cover'
+              />
+            </AspectRatio>
           </GridItem>
         </Grid>
         {isMobile && <BottomDescription />}

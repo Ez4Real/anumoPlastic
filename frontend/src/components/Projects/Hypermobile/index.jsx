@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next"
 
 import {
+  AspectRatio,
   Badge,
   Box,
   Container,
@@ -18,10 +19,21 @@ import hypermobile_2 from "/assets/images/projects/hypermobile/hypermobile_2.png
 import hypermobile_3 from "/assets/images/projects/hypermobile/hypermobile_3.png"
 import hypermobile_4 from "/assets/images/projects/hypermobile/hypermobile_4.png"
 
-const GridItemImg = ({ imgSrc, order = 1, rowSpan = 1 }) => {
+const GridItemImg = ({
+  imgSrc,
+  aspectRatio = [226 / 158, 450 / 315],
+  order = 1,
+  rowSpan = 1
+}) => {
   return (
     <GridItem order={order} rowSpan={rowSpan}>
-      <Image src={imgSrc} alt="Hypermobile" h="100%" objectFit="cover" />
+      <AspectRatio ratio={aspectRatio} h="100%">
+        <Image
+          src={imgSrc}
+          alt="Hypermobile"
+          objectFit="cover"
+        />
+      </AspectRatio>  
     </GridItem>
   )
 }
@@ -51,7 +63,12 @@ const Hypermobile = () => {
 
       <Grid templateColumns={["1fr", "1fr 1fr"]} gap={gridGap}>
         <GridItemImg imgSrc={hypermobile} order={[4, 0]} />
-        <GridItemImg imgSrc={hypermobile_2} order={[0, 1]} rowSpan={[1, 2]} />
+        <GridItemImg
+          imgSrc={hypermobile_2}
+          aspectRatio={[226 / 310, 450 / 640]}
+          order={[0, 1]}
+          rowSpan={[1, 2]}
+        />
         <GridItemImg imgSrc={hypermobile_1} order={[2, 2]} />
         <GridItemImg imgSrc={hypermobile_3} order={[1, 3]} />
         <GridItemImg imgSrc={hypermobile_4} order={[3, 4]} />
