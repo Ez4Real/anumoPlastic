@@ -7,7 +7,6 @@ import {
   FormLabel,
   Grid,
   GridItem,
-  Image,
   Input,
   Text,
   Textarea,
@@ -128,9 +127,6 @@ function ContactUs() {
         </GridItem>
         <Grid gridTemplateColumns={"1fr 1fr"} gap={["25px", 0]}>
           <GridItem order={[2, 1]}>
-            <Box>
-              <Image src="/contact-us.png" alt="Anumo Carabiner" />
-            </Box>
           </GridItem>
           <GridItem order={[1, 2]} />
         </Grid>
