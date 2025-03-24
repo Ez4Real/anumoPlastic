@@ -48,11 +48,11 @@ const Alltrueest = () => {
           <Box flex={1}>
             <Image src={alltrueest_1} alt="Alltrueest" />
           </Box>
-          {!isMobile && (
+          {/* {!isMobile && (
             <Text fontSize={["12px", "16px"]} flex={1} alignContent="end">
               {t("ProjectsPage.projects.alltrueest.from")}
             </Text>
-          )}
+          )} */}
         </Flex>
         <GridItem rowSpan={[1, 2]} colSpan={[2, 1]}>
           <Image src={alltrueest_2} alt="Alltrueest" />
@@ -61,11 +61,11 @@ const Alltrueest = () => {
           <Text fontSize={["12px", "16px"]}>
             {t("ProjectsPage.projects.alltrueest.description")}
           </Text>
-          {isMobile && (
+          {/* {isMobile && (
             <Text fontSize={["12px", "16px"]} flex={1} alignContent="end">
               {t("ProjectsPage.projects.alltrueest.from")}
             </Text>
-          )}
+          )} */}
         </GridItem>
       </Grid>
     </Container>

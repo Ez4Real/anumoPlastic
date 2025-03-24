@@ -42,7 +42,7 @@ def read_subscriber(session: SessionDep, current_user: CurrentUser, id: uuid.UUI
 
 @router.post("/", response_model=SubscriberPublic)
 def create_subscriber(
-    *, session: SessionDep, current_user: CurrentUser, subscriber_in: SubscriberCreate
+    *, session: SessionDep, subscriber_in: SubscriberCreate
 ) -> Any:
     """
     Create new subscriber.

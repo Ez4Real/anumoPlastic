@@ -83,7 +83,7 @@ function Main() {
           mb={["50px", "4rem"]}
           mt={["46px", 0]}
         >
-          ANUMO PLASTIC
+          ANUMO
         </Heading>
 
         <Grid
@@ -97,7 +97,7 @@ function Main() {
               fontSize={["16px", "32px"]}
               lineHeight={["19px", "normal"]}
             >
-              [Anúmo] — (ukr. ану́мо) a decisive and bold call to action.
+              [Anúmo] — {t("HomePage.definition")}.
             </Text>
           </GridItem>
           <GridItem flex="1">
@@ -220,7 +220,7 @@ function Main() {
 
         <Grid templateColumns="repeat(2, 1fr)" gap="1rem">
           <GridItem fontSize={["16px", "40px"]} fontWeight="600">
-            /{t("HomePage.enjoyResponsibility")}/
+            /ENJOY RESPONSIBILITY/
           </GridItem>
           <GridItem mb={["4rem", 0]}>
             <Text

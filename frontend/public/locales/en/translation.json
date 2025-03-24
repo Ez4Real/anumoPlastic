@@ -1,5 +1,6 @@
 {
   "HomePage": {
+    "definition": "(ukr. ану́мо) a decisive and bold call to action",
     "anumoAbout": "We are a design studio of objects made from recycled plastic. Established in 2020 in Kyiv. We explore the possibilities of plastic recycling and reuse, transforming it into unique accessories and interior items",
     "material": {
       "title": "MATERIAL",
@@ -7,7 +8,7 @@
     },
     "production": {
       "title": "PRODUCTION",
-      "description": "80% hand-made / 20% work with technical equipment: thermal press, extruder, and additional electrical tools."
+      "description": "60% hand-made / 40% work with technical equipment"
     },
     "inspiration": {
       "title": "INSPIRATION",
@@ -19,22 +20,21 @@
     },
     "aboutPolicy": "We advocate for open and honest cooperation, built on horizontal hierarchy and principles of mutual respect. We do not support exploitation or product testing on animals. We do not cooperate with terrorist countries",
     "shopTitle": "SHOP",
-    "enjoyResponsibility": "ENJOY RESPONSIBILITY",
     "categoriesTitle": "CATEGORIES",
     "Carabiner": "CARABINERS",
     "Book holder": "BOOK HOLDERS",
     "Choker": "CHOKERS",
     "Plate": "PLATES",
     "Soap holder": "SOAP DISHES",
-    "Ivan the table": "IVAN THE TABLE",
+    "Ivan the table": "TABLES",
     "projectsTitle": "PROJECTS",
     "alltrueestTitle": "ALLTRUEEST",
     "alltrueestDesc": "Large dining table and coffee table made of recycled plastic for Alltrueest cafe",
-    "alltrueestFrom": "Pattern made by Anumo Plastic",
+    "alltrueestFrom": "Pattern made by Anumo Studio",
     "giraffeTitle": "TABLE TOP MOBLE “GIRAFFE”",
     "hypermobileTitle": "HYPERMOBILE",
     "viewAll": "VIEW ALL",
-    "cooperation": "COOPERATION",
+    "cooperation": "Want to collaborate",
 
     "mailing": {
       "onSuccessToast": {
@@ -92,7 +92,7 @@
     "projects": {
       "sunnyBunny": {
         "title": "SUNNY BUNNY AWARD",
-        "description": "Unique director's award made of recycled plastic by ANUMO"
+        "description": "Unique director's award made of recycled plastic by ANUMO\n\nDesigned by Anumo Studio"
       },
       "ukrainianCeramics": {
         "title": "UKRAINIAN CERAMICS:JUG AND POTS FROM BIOMATERIAL",
@@ -101,8 +101,8 @@
       "tabletopGiraffe": {
         "title": "TABLETOP MOBLE “GIRAFFE”\n& KINETIC SCULPTURE “FRACTAL”",
         "description": "Made by @anumoplastic and @vasyadmytryk",
-        "option1": "Material: recycled plastic and metal elements\nSize: 560x650x250 mm",
-        "option2": "Material: recycled plastic and metal elements\nSize: 540x550x275 mm"
+        "option1": "Material: recycled plastic and metal elements.\nSize: 560x650x250 mm",
+        "option2": "Material: recycled plastic and metal elements.\nSize: 540x550x275 mm"
       },
       "chokers": {
         "title": "CHOKERS",
@@ -110,11 +110,11 @@
       },
       "trays": {
         "title": "TRAYS",
-        "description": "Made of recycled plastic.\n\nDesigned by Anumo Plastic"
+        "description": "Made of recycled plastic.\n\nDesigned by Anumo Studio"
       },
       "coffeeTables": {
         "title": "COFFEE TABLES",
-        "description": "Made of recycled plastic and metal elements.\nDesigned by Anumo Plastic x Pab.Objects"
+        "description": "Made of recycled plastic and metal elements.\nDesigned by Anumo Studio x Pab.Objects"
       },
       "soapHolders": {
         "title": "SOAP HOLDERS FOR PRÊT-À-PORTER\nBRAND «THE COAT»"
@@ -125,12 +125,12 @@
       },
       "welcomeBoards": {
         "title": "WELCOME BOARDS \nFOR BURSA HOTEL",
-        "description": "Made of recycled plastic, covered with UV laser marking.\n\nDesigned by Anumo Plastic"
+        "description": "Made of recycled plastic, covered with UV laser marking.\n\nDesigned by Anumo Studio"
       },
       "alltrueest": {
         "title": "ALLTRUEEST",
-        "from": "Pattern made by Anumo Plastic",
-        "description": "Large dining table and coffee table made of recycled plastic for Alltrueast cafe."
+        "from": "Pattern made by Anumo Studio",
+        "description": "Large dining table and coffee table made of recycled plastic for Alltrueast cafe (Kyiv, Ukraine).\n\nDesigned by Anumo Studio"
       },
       "tableIvan": {
         "title": "TABLE IVAN",
@@ -144,7 +144,7 @@
       },
       "glasses&Necklace": {
         "title": "GLASSES CHAIN AND NECKLACE",
-        "description": "Designed by Anumo Plastic\n\nMade of recycled plastic and nylon thread."
+        "description": "Designed by Anumo Studio\n\nMade of recycled plastic and nylon thread."
       }
     },
     "back": "BACK",

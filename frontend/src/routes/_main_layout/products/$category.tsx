@@ -51,7 +51,6 @@ function Product() {
 
   const isMobile = useBreakpointValue({ base: true, sm: false })
 
-  // !!!!!!
   const [expandDescription, setExpandDescription] = useState(false)
   const description_1 = t("ProjectsPage.projects.tableIvan.description_1")
   const sliceEndNumber = i18n.language === "en" ? 455 : 478
@@ -119,7 +118,7 @@ function Product() {
 
   return (
     <Container id="content" p={["0 24px", "0 46px"]}>
-      <BreadCrumb pageName={category} />
+      <BreadCrumb pageName={t(`HomePage.${category}`)} />
       {product && (
         <Box>
           {isMobile && (
